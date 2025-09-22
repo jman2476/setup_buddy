@@ -1,0 +1,20 @@
+{
+  "name": "setup_buddy",
+  "version": "0.0.1",
+  "description": "event setup tool",
+  "homepage": "https://github.com/jman2476/setup_buddy#readme",
+  "bugs": {
+    "url": "https://github.com/jman2476/setup_buddy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jman2476/setup_buddy.git"
+  },
+  "license": "MIT",
+  "author": "JKM",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
