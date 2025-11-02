@@ -10,10 +10,6 @@ function App() {
   
   useEffect(()=>{
     const handleMouse = (event) => {
-      // setMouse({
-      //   x: event.clientX,
-      //   y: event.clientY
-      // })
       mouseRef.current = {
         x: event.clientX,
         y: event.clientY
@@ -27,23 +23,11 @@ function App() {
 
 
   const dragStart = (event) => {
-    // setStart({
-    //   x: mouse.x,
-    //   y: mouse.y
-    // })
     startRef.current = {
       x: mouseRef.current.x,
       y: mouseRef.current.y
     }
     console.log('drag start', start, startRef.current)
-  }
-
-
-  const dragHandler = (event) => {
-    // setMouse({
-    //     x: event.clientX,
-    //     y: event.clientY
-    //   })
   }
   
   const dragEnd = (event) => {
@@ -63,11 +47,9 @@ function App() {
     <>
       <div id="toolbar">
           <h2 className='title'>Toolbar Time</h2>
-          <p>Mouse postion x: {mouse.x}, y: {mouse.y}</p>
           <p>MouseRef postion x: {mouseRef.current.x}, y: {mouseRef.current.y}</p>
-          <p>Start postion x: {start.x}, y: {start.y}</p>
-          <p>Offset postion x: {offset.x}, y: {offset.y}</p> 
           <p>startRef postion x: {startRef.current.x}, y: {startRef.current.y}</p> 
+          <p>Offset postion x: {offset.x}, y: {offset.y}</p> 
           <p></p>
       </div>
       <div id="setup">
@@ -77,7 +59,6 @@ function App() {
                   draggable={true}
                   className='table-obj'
                   onDragStart={dragStart}
-                  onDrag={dragHandler}
                   onDragEnd={dragEnd}
                   style={{
                     position: "absolute",
