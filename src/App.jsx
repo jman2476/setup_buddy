@@ -47,7 +47,7 @@ function App() {
           <p>startRef postion x: {startRef.current.x}, y: {startRef.current.y}</p> 
           <p>Offset postion x: {offset.x}, y: {offset.y}</p> 
           <p>Table Size: {tableSize}</p>
-          <input type="number" value={tableSize} onChange={e=>setTableSize(e.target.value)}/>
+          <input className="input" type="number" value={tableSize} onChange={e=>setTableSize(e.target.value)}/>
       </div>
       <div id="setup">
           <h2 className='title setup'>Your setup here:</h2>
@@ -63,9 +63,10 @@ function App() {
                     left: `${offset.x+10}px`,
                     height: `${tableSize}px`,
                     width: `${tableSize}px`,
-                    borderRadius: `${tableSize/2}px`
+                    lineHeight: `${tableSize}px`,
+                    fontSize:' 200%'
                   }}
-                  ></div>
+                  >1</div>
           </div>
       </div>
     </>
