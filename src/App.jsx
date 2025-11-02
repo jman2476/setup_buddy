@@ -4,8 +4,8 @@ import './App.css'
 function App() {
   // const [offset, setOffSet] = useState({x:0,y:0})
   // const [tableSize, setTableSize] = useState(60)
-  // const startRef = useRef({x:0,y:0})
-  // const mouseRef = useRef({x:0,y:0})
+  const startRef = useRef({x:0,y:0})
+  const mouseRef = useRef({x:0,y:0})
   
   // useEffect(()=>{
   //   const handleMouse = (event) => {
@@ -42,8 +42,8 @@ function App() {
   function Table({number}) {
     const [offset, setOffSet] = useState({x:0,y:0})
     const [tableSize, setTableSize] = useState(60)
-    const startRef = useRef({x:0,y:0})
-    const mouseRef = useRef({x:0,y:0})
+    // const startRef = useRef({x:0,y:0})
+    // const mouseRef = useRef({x:0,y:0})
     
     useEffect(()=>{
       const handleMouse = (event) => {
@@ -84,8 +84,8 @@ function App() {
           onDragEnd={dragEnd}
           style={{
             position: "absolute",
-            top: `${offset.y+100}px`,
-            left: `${offset.x+100}px`,
+            top: `${offset.y+100*number}px`,
+            left: `${offset.x+100*number}px`,
             height: `${tableSize}px`,
             width: `${tableSize}px`,
             lineHeight: `${tableSize}px`,
