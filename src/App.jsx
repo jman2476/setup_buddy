@@ -2,9 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 function App() {
-  const [mouse, setMouse] = useState({x:0,y:0})
   const [offset, setOffSet] = useState({x:0,y:0})
-  const [start, setStart] = useState({x:0,y:0})
+  const [tableSize, setTableSize] = useState(60)
   const startRef = useRef({x:0,y:0})
   const mouseRef = useRef({x:0,y:0})
   
@@ -27,11 +26,9 @@ function App() {
       x: mouseRef.current.x,
       y: mouseRef.current.y
     }
-    console.log('drag start', start, startRef.current)
   }
   
   const dragEnd = (event) => {
-    console.log(mouse.x,mouse.y)
     mouseRef.current = {
         x: event.clientX,
         y: event.clientY
@@ -40,7 +37,6 @@ function App() {
       x: prev.x + mouseRef.current.x - startRef.current.x,
       y: prev.y + mouseRef.current.y - startRef.current.y
     }))
-    console.log(start, offset)
   }
 
   return (
@@ -50,7 +46,8 @@ function App() {
           <p>MouseRef postion x: {mouseRef.current.x}, y: {mouseRef.current.y}</p>
           <p>startRef postion x: {startRef.current.x}, y: {startRef.current.y}</p> 
           <p>Offset postion x: {offset.x}, y: {offset.y}</p> 
-          <p></p>
+          <p>Table Size: {tableSize}</p>
+          <input type="number" value={tableSize} onChange={e=>setTableSize(e.target.value)}/>
       </div>
       <div id="setup">
           <h2 className='title setup'>Your setup here:</h2>
@@ -63,7 +60,11 @@ function App() {
                   style={{
                     position: "absolute",
                     top: `${offset.y+10}px`,
-                    left: `${offset.x+10}px`}}
+                    left: `${offset.x+10}px`,
+                    height: `${tableSize}px`,
+                    width: `${tableSize}px`,
+                    borderRadius: `${tableSize/2}px`
+                  }}
                   ></div>
           </div>
       </div>
