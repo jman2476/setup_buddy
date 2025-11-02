@@ -39,6 +39,29 @@ function App() {
     }))
   }
 
+  function Table() {
+    
+    return (
+      <>
+        <div 
+          draggable={true}
+          className='table-obj'
+          onDragStart={dragStart}
+          onDragEnd={dragEnd}
+          style={{
+            position: "absolute",
+            top: `${offset.y+100}px`,
+            left: `${offset.x+100}px`,
+            height: `${tableSize}px`,
+            width: `${tableSize}px`,
+            lineHeight: `${tableSize}px`,
+            fontSize:' 200%'
+          }}
+          >2</div>
+      </>
+    )
+  }
+
   return (
     <>
       <div id="toolbar">
@@ -53,20 +76,21 @@ function App() {
           <h2 className='title setup'>Your setup here:</h2>
           <div id='setup-area' >
               <div 
-                  draggable={true}
-                  className='table-obj'
-                  onDragStart={dragStart}
-                  onDragEnd={dragEnd}
-                  style={{
-                    position: "absolute",
-                    top: `${offset.y+10}px`,
-                    left: `${offset.x+10}px`,
-                    height: `${tableSize}px`,
-                    width: `${tableSize}px`,
-                    lineHeight: `${tableSize}px`,
-                    fontSize:' 200%'
-                  }}
-                  >1</div>
+                draggable={true}
+                className='table-obj'
+                onDragStart={dragStart}
+                onDragEnd={dragEnd}
+                style={{
+                  position: "absolute",
+                  top: `${offset.y+10}px`,
+                  left: `${offset.x+10}px`,
+                  height: `${tableSize}px`,
+                  width: `${tableSize}px`,
+                  lineHeight: `${tableSize}px`,
+                  fontSize:' 200%'
+                }}
+                >1</div>
+              <Table />
           </div>
       </div>
     </>
