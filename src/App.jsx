@@ -21,12 +21,12 @@ function App() {
   // })
 
 
-  // const dragStart = (event) => {
-  //   startRef.current = {
-  //     x: mouseRef.current.x,
-  //     y: mouseRef.current.y
-  //   }
-  // }
+  const dragStart = (event) => {
+    startRef.current = {
+      x: mouseRef.current.x,
+      y: mouseRef.current.y
+    }
+  }
   
   // const dragEnd = (event) => {
   //   mouseRef.current = {
@@ -58,12 +58,12 @@ function App() {
       }
     })
 
-    const dragStart = (event) => {
-      startRef.current = {
-        x: mouseRef.current.x,
-        y: mouseRef.current.y
-      }
-    }
+    // const dragStart = (event) => {
+    //   startRef.current = {
+    //     x: mouseRef.current.x,
+    //     y: mouseRef.current.y
+    //   }
+    // }
     
     const dragEnd = (event) => {
       mouseRef.current = {
@@ -101,8 +101,8 @@ function App() {
       <div id="toolbar">
           <h2 className='title'>Toolbar Time</h2>
           {/* <p>MouseRef postion x: {mouseRef.current.x}, y: {mouseRef.current.y}</p>
-          <p>startRef postion x: {startRef.current.x}, y: {startRef.current.y}</p> 
-          <p>Offset postion x: {offset.x}, y: {offset.y}</p> 
+          <p>startRef postion x: {startRef.current.x}, y: {startRef.current.y}</p>  */}
+          {/* <p>Offset postion x: {offset.x}, y: {offset.y}</p> 
           <p>Table Size: {tableSize}</p> */}
           {/* <input className="input" type="number" value={tableSize} onChange={e=>setTableSize(e.target.value)}/> */}
       </div> 
