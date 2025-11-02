@@ -5,6 +5,38 @@
   text-align: center;
 }
 
+#setup {
+  border-color: white;
+  border-style: double;
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#setup-area {
+  background-color: antiquewhite;
+  width: 80%;
+  height: 80%;
+  align-self: center;
+  position: fixed;
+}
+
+#toolbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.table-obj {
+  background-color: black;
+  border-radius: 30px;
+  height: 60px;
+  width: 60px;
+  /* position: relative;
+  top: 10px;
+  left: 10px; */
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
