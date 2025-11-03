@@ -17,6 +17,7 @@
 
 #setup-area {
   background-color: antiquewhite;
+  opacity: 50%;
   width: 80%;
   height: 80%;
   align-self: center;
