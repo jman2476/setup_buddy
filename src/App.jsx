@@ -6,8 +6,8 @@ import './App.css'
 function App() {
   const startRef = useRef({ x: 0, y: 0 })
   const mouseRef = useRef({ x: 0, y: 0 })
-  const [tableList, setTableList] = useState([])
   const tableRef = useRef(3)
+  const [tableList, setTableList] = useState([])
   
   const dragStart = (event) => {
     startRef.current = {
@@ -17,8 +17,6 @@ function App() {
   }
 
   function TableRect({number}) {
-    const startRef = useRef({ x: 0, y: 0 })
-    const mouseRef = useRef({ x: 0, y: 0 })
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
     const [tableSize, setTableSize] = useState(60)
   
@@ -34,14 +32,7 @@ function App() {
         document.removeEventListener('mousemove', handleMouse)
       }
     })
-  
-    // const dragStart = (event) => {
-    //   startRef.current = {
-    //     x: mouseRef.current.x,
-    //     y: mouseRef.current.y
-    //   }
-    // }
-  
+
     const dragEnd = (event) => {
       mouseRef.current = {
         x: event.clientX,
@@ -56,7 +47,7 @@ function App() {
       <>
         <div
           draggable={true}
-          className='table-obj'
+          className='table-obj rectangle'
           onDragStart={dragStart}
           onDragEnd={dragEnd}
           style={{
@@ -66,16 +57,15 @@ function App() {
             height: `${tableSize}px`,
             width: `${tableSize}px`,
             lineHeight: `${tableSize}px`,
-            borderRadius: 50,
             fontSize: ' 200%'
           }}
-        >{number} Rectangle</div>
+        >{number}R</div>
       </>
     )
   
   }
 
-  function Table({ number }) {
+  function Table({ number,shape }) {
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
     const [tableSize, setTableSize] = useState(60)
 
@@ -122,7 +112,7 @@ function App() {
               >1</div> */}
         <div
           draggable={true}
-          className='table-obj'
+          className={`table-obj ${shape}`}
           onDragStart={dragStart}
           onDragEnd={dragEnd}
           style={{
@@ -150,13 +140,11 @@ function App() {
   //   }))
   // }
   const tableMaker = (event) => {
-    const tableKey = `Table ${tableRef.current}`
-    console.log('table key:', tableKey)
-    let newTable = <Table number={tableRef} key={tableKey} />
-    arrayOne.push(newTable)
-    setTableList((prev) => [...prev, <Table number={tableRef.current} key={tableRef.current} />])
-    tableRef.current += 1
-    console.log(tableList)
+    const tShape = tableRef.current%2 === 0? 'circle' : 'rectangle'
+    const newTable = <Table number={tableRef.current} shape={tShape} key={tableRef.current} />
+    setTableList(arr => [...arr, newTable])
+    tableRef.current++
+    console.log(tableRef.current)
   }
 
 
@@ -183,9 +171,9 @@ function App() {
             onClick={tableMaker}
           >Make new table</button>
           <Table number={1} />
-          <Table number={2} />
+          <TableRect number={2} />
           {tableList}
-          {arrayOne}
+          {/* {arrayOne} */}
         </div>
       </div>
     </>

@@ -16,8 +16,8 @@
 }
 
 #setup-area {
-  background-color: antiquewhite;
-  opacity: 50%;
+  background-color: rgb(209, 136, 39);
+  opacity: 80%;
   width: 80%;
   height: 80%;
   align-self: center;
@@ -35,12 +35,20 @@
 }
 
 .table-obj {
-  background-color: black;
   border-radius: 50%;
   /* text-align: center;
   line-height: 60px; */
 }
 
+.circle {
+  background-color: bisque;
+  border-radius: 50%;
+}
+
+.rectangle {
+  background-color: lightcoral;
+  border-radius: 2%;
+}
 .input {
   /* padding: 20% 0; */
 }
