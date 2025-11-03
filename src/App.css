@@ -12,10 +12,12 @@
   width: 90vw;
   display: flex;
   flex-direction: column;
+  padding: 10px 0 0 0;
 }
 
 #setup-area {
-  background-color: antiquewhite;
+  background-color: rgb(209, 136, 39);
+  opacity: 80%;
   width: 80%;
   height: 80%;
   align-self: center;
@@ -28,13 +30,26 @@
   max-height: 50PX;
 }
 
+.title {
+  position:relative; 
+}
+
 .table-obj {
-  background-color: black;
   border-radius: 50%;
   /* text-align: center;
   line-height: 60px; */
 }
 
+.circle {
+  background-color: bisque;
+  border-radius: 50%;
+  color: darkorchid
+}
+
+.rectangle {
+  background-color: lightcoral;
+  border-radius: 2%;
+}
 .input {
   /* padding: 20% 0; */
 }
