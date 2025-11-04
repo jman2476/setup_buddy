@@ -2,6 +2,14 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 // TODO: Show div with details on table highlight
+// Should have:
+//    - height and width for rectangle
+//    - radius for circle
+//    - adjustable values
+//    - change shape of table
+//    - delete button
+//    - lock values button
+
 
 function App() {
   const startRef = useRef({ x: 0, y: 0 })
@@ -70,12 +78,41 @@ function App() {
   function Table({ number,shape }) {
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
     const [tableSize, setTableSize] = useState(60)
+    const [focus, setFocus] = useState(false)
 
     function DataBox({}){
+      const dataFocusRef = useRef(false)
 
+      const handleTableResize = (event) => {
+        let newSize = event.target.value
+        if (newSize > 100) newSize = 100
+        if (newSize < 40) newSize = 40
+        setTableSize(newSize)
+        console.log(tableSize)
+
+      }
+
+      const handleDataFocus = () => {
+        dataFocusRef.current = true
+        setFocus(true)
+        console.log(focus,dataFocusRef.current, 'cheese')
+      }
+
+      const handleDataBlur = () => {
+        dataFocusRef.current = false
+        console.log(focus,dataFocusRef.current, 'fondue')
+
+      }
+      
       return(
         <>
-        <p>{tableSize}</p>
+          <input className={focus? 'input': 'hidden'}
+            type="number"
+            defaultValue={tableSize} 
+            onFocus={handleDataFocus}
+            onBlur={handleDataBlur}
+            onChange={e => handleTableResize(e)}/>
+            
         </>
       )
     }
@@ -103,8 +140,15 @@ function App() {
         y: prev.y + mouseRef.current.y - startRef.current.y
       }))
     }
-    const showData = (event) => {
-      console.log('Dragging table', number)
+    const handleFocus = (event) => {
+      setFocus(focus? false: true)
+      console.log(focus)
+      // setTableSize(tableSize)
+      // console.log(event.target)
+      // console.log(event.target.className.includes('hidden'))
+      // if(!event.target.className.includes('hidden')){
+      //   event.target.className.concat('hidden')
+      // }
     }
 
     return (
@@ -131,7 +175,8 @@ function App() {
           className={`table-obj ${shape}`}
           onDragStart={dragStart}
           onDragEnd={dragEnd}
-          onFocus={showData}
+          onFocus={handleFocus}
+          onBlur={handleFocus}
           style={{
             position: "absolute",
             top: `${offset.y + 100 * number}px`,
@@ -141,7 +186,9 @@ function App() {
             lineHeight: `${tableSize}px`,
             fontSize: ' 200%'
           }}
-        >{number}</div>
+        >{number}
+        <DataBox />
+        </div>
       </>
     )
   }
