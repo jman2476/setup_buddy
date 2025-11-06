@@ -90,6 +90,33 @@ function App() {
   
   }
 
+  function DataBox({table}){
+    const [inputs, setInputs] = useState()
+
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        // setTableList(event.target.value)
+        console.log('Value updated')
+      }
+    }
+
+    return(
+      <>
+        <input className={'input'}
+          type="number"
+          defaultValue={60} 
+          onKeyDown={handleKeyDown}>
+          </input> 
+        <input className={'input'}
+          type="number"
+          defaultValue={60} 
+          onKeyDown={handleKeyDown}>
+          </input>   
+      </>
+    )
+  }
+
   function Table({ number,shape }) {
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
     const [tableSize, setTableSize] = useState(60)
@@ -103,41 +130,7 @@ function App() {
       console.log(tableSize)
 
     }
-    function DataBox({shape}){
-      const dataFocusRef = useRef(false)
 
-
-      const handleDataFocus = () => {
-        dataFocusRef.current = true
-        setFocus(true)
-        console.log(focus,dataFocusRef.current, 'cheese')
-      }
-
-      const handleDataBlur = () => {
-        dataFocusRef.current = false
-        console.log(focus,dataFocusRef.current, 'fondue')
-
-      }
-      
-      return(
-        <>
-          <input className={'input'}
-            type="number"
-            defaultValue={60} 
-            onFocus={handleDataFocus}
-            onBlur={handleDataBlur}
-            onChange={e => setTableSize(e.target.value)}>
-
-            </input>
-          <button 
-            className='input-button'
-            height
-            onClick={e => handleTableResize(e)}>
-            Submit</button> 
-            
-        </>
-      )
-    }
 
     useEffect(() => {
       const handleMouse = (event) => {
@@ -163,34 +156,12 @@ function App() {
       }))
     }
     const handleFocus = (event) => {
-      // setFocus(focus? false: true)
+      setFocus(!focus)
       console.log(focus)
-      // setTableSize(tableSize)
-      // console.log(event.target)
-      // console.log(event.target.className.includes('hidden'))
-      // if(!event.target.className.includes('hidden')){
-      //   event.target.className.concat('hidden')
-      // }
     }
 
     return (
       <>
-        {/* Prototype Round Table */}
-        {/* <div 
-            draggable={true}
-            className='table-obj'
-            onDragStart={dragStart}
-            onDragEnd={dragEnd}
-            style={{
-              position: "absolute",
-              top: `${offset.y+10}px`,
-              left: `${offset.x+10}px`,
-              height: `${tableSize}px`,
-              width: `${tableSize}px`,
-              lineHeight: `${tableSize}px`,
-              fontSize:' 200%'
-              }}
-              >1</div> */}
         <div
           draggable={true}
           tabIndex={0}
@@ -209,7 +180,6 @@ function App() {
             fontSize: ' 200%'
           }}
         >{number}
-        <DataBox />
         </div>
       </>
     )
@@ -227,13 +197,16 @@ function App() {
     <>
       <div id="toolbar">
         <h2 className='title'>Toolbar Time</h2>
-      </div>
-      <div id="setup">
-        <h2 className='title setup'>Your setup here:</h2>
-        <div id='setup-area' >
+        <div id='databox' >
           <button
             onClick={tableMaker}
           >Make new table</button>
+          <DataBox />
+        </div>
+      </div>
+      <div id="setup">
+        {/* <h2 className='title setup'>Your setup here:</h2> */}
+        <div id='setup-area' >
           {tableList}
         </div>
       </div>
