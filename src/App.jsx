@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import Table from './models/table.js'
+
+const x = new Table('circle',8)
 
 // TODO: Show div with details on table highlight
 // Should have:
