@@ -10,6 +10,21 @@ import './App.css'
 //    - delete button
 //    - lock values button
 
+const tableTypes = [
+  {
+    shape: 'rectangle',
+    w: 2,
+    l: 8
+  },{
+    shape: 'circle',
+    d: 8
+  },{
+    shape: 'rectangle',
+    w: 2,
+    l: 4
+  }
+]
+
 
 function App() {
   const startRef = useRef({ x: 0, y: 0 })
@@ -80,17 +95,17 @@ function App() {
     const [tableSize, setTableSize] = useState(60)
     const [focus, setFocus] = useState(false)
 
-    function DataBox({}){
+    const handleTableResize = (event) => {
+      let newSize = tableSize
+      if (newSize > 100) newSize = 100
+      if (newSize < 40) newSize = 40
+      setTableSize(newSize)
+      console.log(tableSize)
+
+    }
+    function DataBox({shape}){
       const dataFocusRef = useRef(false)
 
-      const handleTableResize = (event) => {
-        let newSize = event.target.value
-        if (newSize > 100) newSize = 100
-        if (newSize < 40) newSize = 40
-        setTableSize(newSize)
-        console.log(tableSize)
-
-      }
 
       const handleDataFocus = () => {
         dataFocusRef.current = true
@@ -106,12 +121,19 @@ function App() {
       
       return(
         <>
-          <input className={focus? 'input': 'hidden'}
+          <input className={'input'}
             type="number"
-            defaultValue={tableSize} 
+            defaultValue={60} 
             onFocus={handleDataFocus}
             onBlur={handleDataBlur}
-            onChange={e => handleTableResize(e)}/>
+            onChange={e => setTableSize(e.target.value)}>
+
+            </input>
+          <button 
+            className='input-button'
+            height
+            onClick={e => handleTableResize(e)}>
+            Submit</button> 
             
         </>
       )
@@ -141,7 +163,7 @@ function App() {
       }))
     }
     const handleFocus = (event) => {
-      setFocus(focus? false: true)
+      // setFocus(focus? false: true)
       console.log(focus)
       // setTableSize(tableSize)
       // console.log(event.target)
