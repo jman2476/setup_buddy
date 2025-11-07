@@ -1,7 +1,5 @@
-export default class Table {
-    shape = 'circle'; //circle or rectangle
-    length = 6;
-    width = this.shape==='circle'? null:4;
+class Table {
+    shape;
     
     constructor(shape, length, width) {
         try {
@@ -23,3 +21,32 @@ export default class Table {
 
 }
 
+class RoundTable extends Table {
+    constructor(shape, diameter) {
+        super()
+        this.shape = shape
+        this.diameter = diameter
+    }
+}
+
+class LongTable extends Table {
+    constructor(shape, length, width) {
+        super()
+        this.shape = shape
+        this.length = length
+        this.width = width
+    }
+}
+
+class SquareTable extends Table {
+    constructor(shape, side) {
+        this.shape = shape
+        this.side = side
+    }
+}
+
+export {
+    RoundTable,
+    LongTable,
+    SquareTable
+}

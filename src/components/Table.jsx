@@ -1,7 +1,10 @@
-function Table({ number,shape }) {
+import { useState, useEffect, useRef } from 'react'
+
+function Table({ number,shape,dragStart,mouseRef }) {
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
     const [tableSize, setTableSize] = useState(60)
     const [focus, setFocus] = useState(false)
+    
 
     const handleTableResize = (event) => {
       let newSize = tableSize

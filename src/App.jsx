@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import Table from './models/table.js'
-
-const x = new Table('circle',8)
-
+import {RoundTable, LongTable, SquareTable}  from "./models/table.jsx"
+import DataBox from './components/Databox.jsx'
+import Table from './components/Table.jsx'
 // TODO: Show div with details on table highlight
 // Should have:
 //    - height and width for rectangle
@@ -93,32 +92,32 @@ function App() {
   
   }
 
-  function DataBox({table}){
-    const [inputs, setInputs] = useState()
+  // function DataBox({table}){
+  //   const [inputs, setInputs] = useState()
 
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Enter') {
-        // setTableList(event.target.value)
-        console.log('Value updated')
-      }
-    }
+  //   const handleKeyDown = (event) => {
+  //     if (event.key === 'Enter') {
+  //       // setTableList(event.target.value)
+  //       console.log('Value updated')
+  //     }
+  //   }
 
-    return(
-      <>
-        <input className={'input'}
-          type="number"
-          defaultValue={60} 
-          onKeyDown={handleKeyDown}>
-          </input> 
-        <input className={'input'}
-          type="number"
-          defaultValue={60} 
-          onKeyDown={handleKeyDown}>
-          </input>   
-      </>
-    )
-  }
+  //   return(
+  //     <>
+  //       <input className={'input'}
+  //         type="number"
+  //         defaultValue={60} 
+  //         onKeyDown={handleKeyDown}>
+  //         </input> 
+  //       <input className={'input'}
+  //         type="number"
+  //         defaultValue={60} 
+  //         onKeyDown={handleKeyDown}>
+  //         </input>   
+  //     </>
+  //   )
+  // }
 
   function Table({ number,shape }) {
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
@@ -190,7 +189,7 @@ function App() {
 
   const tableMaker = (event) => {
     const tShape = tableRef.current%2 === 0? 'circle' : 'rectangle'
-    const newTable = <Table number={tableRef.current} shape={tShape} key={tableRef.current} />
+    const newTable = <Table number={tableRef.current} shape={tShape} key={tableRef.current} callback={dragStart} mouse={mouseRef}/>
     setTableList(arr => [...arr, newTable])
     tableRef.current++
     console.log(tableRef.current)

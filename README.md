@@ -12,3 +12,10 @@ Create scale accurate diagrams for events for arranging tables and chairs
 - Boundary protection
     - prevent placing tables outside given area
 - Save/Load System
+
+
+Lets map our components and props:
+
+App
+    Toolbar
+    

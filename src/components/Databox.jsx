@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react'
+
 function DataBox({table}){
     const [inputs, setInputs] = useState()
 
