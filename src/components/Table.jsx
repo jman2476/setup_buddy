@@ -1,21 +1,29 @@
 import { useState, useEffect, useRef } from 'react'
 
-function Table({ number,shape,dragStart,mouseRef }) {
+function Table({ number,shape,tableObj  }) {
     const [offset, setOffSet] = useState({ x: 0, y: 0 })
-    const [tableSize, setTableSize] = useState(60)
-    const [focus, setFocus] = useState(false)
-    
-
-    const handleTableResize = (event) => {
-      let newSize = tableSize
-      if (newSize > 100) newSize = 100
-      if (newSize < 40) newSize = 40
-      setTableSize(newSize)
-      console.log(tableSize)
-
+    const [tableState, setTableState] = useState(tableObj)
+    // const [styles, setStyles] = useState({})
+    const startRef = useRef({ x: 0, y: 0 })
+    const mouseRef = useRef({ x: 0, y: 0 })
+    const styles = { //need to make this change based on shape
+      position: "absolute",
+          top: `${offset.y + 100 * number}px`,
+          left: `${offset.x + 100 * number}px`,
+          height: `${tableObj.diameter}px`,
+          width: `${tableObj.diameter}px`,
+          lineHeight: `${tableObj.diameter}px`,
+          fontSize: ' 200%'
     }
-
-
+    console.log(tableObj.shape, tableObj.diameter)
+    // dragStart, dragEnd and the useEffect between are 
+    // what handle the drag and drop functionality
+    const dragStart = (event) => {
+      startRef.current = {
+        x: mouseRef.current.x,
+        y: mouseRef.current.y
+      }
+    }
     useEffect(() => {
       const handleMouse = (event) => {
         mouseRef.current = {
@@ -24,11 +32,11 @@ function Table({ number,shape,dragStart,mouseRef }) {
         }
       }
       document.addEventListener('mousemove', handleMouse)
+      // handleStyles()
       return () => {
         document.removeEventListener('mousemove', handleMouse)
       }
     })
-
     const dragEnd = (event) => {
       mouseRef.current = {
         x: event.clientX,
@@ -39,30 +47,51 @@ function Table({ number,shape,dragStart,mouseRef }) {
         y: prev.y + mouseRef.current.y - startRef.current.y
       }))
     }
-    const handleFocus = (event) => {
-      setFocus(!focus)
-      console.log(focus)
+    
+    // Map tableObj properties onto styles
+    const handleStyles = () => {
+      switch (tableObj.shape) {
+        case 'circle':
+          buildCircle()
+          break;
+        case 'rectangle':
+          break;
+        case 'square':
+          break;
+      }
     }
+    
+    // styles.current = {
+    //   position: "absolute",
+    //       top: `${offset.y + 100 * number}px`,
+    //       left: `${offset.x + 100 * number}px`,
+    //       height: `${tableObj.length}px`,
+    //       width: `${tableObj.width}px`,
+    //       lineHeight: `60px`,
+    //       fontSize: ' 200%'
+    // }
+    console.log(styles.current)
+    const buildCircle = () => {
+      return styles
+    }
+    const buildLong = () => {
+
+    }
+    const buildSquare = () => {
+
+    }
+
+
 
     return (
       <>
         <div
           draggable={true}
           tabIndex={0}
-          className={`table-obj ${shape}`}
+          className={`table-obj ${tableObj.shape}`}
           onDragStart={dragStart}
           onDragEnd={dragEnd}
-          onFocus={handleFocus}
-          onBlur={handleFocus}
-          style={{
-            position: "absolute",
-            top: `${offset.y + 100 * number}px`,
-            left: `${offset.x + 100 * number}px`,
-            height: `${tableSize}px`,
-            width: `${tableSize}px`,
-            lineHeight: `${tableSize}px`,
-            fontSize: ' 200%'
-          }}
+          style={styles}
         >{number}
         </div>
       </>
