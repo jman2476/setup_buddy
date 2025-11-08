@@ -36,7 +36,7 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          <DataBox table={round}/>
+          <DataBox tableObj={round}/>
         </div>
       </div>
       <div id="setup">

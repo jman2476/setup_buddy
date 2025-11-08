@@ -70,7 +70,7 @@ function Table({ number,shape,tableObj  }) {
     //       lineHeight: `60px`,
     //       fontSize: ' 200%'
     // }
-    console.log(styles.current)
+    console.log(styles)
     const buildCircle = () => {
       return styles
     }
