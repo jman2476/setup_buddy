@@ -51,7 +51,24 @@
   border-radius: 2%;
 }
 .input {
-  /* padding: 20% 0; */
+  position: relative;
+  top: 0px;
+  left: 0px;
+  max-width: 40px;
+}
+
+.input-button {
+  position: relative;
+  top: -30px;
+  left: 50px;
+  /* max-height: 20px;
+  max-width: 20px; */
+  font-size: 12pt;
+  /* font-display: ; */
+}
+
+.hidden {
+  display: none;
 }
 
 .logo {
