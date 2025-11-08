@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import {RoundTable, LongTable, SquareTable}  from "./models/table.jsx"
-import DataBox from './components/Databox.jsx'
-import Table from './components/Table.jsx'
+import {RoundTable, LongTable, SquareTable}  from "./models/"
+
+import {DataBox, Table} from './components'
 // TODO: Show div with details on table highlight
 // Should have:
 //    - height and width for rectangle
@@ -36,7 +36,7 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          <DataBox />
+          <DataBox table={round}/>
         </div>
       </div>
       <div id="setup">

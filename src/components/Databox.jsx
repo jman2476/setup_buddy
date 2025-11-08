@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { RoundTable,LongTable,SquareTable } from '../models/table.jsx'
 
 function DataBox({table}){
     const [inputs, setInputs] = useState()
