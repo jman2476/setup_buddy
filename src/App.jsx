@@ -15,20 +15,12 @@ function App() {
   const tableRef = useRef(0)
   const [tableList, setTableList] = useState([])
   
-  const round = new RoundTable('circle', 80)
-  const long = new LongTable('rectangle', 80, 40)
-
-
   const tableMaker = (event) => {
     const newShape = event.target.previousElementSibling.value 
     const newTableObj = TableCon.make(newShape)
-    // console.log(newTableObj)
-    // const tShape = tableRef.current%2 === 0? 'circle' : 'rectangle'
     const newTable = <Table number={tableRef.current} tableObj={newTableObj} key={tableRef.current}/>
-    setTableList(arr => [...arr, newTable])
+    setTableList(arr => [...arr, newTable]) 
     tableRef.current++
-    // console.log(tableRef.current, newTable)
-    // console.log(event.target.previousElementSibling.value, 'potato')
   }
 
   return (
@@ -45,12 +37,13 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          <DataBox tableObj={round}/>
+          <DataBox tableObj={tableList[tableRef.current]} />
+          
         </div>
       </div>
       <div id="setup">
         <div id='setup-area' >
-          {tableList}
+          {tableList.length ? tableList : <div/>}
         </div>
       </div>
     </>

@@ -39,15 +39,16 @@
 }
 
 .table-obj:hover {
-  filter: drop-shadow(lightseagreen 0 0 3pt );
+  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt );
   /* position: absolute; */
+  color: sea
 }
 
 .circle {
   background-color: bisque;
   border-radius: 50%;
   color: darkorchid
-}
+} 
 
 .rectangle {
   background-color: lightcoral;
