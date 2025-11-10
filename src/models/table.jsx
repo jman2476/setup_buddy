@@ -1,51 +1,42 @@
-class Table {
-    // shape;
-    
-    // constructor(shape, length, width) {
-    //     try {
-    //         if (shape === 'circle') {
-    //             this.shape = shape
-    //             this.length = length
-    //         } else if (shape === 'rectangle') {
-    //             this.shape = shape
-    //             this.length = length
-    //             this.width = width
-    //         } else {
-    //             throw new Error('Table must be circle or rectangle')
-    //         }
-    //     } catch (err) {
-    //         console.log(err)
-    //         return err
-    //     }
-    // }
+class TableCore {
 
 }
 
-class RoundTable extends Table {
+class TableCon extends TableCore {
+    static make(shape) {
+        if (shape === 'circle') return new RoundTable()
+        if (shape === 'rectangle') return new LongTable()
+        if (shape === 'square') return new SquareTable()
+    }
+}
+
+class RoundTable extends TableCore {
     constructor(shape, diameter) {
         super()
-        this.shape = shape
-        this.diameter = diameter
+        this.shape = shape ?? 'circle'
+        this.diameter = diameter ?? 60 
     }
 }
 
-class LongTable extends Table {
+class LongTable extends TableCore {
     constructor(shape, length, width) {
         super()
-        this.shape = shape
-        this.length = length
-        this.width = width
+        this.shape = shape ?? 'rectangle'
+        this.length = length ?? 80
+        this.width = width ?? 20
     }
 }
 
-class SquareTable extends Table {
+class SquareTable extends TableCore {
     constructor(shape, side) {
-        this.shape = shape
-        this.side = side
+        super()
+        this.shape = shape ?? 'square'
+        this.side = side ?? 40
     }
 }
 
 export {
+    TableCon,
     RoundTable,
     LongTable,
     SquareTable

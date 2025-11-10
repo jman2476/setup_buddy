@@ -35,9 +35,12 @@
 }
 
 .table-obj {
-  border-radius: 50%;
-  /* text-align: center;
-  line-height: 60px; */
+  font-size: 200%;
+}
+
+.table-obj:hover {
+  filter: drop-shadow(lightseagreen 0 0 3pt );
+  /* position: absolute; */
 }
 
 .circle {
@@ -48,8 +51,15 @@
 
 .rectangle {
   background-color: lightcoral;
-  border-radius: 2%;
+  border-radius: 0%;
 }
+
+.square {
+  background-color: darkorchid;
+  color: bisque;
+  border-radius: 0%;
+}
+
 .input {
   position: relative;
   top: 0px;

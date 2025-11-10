@@ -1,8 +1,10 @@
-import {RoundTable,
+import {TableCon,
+    RoundTable,
     LongTable,
-    SquareTable} from './table'
+    SquareTable} from './table' 
 
 export {
+    TableCon,
     RoundTable,
     LongTable,
     SquareTable
