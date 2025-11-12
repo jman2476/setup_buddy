@@ -26,22 +26,35 @@
 
 #toolbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   max-height: 50PX;
 }
 
+#databox {
+  align-items: flex-start;
+  /* padding: 0 3px; */
+  display: flex;
+}
+
+#databox > * {
+  margin: 0 5px;
+  padding: 0 3px;
+}
+
 .title {
-  position:relative; 
+  position:relative;
+  text-justify: left; 
 }
 
 .table-obj {
   font-size: 200%;
+  border-color: slateblue;
+  border: 1px solid slateblue;
 }
 
 .table-obj:hover {
   filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt );
   /* position: absolute; */
-  color: sea
 }
 
 .circle {
@@ -53,6 +66,7 @@
 .rectangle {
   background-color: lightcoral;
   border-radius: 0%;
+  text-wrap: wrap;
 }
 
 .square {
@@ -60,6 +74,8 @@
   color: bisque;
   border-radius: 0%;
 }
+
+
 
 .input {
   position: relative;
