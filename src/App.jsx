@@ -16,8 +16,13 @@ function App() {
   const [tableList, setTableList] = useState([])
   const [focusTable, setFocusTable] = useState({})
   const [dataState, setDataState] = useState(0)
-  const inputs = useRef([])
+  const [inputList, setInputList] = useState([])
+  const keyRandomizer = useRef([])
   const listRef = useRef([])
+
+  const setKeyRand = () => {
+    keyRandomizer.current = Math.floor(Math.random()*15)
+  }
 
   const tableMaker = (event) => {
     const newShape = event.target.previousElementSibling.value
@@ -71,34 +76,34 @@ function App() {
       const obj = target.props.tableObj
       // console.log(obj,'target')
       const keys = Object.keys(obj)
-      // console.log("Render data",keys,obj)
+      setKeyRand()
       const arr = []
       for (let item in keys) {
         const prop = keys[item]
         let box
         console.log(typeof prop, prop, obj[prop], 'check')
         if (prop === 'shape') {
-          box = <>
-            <label htmlFor="">Current table shape</label>
-            <select name="shape" id="curTableDrop" defaultValue={`${obj.shape}`}>
+          box = <label key={item + tableRef.current*keyRandomizer}>Current table shape
+            <select name="shape" id={`Shape${keyRandomizer.current} ` } defaultValue={`${obj.shape}`}>
               <option value="circle">Round</option>
               <option value="rectangle">Long</option>
               <option value="square">Square</option>
             </select>
-          </>
-
+            </label>
+          console.log('Shape',box)
         } else {
           box = <DataBox
-            key={item}
+            key={item + tableRef.current*keyRandomizer.current}
             field={prop}
             value={obj[prop]}
           />
+          console.log('Value',box)
         }
-        console.log(keys[item], obj)
         arr.push(box)
       }
-      // console.log(...arr)
-      inputs.current = arr
+      console.log('Data array',arr)
+      setInputList(arr)
+      console.log(document.getElementsByName('shape')[0]?.value, 'check value')
     } catch (err) {
       console.log('No tables yet')
       console.log('renderData error:', err)
@@ -119,7 +124,8 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          {inputs.current.length ? inputs.current : <div />}
+          {/* {inputs.current.length ? inputs.current : <div />} */}
+          {inputList.length ? inputList : <div />}
           <button
             onClick={tableUpdate}
           >Update table</button>

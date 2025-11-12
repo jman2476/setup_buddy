@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { RoundTable, LongTable, SquareTable } from '../models/table.jsx'
 
 function DataBox({ field, value}) {
+  // // opt-out of auto-memoization
+  'use no memo'
   // handle the state in this 
-  const def = useRef()
+  const dimension = useRef()
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -16,12 +18,17 @@ function DataBox({ field, value}) {
     }
   }
   const handleChange = (e) => {
-    def.current = e.target.value
+    dimension.current = e.target.value
+    console.log(dimension.current)
   }
+  
+  // check if new props or passed
+  // or if old args are used
+  console.log('Render DataBox', field, value)
 
   return (
     <>
-      {`${field}`}
+      {`${field} + ${value}`}
       <input 
         className='input'
         type="number" 
