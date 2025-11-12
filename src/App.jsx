@@ -21,7 +21,7 @@ function App() {
   const listRef = useRef([])
 
   const setKeyRand = () => {
-    keyRandomizer.current = Math.floor(Math.random()*15)
+    keyRandomizer.current = Math.floor(Math.random() * 15)
   }
 
   const tableMaker = (event) => {
@@ -82,26 +82,17 @@ function App() {
         const prop = keys[item]
         let box
         console.log(typeof prop, prop, obj[prop], 'check')
-        if (prop === 'shape') {
-          box = <label key={item + tableRef.current*keyRandomizer}>Current table shape
-            <select name="shape" id={`Shape${keyRandomizer.current} ` } defaultValue={`${obj.shape}`}>
-              <option value="circle">Round</option>
-              <option value="rectangle">Long</option>
-              <option value="square">Square</option>
-            </select>
-            </label>
-          console.log('Shape',box)
-        } else {
-          box = <DataBox
-            key={item + tableRef.current*keyRandomizer.current}
-            field={prop}
-            value={obj[prop]}
-          />
-          console.log('Value',box)
-        }
+
+        box = <DataBox
+          key={item + tableRef.current * keyRandomizer.current}
+          field={prop}
+          value={obj[prop]}
+        />
+        console.log('Value', box)
+
         arr.push(box)
       }
-      console.log('Data array',arr)
+      console.log('Data array', arr)
       setInputList(arr)
       console.log(document.getElementsByName('shape')[0]?.value, 'check value')
     } catch (err) {
