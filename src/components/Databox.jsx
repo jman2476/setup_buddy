@@ -3,7 +3,7 @@ import { RoundTable, LongTable, SquareTable } from '../models/table.jsx'
 
 function DataBox({ field, value }) {
   // // opt-out of auto-memoization
-  'use no memo'
+  // 'use no memo'
   // handle the state in this 
   const dimension = useRef()
 
@@ -22,12 +22,8 @@ function DataBox({ field, value }) {
     console.log(dimension.current)
   }
 
-  // check if new props or passed
-  // or if old args are used
-  console.log('Render DataBox', field, value)
-
   if (field === 'shape') {
-    console.log('cheese it worked cirlces')
+ 
     return (
       <>
         Current {`${field} = ${value}`}

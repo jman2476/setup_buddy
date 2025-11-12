@@ -47,6 +47,19 @@ function App() {
 
   }
 
+  const genTest1 = () => {
+    let obj = {
+      target: {
+        previousElementSibling: {
+          value: 'circle'
+    }}}
+    tableMaker(obj)
+    obj.target.previousElementSibling.value = 'rectangle'
+    tableMaker(obj)
+    obj.target.previousElementSibling.value = 'square'
+    tableMaker(obj)
+  }
+
   // TODO: write function to update table component
   // take the componenent from the listRef array
   // change that component, then use listRef array
@@ -74,27 +87,19 @@ function App() {
   const renderData = (target) => {
     try {
       const obj = target.props.tableObj
-      // console.log(obj,'target')
       const keys = Object.keys(obj)
       setKeyRand()
       const arr = []
       for (let item in keys) {
         const prop = keys[item]
-        let box
-        console.log(typeof prop, prop, obj[prop], 'check')
-
-        box = <DataBox
+        const box = <DataBox
           key={item + tableRef.current * keyRandomizer.current}
           field={prop}
           value={obj[prop]}
         />
-        console.log('Value', box)
-
         arr.push(box)
       }
-      console.log('Data array', arr)
       setInputList(arr)
-      console.log(document.getElementsByName('shape')[0]?.value, 'check value')
     } catch (err) {
       console.log('No tables yet')
       console.log('renderData error:', err)
@@ -115,7 +120,9 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          {/* {inputs.current.length ? inputs.current : <div />} */}
+          <button
+            onClick={genTest1}
+          >Test 1: Table types</button>
           {inputList.length ? inputList : <div />}
           <button
             onClick={tableUpdate}
