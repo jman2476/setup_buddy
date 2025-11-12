@@ -3,10 +3,10 @@ class TableCore {
 }
 
 class TableCon extends TableCore {
-    static make(shape) {
-        if (shape === 'circle') return new RoundTable()
-        if (shape === 'rectangle') return new LongTable()
-        if (shape === 'square') return new SquareTable()
+    static make(shape,x,y) {
+        if (shape === 'circle') return new RoundTable(shape,x)
+        if (shape === 'rectangle') return new LongTable(shape,x,y)
+        if (shape === 'square') return new SquareTable(shape,x)
     }
 }
 

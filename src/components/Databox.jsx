@@ -20,7 +20,7 @@ function DataBox({ field, value}) {
       {`${field}`}
       <input 
         className='input'
-        // type="number" 
+        type="number" 
         name={`${field}`}
         id={`${field}`}
         onKeyDown={e=>handleKeyDown(e)}

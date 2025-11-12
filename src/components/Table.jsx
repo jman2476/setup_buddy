@@ -21,6 +21,7 @@ function Table({ number, tableObj, onClick }) {
         x: event.clientX,
         y: event.clientY
       }
+      
     }
     document.addEventListener('mousemove', handleMouse)
     return () => {

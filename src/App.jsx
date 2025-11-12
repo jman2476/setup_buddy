@@ -42,9 +42,25 @@ function App() {
 
   }
 
+  // TODO: write function to update table component
+  // take the componenent from the listRef array
+  // change that component, then use listRef array
+  // to rewrite the tableList array
   const tableUpdate = () => {
     try {
-
+      const table = focusTable.props.tableObj
+      const keys = Object.keys(table)
+      const index = focusTable.key
+      const newVals = []
+      for (let i in keys) { 
+        const element = document.getElementsByName(keys[i])
+        // console.log(element, element[0].value)
+        newVals.push(element[0].value)
+      }
+      console.log(TableCon.make(...newVals),'new table')
+      // console.log(table, 'table key')
+      // console.log(focusTable, listRef.current[index])
+      setTableList(listRef.current)
     } catch (err) {
       console.log('tableUpdate error:', err)
     }
@@ -53,18 +69,18 @@ function App() {
   const renderData = (target) => {
     try {
       const obj = target.props.tableObj
-      console.log(obj,'target')
+      // console.log(obj,'target')
       const keys = Object.keys(obj)
-      console.log("Render data",keys,obj)
+      // console.log("Render data",keys,obj)
       const arr = []
       for (let item in keys){
         const prop = keys[item]
         let box
-        console.log(typeof prop, prop)
+        console.log(typeof prop, prop, obj[prop], 'check')
         if (prop === 'shape') {
           box = <>
             <label htmlFor="">Current table shape</label>
-            <select name="newTableDrop" id="newTableDrop">
+            <select name="shape" id="curTableDrop" defaultValue={`${obj.shape}`}>
               <option value="circle">Round</option>
               <option value="rectangle">Long</option>
               <option value="square">Square</option>
@@ -72,12 +88,16 @@ function App() {
           </>
           
         } else {
-          box = <DataBox key={item} field={prop} value={obj[prop]}/>
+          box = <DataBox 
+            key={item} 
+            field={prop} 
+            value={obj[prop]}
+            />
         }
         console.log(keys[item], obj)
         arr.push(box)
       }
-      console.log(...arr)
+      // console.log(...arr)
       inputs.current = arr
   } catch (err) {
     console.log('No tables yet')

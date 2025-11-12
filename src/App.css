@@ -1,3 +1,8 @@
+button {
+  color: mediumturquoise;
+  background-color:darkslateblue
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
