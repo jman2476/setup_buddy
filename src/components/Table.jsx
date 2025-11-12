@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-function Table({ number, tableObj }) {
+function Table({ number, tableObj, onClick }) {
   const [offset, setOffSet] = useState({ x: 0, y: 0 })
   const [tableState, setTableState] = useState(tableObj)
   const styles = useRef(null)
@@ -103,6 +103,7 @@ function Table({ number, tableObj }) {
         onDragStart={dragStart}
         onDragEnd={dragEnd}
         style={styles.current}
+        onClick={onClick}
       >{number}
       </div>
 

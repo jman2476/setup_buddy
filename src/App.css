@@ -36,12 +36,13 @@
 
 .table-obj {
   font-size: 200%;
+  border-color: slateblue;
+  border: 1px solid slateblue;
 }
 
 .table-obj:hover {
   filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt );
   /* position: absolute; */
-  color: sea
 }
 
 .circle {
@@ -53,6 +54,7 @@
 .rectangle {
   background-color: lightcoral;
   border-radius: 0%;
+  text-wrap: wrap;
 }
 
 .square {

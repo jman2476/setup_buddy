@@ -14,13 +14,40 @@ import {DataBox, Table} from './components'
 function App() {
   const tableRef = useRef(0)
   const [tableList, setTableList] = useState([])
+  const [focusTable, setFocusTable] = useState({})
+  const [dataState, setDataState] = useState(0)
+  const listRef = useRef([])
   
   const tableMaker = (event) => {
     const newShape = event.target.previousElementSibling.value 
     const newTableObj = TableCon.make(newShape)
-    const newTable = <Table number={tableRef.current} tableObj={newTableObj} key={tableRef.current}/>
+    const newTable = <Table 
+        number={tableRef.current} 
+        tableObj={newTableObj} 
+        key={tableRef.current}
+        onClick={e=>tableSelect(e)}
+        />
     setTableList(arr => [...arr, newTable]) 
+    listRef.current.push(newTable)
     tableRef.current++
+    setFocusTable(newTable)
+  }
+
+  const tableSelect = (e) => {
+    const index = e.target.innerText
+    setFocusTable(listRef.current[index])
+    let count = dataState
+    setDataState(n=>n+1)
+    console.log('table click', index, dataState)
+  }
+
+  useEffect(()=>{console.log(dataState)}, [dataState])
+
+  const updateTable = (event, newTableObj, changeArr) => {
+    // edit table in tableRef
+    // use tableRef to update tableList state
+    // changeArr = [index, key, value]
+    console.log('Update Table', newTableObj.key, changeArr)
   }
 
   return (
@@ -37,8 +64,13 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          <DataBox tableObj={tableList[tableRef.current]} />
-          
+          <DataBox 
+            count={dataState}
+            tableComp={focusTable}
+            tList={tableList} 
+            setTList={setTableList}
+            updateTable={updateTable}
+          />
         </div>
       </div>
       <div id="setup">
