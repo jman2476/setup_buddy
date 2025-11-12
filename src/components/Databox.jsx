@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { RoundTable, LongTable, SquareTable } from '../models/table.jsx'
 
 function DataBox({ field, value}) {
-
+  // handle the state in this 
+  const def = useRef()
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -14,6 +15,9 @@ function DataBox({ field, value}) {
       //call update table
     }
   }
+  const handleChange = (e) => {
+    def.current = e.target.value
+  }
 
   return (
     <>
@@ -24,6 +28,7 @@ function DataBox({ field, value}) {
         name={`${field}`}
         id={`${field}`}
         onKeyDown={e=>handleKeyDown(e)}
+        onChange={(e=>handleChange(e))}
         defaultValue={value}
         />
     </>

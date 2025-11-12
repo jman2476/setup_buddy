@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import {TableCon, RoundTable, LongTable, SquareTable}  from "./models/"
-import {DataBox, Table} from './components'
+import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
+import { DataBox, Table } from './components'
 
 // TODO: Refactor object handling
 //      - Pass table object to Table and DataBox DONE
@@ -18,17 +18,17 @@ function App() {
   const [dataState, setDataState] = useState(0)
   const inputs = useRef([])
   const listRef = useRef([])
-  
+
   const tableMaker = (event) => {
-    const newShape = event.target.previousElementSibling.value 
+    const newShape = event.target.previousElementSibling.value
     const newTableObj = TableCon.make(newShape)
-    const newTable = <Table 
-        number={tableRef.current} 
-        tableObj={newTableObj} 
-        key={tableRef.current}
-        onClick={e=>tableSelect(e)}
-        />
-    setTableList(arr => [...arr, newTable]) 
+    const newTable = <Table
+      number={tableRef.current}
+      tableObj={newTableObj}
+      key={tableRef.current}
+      onClick={e => tableSelect(e)}
+    />
+    setTableList(arr => [...arr, newTable])
     listRef.current.push(newTable)
     tableRef.current++
     setFocusTable(newTable)
@@ -52,12 +52,12 @@ function App() {
       const keys = Object.keys(table)
       const index = focusTable.key
       const newVals = []
-      for (let i in keys) { 
+      for (let i in keys) {
         const element = document.getElementsByName(keys[i])
         // console.log(element, element[0].value)
         newVals.push(element[0].value)
       }
-      console.log(TableCon.make(...newVals),'new table')
+      console.log(TableCon.make(...newVals), 'new table')
       // console.log(table, 'table key')
       // console.log(focusTable, listRef.current[index])
       setTableList(listRef.current)
@@ -73,7 +73,7 @@ function App() {
       const keys = Object.keys(obj)
       // console.log("Render data",keys,obj)
       const arr = []
-      for (let item in keys){
+      for (let item in keys) {
         const prop = keys[item]
         let box
         console.log(typeof prop, prop, obj[prop], 'check')
@@ -86,23 +86,23 @@ function App() {
               <option value="square">Square</option>
             </select>
           </>
-          
+
         } else {
-          box = <DataBox 
-            key={item} 
-            field={prop} 
+          box = <DataBox
+            key={item}
+            field={prop}
             value={obj[prop]}
-            />
+          />
         }
         console.log(keys[item], obj)
         arr.push(box)
       }
       // console.log(...arr)
       inputs.current = arr
-  } catch (err) {
-    console.log('No tables yet')
-    console.log('renderData error:', err)
-  }
+    } catch (err) {
+      console.log('No tables yet')
+      console.log('renderData error:', err)
+    }
   }
 
   return (
@@ -119,7 +119,7 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          {inputs.current.length? inputs.current : <div />}
+          {inputs.current.length ? inputs.current : <div />}
           <button
             onClick={tableUpdate}
           >Update table</button>
@@ -127,7 +127,7 @@ function App() {
       </div>
       <div id="setup">
         <div id='setup-area' >
-          {tableList.length ? tableList : <div/>}
+          {tableList.length ? tableList : <div />}
         </div>
       </div>
     </>
