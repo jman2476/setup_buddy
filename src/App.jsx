@@ -5,9 +5,9 @@ import {DataBox, Table} from './components'
 
 // TODO: Refactor object handling
 //      - Pass table object to Table and DataBox DONE
-//      - Handle table object in Table with useState
-//      - Handle table object in DataBox with useState
-//      - New Table button --> becomes its own component
+//      - Handle table object in Table with useState DONE
+//      - Handle table object in DataBox with useState DONE
+//      - New Table button --> becomes its own component // Nope
 //        - can create round, rectangle or square table
 //        - table is created with default dimensions only 
 
@@ -16,6 +16,7 @@ function App() {
   const [tableList, setTableList] = useState([])
   const [focusTable, setFocusTable] = useState({})
   const [dataState, setDataState] = useState(0)
+  const inputs = useRef([])
   const listRef = useRef([])
   
   const tableMaker = (event) => {
@@ -36,18 +37,52 @@ function App() {
   const tableSelect = (e) => {
     const index = e.target.innerText
     setFocusTable(listRef.current[index])
-    let count = dataState
-    setDataState(n=>n+1)
+    renderData(listRef.current[index])
     console.log('table click', index, dataState)
+
   }
 
-  useEffect(()=>{console.log(dataState)}, [dataState])
+  const tableUpdate = () => {
+    try {
 
-  const updateTable = (event, newTableObj, changeArr) => {
-    // edit table in tableRef
-    // use tableRef to update tableList state
-    // changeArr = [index, key, value]
-    console.log('Update Table', newTableObj.key, changeArr)
+    } catch (err) {
+      console.log('tableUpdate error:', err)
+    }
+  }
+
+  const renderData = (target) => {
+    try {
+      const obj = target.props.tableObj
+      console.log(obj,'target')
+      const keys = Object.keys(obj)
+      console.log("Render data",keys,obj)
+      const arr = []
+      for (let item in keys){
+        const prop = keys[item]
+        let box
+        console.log(typeof prop, prop)
+        if (prop === 'shape') {
+          box = <>
+            <label htmlFor="">Current table shape</label>
+            <select name="newTableDrop" id="newTableDrop">
+              <option value="circle">Round</option>
+              <option value="rectangle">Long</option>
+              <option value="square">Square</option>
+            </select>
+          </>
+          
+        } else {
+          box = <DataBox key={item} field={prop} value={obj[prop]}/>
+        }
+        console.log(keys[item], obj)
+        arr.push(box)
+      }
+      console.log(...arr)
+      inputs.current = arr
+  } catch (err) {
+    console.log('No tables yet')
+    console.log('renderData error:', err)
+  }
   }
 
   return (
@@ -64,13 +99,10 @@ function App() {
           <button
             onClick={tableMaker}
           >Make new table</button>
-          <DataBox 
-            count={dataState}
-            tableComp={focusTable}
-            tList={tableList} 
-            setTList={setTableList}
-            updateTable={updateTable}
-          />
+          {inputs.current.length? inputs.current : <div />}
+          <button
+            onClick={tableUpdate}
+          >Update table</button>
         </div>
       </div>
       <div id="setup">

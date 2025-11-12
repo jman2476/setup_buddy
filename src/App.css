@@ -26,12 +26,24 @@
 
 #toolbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   max-height: 50PX;
 }
 
+#databox {
+  align-items: flex-start;
+  /* padding: 0 3px; */
+  display: flex;
+}
+
+#databox > * {
+  margin: 0 5px;
+  padding: 0 3px;
+}
+
 .title {
-  position:relative; 
+  position:relative;
+  text-justify: left; 
 }
 
 .table-obj {
@@ -62,6 +74,8 @@
   color: bisque;
   border-radius: 0%;
 }
+
+
 
 .input {
   position: relative;

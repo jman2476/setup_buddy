@@ -2,19 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 
 function Table({ number, tableObj, onClick }) {
   const [offset, setOffSet] = useState({ x: 0, y: 0 })
-  const [tableState, setTableState] = useState(tableObj)
+  // const [tableState, setTableState] = useState(tableObj)
   const styles = useRef(null)
   const startRef = useRef({ x: 0, y: 0 })
   const mouseRef = useRef({ x: 0, y: 0 })
-  // const stylesDemo = { //need to make this change based on shape
-  //   position: "absolute",
-  //   top: `${offset.y + 100 * number}px`,
-  //   left: `${offset.x + 100 * number}px`,
-  //   height: `${tableObj.diameter}px`,
-  //   width: `${tableObj.diameter}px`,
-  //   lineHeight: `${tableObj.diameter}px`,
-  //   fontSize: ' 200%'
-  // }
+
   // dragStart, dragEnd and the useEffect between are 
   // what handle the drag and drop functionality
   const dragStart = (event) => {
@@ -31,7 +23,6 @@ function Table({ number, tableObj, onClick }) {
       }
     }
     document.addEventListener('mousemove', handleMouse)
-    // handleStyles()
     return () => {
       document.removeEventListener('mousemove', handleMouse)
     }
