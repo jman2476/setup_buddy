@@ -3,7 +3,13 @@ import './App.css'
 import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
 import { DataBox, Table } from './components'
 
-// TODO:: 
+// TODO:: Add boundaries to the setup area
+//      - Make Boundary component
+//        - Identify vertices in blueprint
+//        - Use these points for collision
+//        - Check Table position compared to points
+//        - Make consistent size independent of window size
+//          - Can scale to screen, but not stretch in any dimension
 
 function App() {
   const tableRef = useRef(0)
