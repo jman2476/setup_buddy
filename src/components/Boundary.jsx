@@ -1,6 +1,9 @@
-function Boundary () {
+function Boundary ({ children }) {
     return (
         <>
+            <div>
+                {children}
+            </div>
         </>
     )
 }

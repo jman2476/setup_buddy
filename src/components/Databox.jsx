@@ -31,7 +31,7 @@ function DataBox({ field, value }) {
   } else {
     return (
       <>
-        {`${field} = ${value}`}
+        {`${field}`}
         <input
           className='input'
           type="number"

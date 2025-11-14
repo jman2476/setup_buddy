@@ -6,6 +6,7 @@ function Table({ number, tableObj, onClick }) {
   const styles = useRef(null)
   const startRef = useRef({ x: 0, y: 0 })
   const mouseRef = useRef({ x: 0, y: 0 })
+  const [flip, setFlip] = useState(false)
 
   // dragStart, dragEnd and the useEffect between are 
   // what handle the drag and drop functionality
@@ -36,6 +37,23 @@ function Table({ number, tableObj, onClick }) {
       x: prev.x + mouseRef.current.x - startRef.current.x,
       y: prev.y + mouseRef.current.y - startRef.current.y
     }))
+  }
+
+  const handleDoubleClick = () => {
+    if(tableObj.shape === 'rectangle') {  
+      const newWidth = styles.current.height
+      const newHeight = styles.current.width
+      styles.current = {
+      position: "absolute",
+      top: `${offset.y + 100 * number}px`,
+      left: `${offset.x + 100 * number}px`,
+      height: newHeight,
+      width: newWidth,
+      lineHeight: `${tableObj.width}px`,
+    }
+      console.log('double click', flip, styles.current)
+      console.log(newHeight,newWidth)
+      setFlip(!flip)}
   }
   
 
@@ -84,7 +102,7 @@ function Table({ number, tableObj, onClick }) {
       buildSquare()
       break;
   }
-
+  console.log('Table render')
   return (
     <>
       <div
@@ -95,6 +113,7 @@ function Table({ number, tableObj, onClick }) {
         onDragEnd={dragEnd}
         style={styles.current}
         onClick={onClick}
+        onDoubleClick={handleDoubleClick}
       >{number}
       </div>
 
