@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
-import { DataBox, Table } from './components'
+import { DataBox, Table, Boundary } from './components'
 
 // TODO:: Add boundaries to the setup area
 //      - Make Boundary component
@@ -153,7 +153,9 @@ function App() {
       </div>
       <div id="setup">
         <div id='setup-area' >
-          {tableList.length ? tableList : <div />}
+          <Boundary>
+            {tableList.length ? tableList : <div />}
+          </Boundary>
         </div>
       </div>
     </>
