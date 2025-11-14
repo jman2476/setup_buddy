@@ -14,6 +14,7 @@ import { DataBox, Table } from './components'
 function App() {
   const tableRef = useRef(0)
   const [tableList, setTableList] = useState([])
+  const [tableObjList, setTableObjList] = useState([])
   const [focusTable, setFocusTable] = useState({})
   const [dataState, setDataState] = useState(0)
   const [inputList, setInputList] = useState([])
@@ -27,8 +28,9 @@ function App() {
   const tableMaker = (event) => {
     const newShape = event.target.previousElementSibling.value
     const newTableObj = TableCon.make(newShape)
+    setTableObjList(arr => [...arr, newTableObj])
     const newTable = <Table
-      number={tableRef.current}
+      number={tableRef.current} 
       tableObj={newTableObj}
       key={tableRef.current}
       onClick={e => tableSelect(e)}
@@ -37,6 +39,30 @@ function App() {
     listRef.current.push(newTable)
     tableRef.current++
     setFocusTable(newTable)
+  }
+
+  // New tableMaker function using IIFE and .then
+  const tableMaker2 = (event) => {
+    ((newShape)=>{
+      const newTableObj = TableCon.make(newShape)
+      setTableObjList(arr => [...arr, newTableObj])
+
+      // return newTableObj
+    }) .then(()=>{
+    try {const newTable = <Table
+      number={tableRef.current} 
+      tableObj={tableObjList[tableRef]}
+      key={tableRef.current}
+      onClick={e => tableSelect(e)}
+    />
+    console.log('tableMaker2', newTable)
+    setTableList(arr => [...arr, newTable])
+    listRef.current.push(newTable)
+    tableRef.current++
+    setFocusTable(newTable)} catch(err) {
+      console.log(err)
+    }
+    })
   }
 
   const tableSelect = (e) => {
@@ -59,7 +85,6 @@ function App() {
     obj.target.previousElementSibling.value = 'square'
     tableMaker(obj)
   }
-
   // TODO: write function to update table component
   // take the componenent from the listRef array
   // change that component, then use listRef array
@@ -67,23 +92,33 @@ function App() {
   const tableUpdate = () => {
     try {
       const table = focusTable.props.tableObj
+      console.log(table)
       const keys = Object.keys(table)
       const index = focusTable.key
       const newVals = []
       for (let i in keys) {
         const element = document.getElementsByName(keys[i])
-        // console.log(element, element[0].value)
         newVals.push(element[0].value)
       }
-      console.log(TableCon.make(...newVals), 'new table')
-      // console.log(table, 'table key')
-      // console.log(focusTable, listRef.current[index])
-      setTableList(listRef.current)
+      const newTableObj = TableCon.make(...newVals)
+
+
+      setTableList([...listRef.current])
     } catch (err) {
       console.log('tableUpdate error:', err)
+      console.log('Make sure to select a table first')
     }
   }
 
+  // currently deletes a table by setting its 
+  // array[index] to an empty div.
+  const tableDelete = () => {
+    const number = focusTable.props.number
+    listRef.current[number] = <></>
+    setTableList(listRef.current)
+    return number
+  }
+  
   const renderData = (target) => {
     try {
       const obj = target.props.tableObj
@@ -93,9 +128,9 @@ function App() {
       for (let item in keys) {
         const prop = keys[item]
         const box = <DataBox
-          key={item + tableRef.current * keyRandomizer.current}
-          field={prop}
-          value={obj[prop]}
+        key={item + tableRef.current * keyRandomizer.current}
+        field={prop}
+        value={obj[prop]}
         />
         arr.push(box)
       }
@@ -105,20 +140,21 @@ function App() {
       console.log('renderData error:', err)
     }
   }
-
+  
+  console.log('App render')
   return (
     <>
       <div id="toolbar">
         <h2 className='title'>Toolbar Time</h2>
         <div id='databox' >
-          <label htmlFor="">New table shape</label>
+          <label htmlFor="">New table2 shape</label>
           <select name="newTableDrop" id="newTableDrop">
             <option value="circle">Round</option>
             <option value="rectangle">Long</option>
             <option value="square">Square</option>
           </select>
           <button
-            onClick={tableMaker}
+            onClick={tableMaker2}
           >Make new table</button>
           <button
             onClick={genTest1}
@@ -127,6 +163,10 @@ function App() {
           <button
             onClick={tableUpdate}
           >Update table</button>
+          <button
+            onClick={tableDelete}
+          >Delete table</button>
+          
         </div>
       </div>
       <div id="setup">

@@ -15,6 +15,7 @@ class RoundTable extends TableCore {
         super()
         this.shape = shape ?? 'circle'
         this.diameter = diameter ?? 60 
+        this.diameter = Number(this.diameter)
     }
 }
 
@@ -24,6 +25,8 @@ class LongTable extends TableCore {
         this.shape = shape ?? 'rectangle'
         this.length = length ?? 80
         this.width = width ?? 20
+        this.length = Number(this.length)
+        this.width = Number(this.width)
     }
 }
 
@@ -32,6 +35,7 @@ class SquareTable extends TableCore {
         super()
         this.shape = shape ?? 'square'
         this.side = side ?? 40
+        this.side = Number(this.side)
     }
 }
 
