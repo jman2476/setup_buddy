@@ -46,6 +46,16 @@ button {
   padding: 0 3px;
 }
 
+/* #boundary {
+  border: 1px solid springgreen ;
+  background-color: aqua;
+} */
+
+.boundary {
+  border: 1px solid springgreen ;
+  /* background-color: aqua; */
+}
+
 .title {
   position:relative;
   text-justify: left; 
