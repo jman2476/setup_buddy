@@ -30,7 +30,7 @@ function App() {
     const newTableObj = TableCon.make(newShape)
     setTableObjList(arr => [...arr, newTableObj])
     const newTable = <Table
-      number={tableRef.current} 
+      number={tableRef.current}
       tableObj={newTableObj}
       key={tableRef.current}
       onClick={e => tableSelect(e)}
@@ -55,7 +55,9 @@ function App() {
       target: {
         previousElementSibling: {
           value: 'circle'
-    }}}
+        }
+      }
+    }
     tableMaker(obj)
     obj.target.previousElementSibling.value = 'rectangle'
     tableMaker(obj)
@@ -79,11 +81,11 @@ function App() {
       const newTableObj = TableCon.make(...newVals)
       const index = tableDelete()
       const updateTable = <Table
-      number={index} 
-      tableObj={newTableObj}
-      key={index}
-      onClick={e => tableSelect(e)}
-    />
+        number={index}
+        tableObj={newTableObj}
+        key={index}
+        onClick={e => tableSelect(e)}
+      />
       listRef.current[index] = updateTable
       setTableList([...listRef.current])
     } catch (err) {
@@ -97,10 +99,12 @@ function App() {
   // NOTE: Only meant for updating tables, not fully removing
   //        Use tableAnnihilate instead
   const tableDelete = () => {
-    try {const number = focusTable.props.number
-    listRef.current[number] = <></>
-    setTableList(listRef.current)
-    return number} catch (err) {
+    try {
+      const number = focusTable.props.number
+      listRef.current[number] = <></>
+      setTableList(listRef.current)
+      return number
+    } catch (err) {
       console.log(err)
     }
   }
@@ -112,7 +116,7 @@ function App() {
       console.log(err)
     }
   }
-  
+
   const renderData = (target) => {
     try {
       const obj = target.props.tableObj
@@ -122,9 +126,9 @@ function App() {
       for (let item in keys) {
         const prop = keys[item]
         const box = <DataBox
-        key={item + tableRef.current * keyRandomizer.current}
-        field={prop}
-        value={obj[prop]}
+          key={item + tableRef.current * keyRandomizer.current}
+          field={prop}
+          value={obj[prop]}
         />
         arr.push(box)
       }
@@ -134,7 +138,7 @@ function App() {
       console.log('renderData error:', err)
     }
   }
-  
+
   console.log('App render')
   return (
     <>
@@ -160,7 +164,7 @@ function App() {
           <button
             onClick={tableDelete}
           >Delete table</button>
-          
+
         </div>
       </div>
       <div id="setup">
