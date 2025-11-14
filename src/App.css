@@ -53,7 +53,8 @@ button {
 
 .boundary {
   border: 1px solid springgreen ;
-  /* background-color: aqua; */
+  height: 400px;
+  width: 100%;
 }
 
 .title {
