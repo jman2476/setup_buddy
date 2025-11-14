@@ -1,3 +1,8 @@
+button {
+  color: mediumturquoise;
+  background-color:darkslateblue
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -26,30 +31,57 @@
 
 #toolbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   max-height: 50PX;
 }
 
+#databox {
+  align-items: flex-start;
+  /* padding: 0 3px; */
+  display: flex;
+}
+
+#databox > * {
+  margin: 0 5px;
+  padding: 0 3px;
+}
+
 .title {
-  position:relative; 
+  position:relative;
+  text-justify: left; 
 }
 
 .table-obj {
-  border-radius: 50%;
-  /* text-align: center;
-  line-height: 60px; */
+  font-size: 200%;
+  border-color: slateblue;
+  border: 1px solid slateblue;
+}
+
+.table-obj:hover {
+  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt );
+  /* position: absolute; */
 }
 
 .circle {
   background-color: bisque;
   border-radius: 50%;
   color: darkorchid
-}
+} 
 
 .rectangle {
   background-color: lightcoral;
-  border-radius: 2%;
+  border-radius: 0%;
+  text-wrap: wrap;
 }
+
+.square {
+  background-color: darkorchid;
+  color: bisque;
+  border-radius: 0%;
+}
+
+
+
 .input {
   position: relative;
   top: 0px;
