@@ -9,17 +9,11 @@ function DataBox({ field, value }) {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-
-      console.log('Value updated')
-
-      console.log('Data to change', event.target)
-      const val = event.target.value
-      //call update table
+      console.log('Press the update button')
     }
   }
   const handleChange = (e) => {
     dimension.current = e.target.value
-    console.log(dimension.current)
   }
 
   if (field === 'shape') {

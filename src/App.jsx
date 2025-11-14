@@ -16,7 +16,6 @@ function App() {
   const [tableList, setTableList] = useState([])
   const [tableObjList, setTableObjList] = useState([])
   const [focusTable, setFocusTable] = useState({})
-  const [dataState, setDataState] = useState(0)
   const [inputList, setInputList] = useState([])
   const keyRandomizer = useRef([])
   const listRef = useRef([])
@@ -46,8 +45,6 @@ function App() {
     const index = e.target.innerText
     setFocusTable(listRef.current[index])
     renderData(listRef.current[index])
-    console.log('table click', index, dataState)
-
   }
 
   const genTest1 = () => {
@@ -71,7 +68,6 @@ function App() {
   const tableUpdate = () => {
     try {
       const table = focusTable.props.tableObj
-      console.log(table)
       const keys = Object.keys(table)
       const newVals = []
       for (let i in keys) {
@@ -96,8 +92,8 @@ function App() {
 
   // currently deletes a table by setting its 
   // array[index] to an empty div.
-  // NOTE: Only meant for updating tables, not fully removing
-  //        Use tableAnnihilate instead
+  // NOTE: Do not create a new table with the same key
+  //        unless you are updating that table
   const tableDelete = () => {
     try {
       const number = focusTable.props.number
@@ -109,13 +105,6 @@ function App() {
     }
   }
 
-  const tableAnnihilate = () => {
-    try {
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const renderData = (target) => {
     try {
@@ -139,13 +128,12 @@ function App() {
     }
   }
 
-  console.log('App render')
   return (
     <>
       <div id="toolbar">
         <h2 className='title'>Toolbar Time</h2>
         <div id='databox' >
-          <label htmlFor="">New table2 shape</label>
+          <label htmlFor="">New table shape</label>
           <select name="newTableDrop" id="newTableDrop">
             <option value="circle">Round</option>
             <option value="rectangle">Long</option>
