@@ -41,29 +41,6 @@ function App() {
     setFocusTable(newTable)
   }
 
-  // New tableMaker function using IIFE and .then
-  const tableMaker2 = (event) => {
-    ((newShape)=>{
-      const newTableObj = TableCon.make(newShape)
-      setTableObjList(arr => [...arr, newTableObj])
-
-      // return newTableObj
-    }) .then(()=>{
-    try {const newTable = <Table
-      number={tableRef.current} 
-      tableObj={tableObjList[tableRef]}
-      key={tableRef.current}
-      onClick={e => tableSelect(e)}
-    />
-    console.log('tableMaker2', newTable)
-    setTableList(arr => [...arr, newTable])
-    listRef.current.push(newTable)
-    tableRef.current++
-    setFocusTable(newTable)} catch(err) {
-      console.log(err)
-    }
-    })
-  }
 
   const tableSelect = (e) => {
     const index = e.target.innerText
@@ -94,15 +71,20 @@ function App() {
       const table = focusTable.props.tableObj
       console.log(table)
       const keys = Object.keys(table)
-      const index = focusTable.key
       const newVals = []
       for (let i in keys) {
         const element = document.getElementsByName(keys[i])
         newVals.push(element[0].value)
       }
       const newTableObj = TableCon.make(...newVals)
-
-
+      const index = tableDelete()
+      const updateTable = <Table
+      number={index} 
+      tableObj={newTableObj}
+      key={index}
+      onClick={e => tableSelect(e)}
+    />
+      listRef.current[index] = updateTable
       setTableList([...listRef.current])
     } catch (err) {
       console.log('tableUpdate error:', err)
@@ -112,11 +94,23 @@ function App() {
 
   // currently deletes a table by setting its 
   // array[index] to an empty div.
+  // NOTE: Only meant for updating tables, not fully removing
+  //        Use tableAnnihilate instead
   const tableDelete = () => {
-    const number = focusTable.props.number
+    try {const number = focusTable.props.number
     listRef.current[number] = <></>
     setTableList(listRef.current)
-    return number
+    return number} catch (err) {
+      console.log(err)
+    }
+  }
+
+  const tableAnnihilate = () => {
+    try {
+
+    } catch (err) {
+      console.log(err)
+    }
   }
   
   const renderData = (target) => {
@@ -154,7 +148,7 @@ function App() {
             <option value="square">Square</option>
           </select>
           <button
-            onClick={tableMaker2}
+            onClick={tableMaker}
           >Make new table</button>
           <button
             onClick={genTest1}
