@@ -1,32 +1,38 @@
 import { useRef, useState } from "react"
 
-function Boundary ({ children }) {
-    const [pointList, setPointList] = useState([])
+function Boundary({ children }) {
+    const [pointList, setPointList] = useState([{ x: 0, y: 0 }])
     const editBoundRef = useRef(false)
-    const pointCounter = useRef(0)
+    const pointCounter = useRef(1)
 
     const handleEditButton = () => {
-        editBoundRef.current= !editBoundRef.current
+        editBoundRef.current = !editBoundRef.current
         console.log(editBoundRef.current)
+    }
+
+    const handleResetButton = () => {
+        setPointList([{ x: 0, y: 0 }])
+        pointCounter.current = 1
     }
 
     // if editBoundRef===true, click field to create points
     const handleSetBound = (event) => {
         try {
             console.log('handle set boundary')
-            if (editBoundRef.current){
+            if (editBoundRef.current) {
                 console.log('select point for boundary')
                 const mousePosition = {
-                    x: event.clientX,
-                    y: event.clientY
+                    x: event.clientX - 158,
+                    y: event.clientY - 109
                 }
                 console.log(mousePosition, 'click')
                 pointCounter.current++
                 setPointList(arr => [...arr, mousePosition])
+                // test to locate 0,0
             } else {
                 throw new Error('Boundary edit is toggled off')
             }
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -35,16 +41,17 @@ function Boundary ({ children }) {
     // Can create points, but the offset is wrong
     // needs to be adjusted to account for the 
     // Boundary component position
-    function BoundaryPoint ({ positionObj }){
-        console.log(positionObj,'point position')
+    function BoundaryPoint({ positionObj }) {
+        console.log(positionObj, 'point position')
         return (
             <>
-                <div 
+                <div
                     style={{
-                        position:'absolute',
+                        position: 'absolute',
                         top: `${positionObj.y}px`,
                         left: `${positionObj.x}px`
-                    }}>
+                    }}
+                    className="boundary-vertex">
                     {'\u2022'}
                 </div>
             </>
@@ -57,20 +64,36 @@ function Boundary ({ children }) {
                 style={{
                     position: 'absolute',
                     top: '-10px',
-                    right: '-50px'
+                    right: '-130px',
+                    width: '160px',
+                    height: '40px',
+                    fontSize: '12pt'
+
                 }}
                 onClick={handleEditButton}
-                >Edit boundaries</button>
+                className={''}
+            >Edit boundaries</button>
+            <button
+                style={{
+                    position: 'absolute',
+                    top: '40px',
+                    right: '-130px',
+                    width: '170px',
+                    height: '40px',
+                    fontSize: '12pt'
+                }}
+                onClick={handleResetButton}
+            >Reset boundaries</button>
             <div
-                onClick={e=>handleSetBound(e)}
+                onClick={e => handleSetBound(e)}
                 className="boundary"
-            > Potato
-                {pointList.map((obj,index)=>{
-                    console.log(obj,'point obj')
+            > {editBoundRef? 'Editable' : ''}
+                {pointList.map((obj, index) => {
+                    console.log(obj, 'point obj')
                     return (
-                        <BoundaryPoint 
-                            positionObj={obj} 
-                            key={index+'point'}/>
+                        <BoundaryPoint
+                            positionObj={obj}
+                            key={index + 'point'} />
                     )
                 })}
                 {children}

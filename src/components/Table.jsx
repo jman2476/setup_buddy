@@ -39,13 +39,16 @@ function Table({ number, tableObj, onClick }) {
     }))
   }
 
+  // TODO:: Move this function to the App component
+  //          and change it to delete and remake table w/ 
+  //          length and width swapped
   const handleDoubleClick = () => {
     if(tableObj.shape === 'rectangle') {  
       const newWidth = styles.current.height
       const newHeight = styles.current.width
       styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number}px`,
+      top: `${offset.y + 100 * number }px`,
       left: `${offset.x + 100 * number}px`,
       height: newHeight,
       width: newWidth,
@@ -60,34 +63,39 @@ function Table({ number, tableObj, onClick }) {
   const buildCircle = () => {
     styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number}px`,
+      top: `${offset.y + 100 * number + Math.floor(number/12)*20}px`,
       left: `${offset.x + 100 * number}px`,
       height: `${tableObj.diameter}px`,
       width: `${tableObj.diameter}px`,
       lineHeight: `${tableObj.diameter}px`,
     }
+    console.log(Math.floor(number/12)*20)
+
     return styles
   }
   const buildLong = () => {
     styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number}px`,
+      top: `${offset.y + 100 * number + Math.floor(number/12)*20}px`,
       left: `${offset.x + 100 * number}px`,
       height: `${tableObj.length}px`,
       width: `${tableObj.width}px`,
       lineHeight: `${tableObj.width}px`,
     }
+    console.log(Math.floor(number/12)*20)
     return styles
   }
   const buildSquare = () => {
     styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number}px`,
+      top: `${offset.y + 100 * number + Math.floor(number/12)*20}px`,
       left: `${offset.x + 100 * number}px`,
       height: `${tableObj.side}px`,
       width: `${tableObj.side}px`,
       lineHeight: `${tableObj.side}px`,
     }
+    console.log(Math.floor(number/12)*20)
+    
     return styles
   }
 

@@ -43,6 +43,7 @@ function App() {
     const index = e.target.innerText
     setFocusTable(listRef.current[index])
     renderData(listRef.current[index])
+    console.log(listRef.current[index])
   }
 
 

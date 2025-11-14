@@ -57,6 +57,16 @@ button {
   width: 100%;
 }
 
+.boundary-vertex {
+  color:midnightblue;
+}
+
+.boundary-vertex:hover { 
+  cursor: pointer;
+  color: lightcyan;
+  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt ) ;
+}
+
 .title {
   position:relative;
   text-justify: left; 
@@ -69,7 +79,7 @@ button {
 }
 
 .table-obj:hover {
-  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt );
+  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt ) ;
   /* position: absolute; */
 }
 
