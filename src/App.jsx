@@ -3,18 +3,11 @@ import './App.css'
 import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
 import { DataBox, Table } from './components'
 
-// TODO: Refactor object handling
-//      - Pass table object to Table and DataBox DONE
-//      - Handle table object in Table with useState DONE
-//      - Handle table object in DataBox with useState DONE
-//      - New Table button --> becomes its own component // Nope
-//        - can create round, rectangle or square table
-//        - table is created with default dimensions only 
+// TODO:: 
 
 function App() {
   const tableRef = useRef(0)
   const [tableList, setTableList] = useState([])
-  const [tableObjList, setTableObjList] = useState([])
   const [focusTable, setFocusTable] = useState({})
   const [inputList, setInputList] = useState([])
   const keyRandomizer = useRef([])
@@ -27,7 +20,6 @@ function App() {
   const tableMaker = (event) => {
     const newShape = event.target.previousElementSibling.value
     const newTableObj = TableCon.make(newShape)
-    setTableObjList(arr => [...arr, newTableObj])
     const newTable = <Table
       number={tableRef.current}
       tableObj={newTableObj}
@@ -47,24 +39,8 @@ function App() {
     renderData(listRef.current[index])
   }
 
-  const genTest1 = () => {
-    let obj = {
-      target: {
-        previousElementSibling: {
-          value: 'circle'
-        }
-      }
-    }
-    tableMaker(obj)
-    obj.target.previousElementSibling.value = 'rectangle'
-    tableMaker(obj)
-    obj.target.previousElementSibling.value = 'square'
-    tableMaker(obj)
-  }
-  // TODO: write function to update table component
-  // take the componenent from the listRef array
-  // change that component, then use listRef array
-  // to rewrite the tableList array
+
+
   const tableUpdate = () => {
     try {
       const table = focusTable.props.tableObj
@@ -105,6 +81,20 @@ function App() {
     }
   }
 
+  const genTest1 = () => {
+    let obj = {
+      target: {
+        previousElementSibling: {
+          value: 'circle'
+        }
+      }
+    }
+    tableMaker(obj)
+    obj.target.previousElementSibling.value = 'rectangle'
+    tableMaker(obj)
+    obj.target.previousElementSibling.value = 'square'
+    tableMaker(obj)
+  }
 
   const renderData = (target) => {
     try {
