@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useContext, useRef } from 'react'
 import './App.css'
 import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
 import { DataBox, Table, Boundary } from './components'
+import { TablePositionContext } from './context/TablePositionContext'
 
 // TODO:: Add boundaries to the setup area
 //      - Make Boundary component
@@ -18,6 +19,8 @@ function App() {
   const [inputList, setInputList] = useState([])
   const keyRandomizer = useRef([])
   const listRef = useRef([])
+  const [tablePosList, setTablePosList] = useState([])
+  // const TablePosContext = createContext(tablePosList)
 
   const setKeyRand = () => {
     keyRandomizer.current = Math.floor(Math.random() * 15)
@@ -31,6 +34,7 @@ function App() {
       tableObj={newTableObj}
       key={tableRef.current}
       onClick={e => tableSelect(e)}
+      setPosList={setTablePosList}
     />
     setTableList(arr => [...arr, newTable])
     listRef.current.push(newTable)
@@ -45,8 +49,6 @@ function App() {
     renderData(listRef.current[index])
     console.log(listRef.current[index])
   }
-
-
 
   const tableUpdate = () => {
     try {
@@ -64,6 +66,8 @@ function App() {
         tableObj={newTableObj}
         key={index}
         onClick={e => tableSelect(e)}
+        setPosList={setTablePosList}
+
       />
       listRef.current[index] = updateTable
       setTableList([...listRef.current])
@@ -124,7 +128,7 @@ function App() {
       console.log('renderData error:', err)
     }
   }
-
+  console.log('App render')
   return (
     <>
       <div id="toolbar">
@@ -154,9 +158,11 @@ function App() {
       </div>
       <div id="setup">
         <div id='setup-area' >
-          <Boundary>
-            {tableList.length ? tableList : <div />}
-          </Boundary>
+          <TablePositionContext value={tablePosList}>
+            <Boundary>
+              {tableList.length ? tableList : <div />}
+            </Boundary>
+          </TablePositionContext>
         </div>
       </div>
     </>

@@ -1,3 +1,3 @@
 import { createContext, useContext } from "react";
 
-export const TablePositionContext = createContext([])
+export const TablePositionContext = createContext(null)

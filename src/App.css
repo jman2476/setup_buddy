@@ -59,6 +59,9 @@ button {
 
 .boundary-vertex {
   color:midnightblue;
+  border: 1px solid yellow;
+  height: 2px;
+  width: 2px;
 }
 
 .boundary-vertex:hover { 

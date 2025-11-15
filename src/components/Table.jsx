@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 
-function Table({ number, tableObj, onClick }) {
+function Table({ number, tableObj, onClick, setPosList }) {
   const [offset, setOffSet] = useState({ x: 0, y: 0 })
   // const [tableState, setTableState] = useState(tableObj)
   const styles = useRef(null)
   const startRef = useRef({ x: 0, y: 0 })
   const mouseRef = useRef({ x: 0, y: 0 })
   const [flip, setFlip] = useState(false)
-
+  console.log(`${setPosList}`)
   // dragStart, dragEnd and the useEffect between are 
   // what handle the drag and drop functionality
   const dragStart = (event) => {
@@ -39,16 +39,13 @@ function Table({ number, tableObj, onClick }) {
     }))
   }
 
-  // TODO:: Move this function to the App component
-  //          and change it to delete and remake table w/ 
-  //          length and width swapped
   const handleDoubleClick = () => {
     if(tableObj.shape === 'rectangle') {  
       const newWidth = styles.current.height
       const newHeight = styles.current.width
       styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number }px`,
+      top: `${offset.y + 100 * number}px`,
       left: `${offset.x + 100 * number}px`,
       height: newHeight,
       width: newWidth,
@@ -63,39 +60,35 @@ function Table({ number, tableObj, onClick }) {
   const buildCircle = () => {
     styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number + Math.floor(number/12)*20}px`,
+      top: `${offset.y + 100 * number}px`,
       left: `${offset.x + 100 * number}px`,
       height: `${tableObj.diameter}px`,
       width: `${tableObj.diameter}px`,
       lineHeight: `${tableObj.diameter}px`,
     }
-    console.log(Math.floor(number/12)*20)
-
+    
     return styles
   }
   const buildLong = () => {
     styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number + Math.floor(number/12)*20}px`,
+      top: `${offset.y + 100 * number}px`,
       left: `${offset.x + 100 * number}px`,
       height: `${tableObj.length}px`,
       width: `${tableObj.width}px`,
       lineHeight: `${tableObj.width}px`,
     }
-    console.log(Math.floor(number/12)*20)
     return styles
   }
   const buildSquare = () => {
     styles.current = {
       position: "absolute",
-      top: `${offset.y + 100 * number + Math.floor(number/12)*20}px`,
+      top: `${offset.y + 100 * number}px`,
       left: `${offset.x + 100 * number}px`,
       height: `${tableObj.side}px`,
       width: `${tableObj.side}px`,
       lineHeight: `${tableObj.side}px`,
     }
-    console.log(Math.floor(number/12)*20)
-    
     return styles
   }
 

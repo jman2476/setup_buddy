@@ -8,6 +8,7 @@ function Boundary({ children }) {
     const handleEditButton = () => {
         editBoundRef.current = !editBoundRef.current
         console.log(editBoundRef.current)
+        console.log(document.getElementById('boundary')?.getBoundingClientRect())
     }
 
     const handleResetButton = () => {
@@ -19,11 +20,13 @@ function Boundary({ children }) {
     const handleSetBound = (event) => {
         try {
             console.log('handle set boundary')
+            const divRect = document.getElementById('boundary')?.getBoundingClientRect()
+            console.log('divRect', divRect)
             if (editBoundRef.current) {
                 console.log('select point for boundary')
                 const mousePosition = {
-                    x: event.clientX - 158,
-                    y: event.clientY - 109
+                    x: event.clientX - divRect.x,
+                    y: event.clientY - divRect.y
                 }
                 console.log(mousePosition, 'click')
                 pointCounter.current++
@@ -52,7 +55,7 @@ function Boundary({ children }) {
                         left: `${positionObj.x}px`
                     }}
                     className="boundary-vertex">
-                    {'\u2022'}
+                    {/* {'\u2022'} */}
                 </div>
             </>
         )
@@ -87,7 +90,8 @@ function Boundary({ children }) {
             <div
                 onClick={e => handleSetBound(e)}
                 className="boundary"
-            > {editBoundRef? 'Editable' : ''}
+                id="boundary"
+            > {editBoundRef ? 'Editable' : ''}
                 {pointList.map((obj, index) => {
                     console.log(obj, 'point obj')
                     return (
