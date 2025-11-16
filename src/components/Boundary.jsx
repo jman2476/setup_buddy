@@ -4,10 +4,12 @@ import { findCOM } from "../methods/collision"
 function Boundary({ children }) {
    const [pointList, setPointList] = useState([{ x: 0, y: 0 }])
    const editBoundRef = useRef(false)
+   const [boundaryToggle, setBoundaryToggle] = useState(false)
    const pointCounter = useRef(1)
 
    const handleEditButton = () => {
       editBoundRef.current = !editBoundRef.current
+      setBoundaryToggle(!boundaryToggle)
       console.log(editBoundRef.current)
       console.log(document.getElementById('boundary')?.getBoundingClientRect())
    }
