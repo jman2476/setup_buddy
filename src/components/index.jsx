@@ -3,7 +3,7 @@ import Table from "./Table";
 import Boundary from "./Boundary";
 
 export {
-    DataBox,
-    Table,
-    Boundary
+   DataBox,
+   Table,
+   Boundary
 }
