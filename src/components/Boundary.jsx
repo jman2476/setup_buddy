@@ -1,4 +1,5 @@
 import { useRef, useState } from "react"
+import { findCOM } from "../methods/collision"
 
 function Boundary({ children }) {
    const [pointList, setPointList] = useState([{ x: 0, y: 0 }])
@@ -44,13 +45,30 @@ function Boundary({ children }) {
          console.log(err)
       }
    }
-   console.log('Point List', pointList)
+
+   function COMPoint({ points }) {
+      const divRect = document.getElementById('boundary')?.getBoundingClientRect()
+      const vertices  = document.getElementsByClassName('boundary-vertex')
+      const [position, setPosition] = useState(findCOM(vertices,divRect))
+      console.log('COMPoint component', position)
+      return (
+         <>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: `${position[1]}px`,
+                  left: `${position[0]}px`
+               }}
+               className="center-point"></div>
+         </>
+      )
+   }
 
    // Can create points, but the offset is wrong
    // needs to be adjusted to account for the 
    // Boundary component position
    function BoundaryPoint({ positionObj }) {
-      console.log(positionObj, 'point position')
+      // console.log(positionObj, 'point position')
       return (
          <>
             <div
@@ -96,13 +114,14 @@ function Boundary({ children }) {
             id="boundary"
          > {editBoundRef ? 'Editable' : ''}
             {pointList.map((obj, index) => {
-               console.log(obj, 'point obj')
+               // console.log(obj, 'point obj')
                return (
                   <BoundaryPoint
                      positionObj={obj}
                      key={index + 'point'} />
                )
             })}
+            <COMPoint points={pointList}/>
             {children}
          </div>
       </>

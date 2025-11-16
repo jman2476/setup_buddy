@@ -1,49 +1,49 @@
 button {
-  color: mediumturquoise;
-  background-color:darkslateblue
+   color: mediumturquoise;
+   background-color: darkslateblue
 }
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+   max-width: 1280px;
+   margin: 0 auto;
+   padding: 2rem;
+   text-align: center;
 }
 
 #setup {
-  border-color: white;
-  border-style: double;
-  height: 90vh;
-  width: 90vw;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0 0 0;
+   border-color: white;
+   border-style: double;
+   height: 90vh;
+   width: 90vw;
+   display: flex;
+   flex-direction: column;
+   padding: 10px 0 0 0;
 }
 
 #setup-area {
-  background-color: rgb(209, 136, 39);
-  opacity: 80%;
-  width: 80%;
-  height: 80%;
-  align-self: center;
-  position: fixed;
+   background-color:rgb(170, 161, 126);
+   opacity: 80%;
+   width: 80%;
+   height: 80%;
+   align-self: center;
+   position: fixed;
 }
 
 #toolbar {
-  display: flex;
-  justify-content: space-between;
-  max-height: 50PX;
+   display: flex;
+   justify-content: space-between;
+   max-height: 50PX;
 }
 
 #databox {
-  align-items: flex-start;
-  /* padding: 0 3px; */
-  display: flex;
+   align-items: flex-start;
+   /* padding: 0 3px; */
+   display: flex;
 }
 
-#databox > * {
-  margin: 0 5px;
-  padding: 0 3px;
+#databox>* {
+   margin: 0 5px;
+   padding: 0 3px;
 }
 
 /* #boundary {
@@ -52,113 +52,124 @@ button {
 } */
 
 .boundary {
-  border: 1px solid springgreen ;
-  height: 400px;
-  width: 100%;
+   border: 1px solid springgreen;
+   height: 400px;
+   width: 100%;
 }
 
 .boundary-vertex {
-  color:midnightblue;
-  border: 1px solid yellow;
-  height: 2px;
-  width: 2px;
+   color: midnightblue;
+   border: 2px solid yellow;
+   height: 2px;
+   width: 2px;
+   background-color: yellow;
 }
 
-.boundary-vertex:hover { 
-  cursor: pointer;
-  color: lightcyan;
-  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt ) ;
+.boundary-vertex:hover {
+   cursor: pointer;
+   color: lightcyan;
+   filter: drop-shadow(lightseagreen -1px -1px 2pt) drop-shadow(seagreen 1px 1px 2pt);
+}
+
+.center-point {
+   border: 1px solid rgb(143, 0, 148);
+   height: 2px;
+   width: 2px;
+   background-color:fuchsia;
 }
 
 .title {
-  position:relative;
-  text-justify: left; 
+   position: relative;
+   text-justify: left;
 }
 
 .table-obj {
-  font-size: 200%;
-  border-color: slateblue;
-  border: 1px solid slateblue;
+   font-size: 200%;
+   border-color: slateblue;
+   border: 1px solid slateblue;
 }
 
 .table-obj:hover {
-  filter: drop-shadow(lightseagreen -1px -1px 2pt ) drop-shadow(seagreen 1px 1px 2pt ) ;
-  /* position: absolute; */
+   filter: drop-shadow(lightseagreen -1px -1px 2pt) drop-shadow(seagreen 1px 1px 2pt);
+   /* position: absolute; */
 }
 
 .circle {
-  background-color: bisque;
-  border-radius: 50%;
-  color: darkorchid
-} 
+   background-color: bisque;
+   border-radius: 50%;
+   color: darkorchid
+}
 
 .rectangle {
-  background-color: lightcoral;
-  border-radius: 0%;
-  text-wrap: wrap;
+   background-color: lightcoral;
+   border-radius: 0%;
+   text-wrap: wrap;
 }
 
 .square {
-  background-color: darkorchid;
-  color: bisque;
-  border-radius: 0%;
+   background-color: darkorchid;
+   color: bisque;
+   border-radius: 0%;
 }
 
 
 
 .input {
-  position: relative;
-  top: 0px;
-  left: 0px;
-  max-width: 40px;
+   position: relative;
+   top: 0px;
+   left: 0px;
+   max-width: 40px;
 }
 
 .input-button {
-  position: relative;
-  top: -30px;
-  left: 50px;
-  /* max-height: 20px;
+   position: relative;
+   top: -30px;
+   left: 50px;
+   /* max-height: 20px;
   max-width: 20px; */
-  font-size: 12pt;
-  /* font-display: ; */
+   font-size: 12pt;
+   /* font-display: ; */
 }
 
 .hidden {
-  display: none;
+   display: none;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+   height: 6em;
+   padding: 1.5em;
+   will-change: filter;
+   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+   from {
+      transform: rotate(0deg);
+   }
+
+   to {
+      transform: rotate(360deg);
+   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+   a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+   }
 }
 
 .card {
-  padding: 2em;
+   padding: 2em;
 }
 
 .read-the-docs {
-  color: #888;
+   color: #888;
 }
