@@ -1,8 +1,8 @@
 import { useRef, useState } from "react"
-import { findCOM } from "../methods/collision"
+import { findCOM, findCOMCoord } from "../methods/collision"
 
 function Boundary({ children }) {
-   const [pointList, setPointList] = useState([{ x: 0, y: 0 }])
+   const [pointList, setPointList] = useState([])
    const editBoundRef = useRef(false)
    const [boundaryToggle, setBoundaryToggle] = useState(false)
    const pointCounter = useRef(1)
@@ -16,7 +16,7 @@ function Boundary({ children }) {
 
    const handleResetButton = () => {
       try {
-         setPointList([{ x: 0, y: 0 }])
+         setPointList([])
          pointCounter.current = 1
 
       } catch (err) {
@@ -48,24 +48,39 @@ function Boundary({ children }) {
       }
    }
 
+   const handleTestBorder = () => {
+      try {
+         
+         const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
+         { x: 500, y: 500 }, { x: 100, y: 500 }
+         ]
+         setPointList(testVertices)
+      } catch (error) {
+         console.log('Test Boundary error', error)
+      }
+
+   }
+
    function COMPoint({ points }) {
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-      const vertices  = document.getElementsByClassName('boundary-vertex')
-      const [position, setPosition] = useState(findCOM(vertices,divRect))
+      const vertices = document.getElementsByClassName('boundary-vertex')
+      const position = useRef(findCOM(vertices, divRect))
       console.log('COMPoint component', position)
+      const center = findCOMCoord(points)
+      console.log('COMCoordPoint', center)
       return (
          <>
             <div
                style={{
                   position: 'absolute',
-                  top: `${position[1]}px`,
-                  left: `${position[0]}px`
+                  top: `${center.y}px`,
+                  left: `${center.x}px`
                }}
                className="center-point"></div>
          </>
       )
    }
-   
+
    // Can create points, but the offset is wrong
    // needs to be adjusted to account for the 
    // Boundary component position
@@ -89,7 +104,20 @@ function Boundary({ children }) {
          <button
             style={{
                position: 'absolute',
-               top: '-10px',
+               top: '-50px',
+               right: '-130px',
+               width: '160px',
+               height: '40px',
+               fontSize: '12pt'
+
+            }}
+            onClick={handleTestBorder}
+            className={''}
+         >Set test border</button>
+         <button
+            style={{
+               position: 'absolute',
+               top: '-5px',
                right: '-130px',
                width: '160px',
                height: '40px',
@@ -115,7 +143,7 @@ function Boundary({ children }) {
             className="boundary"
             id="boundary"
          > {editBoundRef ? 'Editable' : ''}
-            {pointList.map((obj, index) => {
+            {pointList?.map((obj, index) => {
                // console.log(obj, 'point obj')
                return (
                   <BoundaryPoint
@@ -123,7 +151,7 @@ function Boundary({ children }) {
                      key={index + 'point'} />
                )
             })}
-            <COMPoint points={pointList}/>
+            <COMPoint points={pointList} />
             {children}
          </div>
       </>

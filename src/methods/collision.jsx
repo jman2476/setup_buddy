@@ -19,10 +19,11 @@ function handleCollision(rectangle,) {
 
 }
 
+// For finding the Center of Mass based on already rendered components
 function findCOM (vertices,divOffset) {
    try {
       const vertexArr = [...vertices]
-      const length = vertices.length -1 // this accounts for initial origin point
+      const length = vertices.length
       let results = [0,0] // [x,y]
       const offset = [divOffset.x,divOffset.y]
       for (let item in vertexArr){
@@ -45,4 +46,24 @@ function findCOM (vertices,divOffset) {
    }
 }
 
-export { handleCollision, findCOM }
+// For finding the Center of Mass based on vertex coordinates
+function findCOMCoord (coordArray) {
+   try {
+      const center = coordArray.reduce((acc, curr)=>{
+         acc.x += curr.x
+         acc.y += curr.y
+         
+         return acc
+      },{x:0,y:0})
+      console.log('findComCoord center', center, coordArray.length)
+      center.x /= coordArray.length
+      center.y /= coordArray.length
+      console.log(center, 'findCOMCoord')
+      return center
+   } catch (error) {
+      console.log('findCOMCoord error', error)
+      return {x:0,y:0}
+   }
+}
+
+export { handleCollision, findCOM, findCOMCoord }
