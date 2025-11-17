@@ -19,6 +19,8 @@ function handleCollision(rectangle,) {
 
 }
 
+// Take vertices, and build array of line Objects
+
 // For finding the Center of Mass based on already rendered components
 function findCOM (vertices,divOffset) {
    try {
