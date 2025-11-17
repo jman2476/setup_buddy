@@ -41,6 +41,7 @@ function Table({ number, tableObj, onClick, setPosList }) {
       }))
    }
 
+   //Supposed to rotate the table, but currently not functional
    const handleDoubleClick = () => {
       if (tableObj.shape === 'rectangle') {
          const newWidth = styles.current.height

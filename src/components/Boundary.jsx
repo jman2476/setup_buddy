@@ -11,7 +11,7 @@ function Boundary({ children }) {
       editBoundRef.current = !editBoundRef.current
       setBoundaryToggle(!boundaryToggle)
       console.log(editBoundRef.current)
-      console.log(document.getElementById('boundary')?.getBoundingClientRect())
+
    }
 
    const handleResetButton = () => {
@@ -19,19 +19,16 @@ function Boundary({ children }) {
          setPointList([])
          pointCounter.current = 1
 
-      } catch (err) {
-         console.log(err)
+      } catch (error) {
+         console.log(error)
       }
    }
 
    // if editBoundRef===true, click field to create points
    const handleSetBound = (event) => {
       try {
-         console.log('handle set boundary')
          const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-         console.log('divRect', divRect)
          if (editBoundRef.current) {
-            console.log('select point for boundary')
             const mousePosition = {
                x: event.clientX - divRect.x,
                y: event.clientY - divRect.y
@@ -43,8 +40,8 @@ function Boundary({ children }) {
          } else {
             throw new Error('Boundary edit is toggled off')
          }
-      } catch (err) {
-         console.log(err)
+      } catch (error) {
+         console.log(error)
       }
    }
 
@@ -64,8 +61,8 @@ function Boundary({ children }) {
    function COMPoint({ points }) {
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
       const vertices = document.getElementsByClassName('boundary-vertex')
-      const position = useRef(findCOM(vertices, divRect))
-      console.log('COMPoint component', position)
+   // const position = useRef(findCOM(vertices, divRect))
+   // console.log('COMPoint component', position)
       const center = findCOMCoord(points)
       console.log('COMCoordPoint', center)
       return (

@@ -87,8 +87,8 @@ function App() {
          listRef.current[number] = <></>
          setTableList(listRef.current)
          return number
-      } catch (err) {
-         console.log(err)
+} catch (error) {
+         console.log(error)
       }
    }
 
@@ -123,9 +123,9 @@ function App() {
             arr.push(box)
          }
          setInputList(arr)
-      } catch (err) {
+      } catch (error) {
          console.log('No tables yet')
-         console.log('renderData error:', err)
+         console.log('renderData error:', error)
       }
    }
    console.log('App render')

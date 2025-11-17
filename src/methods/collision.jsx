@@ -5,7 +5,7 @@ function handleCollision(rectangle,offset) {
       const tables = document.getElementsByClassName('table-obj')
       const vertices = document.getElementsByClassName('boundary-vertex')
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-      console.log(vertices)
+      console.log('vertices, handleCollision',vertices)
       const centerOfMass = findCOM(vertices, divRect)
       console.log(centerOfMass, "COM")
       const lines = genBoundaryLine(vertices, centerOfMass)
@@ -51,6 +51,8 @@ function genBoundaryLine(vertices, center) {
             const direction = { x: center[0] - midpoint.x, y: center[1]- midpoint.y }
             console.log('line direction obj', direction, center, midpoint)
             resultLines[i] = new Line(pointA, pointB, direction)
+            // check getAngle function
+            getAngle(pointA,pointB)
          }
       }
       console.log('genBoundaryLine:',resultLines)
@@ -87,7 +89,9 @@ function rotateByAngle (point, theta) {
 // Get angle needed for rotation
 function getAngle(pointA, pointB) {
    try {
-      return (pointA.y - pointB.y) / (pointA.x - pointB.x)
+      const slope = (pointA.y - pointB.y) / (pointA.x - pointB.x)
+      console.log('getAngle, slope, angle', slope, Math.atan(slope))
+      return Math.atan(slope)  
    } catch (error) {
       console.log('getSlope error', error)
    }
@@ -134,7 +138,6 @@ function findCOMCoord(coordArray) {
 
          return acc
       }, { x: 0, y: 0 })
-      // console.log('findComCoord center', center, coordArray.length)
       center.x /= coordArray.length
       center.y /= coordArray.length
       // console.log(center, 'findCOMCoord')
