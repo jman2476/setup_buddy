@@ -2,7 +2,7 @@ import { useState, useContext, useRef } from 'react'
 import './App.css'
 import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
 import { DataBox, Table, Boundary } from './components'
-import { TablePositionContext } from './context/TablePositionContext'
+
 
 // TODO:: Add boundaries to the setup area
 //      - Make Boundary component
