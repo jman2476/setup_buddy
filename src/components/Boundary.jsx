@@ -65,7 +65,7 @@ function Boundary({ children }) {
          </>
       )
    }
-
+   
    // Can create points, but the offset is wrong
    // needs to be adjusted to account for the 
    // Boundary component position

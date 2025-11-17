@@ -22,7 +22,7 @@ function handleCollision(rectangle,) {
 function findCOM (vertices,divOffset) {
    try {
       const vertexArr = [...vertices]
-      const length = vertices.length -1 
+      const length = vertices.length -1 // this accounts for initial origin point
       let results = [0,0] // [x,y]
       const offset = [divOffset.x,divOffset.y]
       for (let item in vertexArr){
