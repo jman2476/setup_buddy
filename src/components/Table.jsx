@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { handleCollision } from '../methods/collision'
 
 
-function Table({ number, tableObj, onClick, setPosList }) {
+function Table({ number, tableObj, onClick, setPosList, circleCount, longCount, squareCount }) {
    const [offset, setOffSet] = useState({ x: 0, y: 0 })
    // const [tableState, setTableState] = useState(tableObj)
    const styles = useRef(null)
@@ -62,10 +62,11 @@ function Table({ number, tableObj, onClick, setPosList }) {
 
 
    const buildCircle = () => {
+      circleCount.current++
       styles.current = {
          position: "absolute",
-         top: `${offset.y + 100 * number}px`,
-         left: `${offset.x + 100 * number}px`,
+         top: `${offset.y - 5 * circleCount.current}px`,
+         left: `${offset.x - 5 * circleCount.current - 50}px`,
          height: `${tableObj.diameter}px`,
          width: `${tableObj.diameter}px`,
          lineHeight: `${tableObj.diameter}px`,
@@ -74,10 +75,11 @@ function Table({ number, tableObj, onClick, setPosList }) {
       return styles
    }
    const buildLong = () => {
+      longCount.current++
       styles.current = {
          position: "absolute",
-         top: `${offset.y + 100 * number}px`,
-         left: `${offset.x + 100 * number}px`,
+         top: `${offset.y - 5 * longCount.current + 200}px`,
+         left: `${offset.x - 5 * longCount.current - 20}px`,
          height: `${tableObj.length}px`,
          width: `${tableObj.width}px`,
          lineHeight: `${tableObj.width}px`,
@@ -85,10 +87,11 @@ function Table({ number, tableObj, onClick, setPosList }) {
       return styles
    }
    const buildSquare = () => {
+      squareCount.current++
       styles.current = {
          position: "absolute",
-         top: `${offset.y + 100 * number}px`,
-         left: `${offset.x + 100 * number}px`,
+         top: `${offset.y - 5 * squareCount.current + 400}px`,
+         left: `${offset.x - 5 * squareCount.current - 50}px`,
          height: `${tableObj.side}px`,
          width: `${tableObj.side}px`,
          lineHeight: `${tableObj.side}px`,

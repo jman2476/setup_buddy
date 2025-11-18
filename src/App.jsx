@@ -20,6 +20,8 @@ function App() {
    const keyRandomizer = useRef([])
    const listRef = useRef([])
    const [tablePosList, setTablePosList] = useState([])
+   const [cCount, lCount, sqCount] = [useRef(0), useRef(0), useRef(0)]
+
    // const TablePosContext = createContext(tablePosList)
 
    const setKeyRand = () => {
@@ -35,6 +37,9 @@ function App() {
          key={tableRef.current}
          onClick={e => tableSelect(e)}
          setPosList={setTablePosList}
+         squareCount={sqCount}
+         longCount={lCount}
+         circleCount={cCount}
       />
       setTableList(arr => [...arr, newTable])
       listRef.current.push(newTable)

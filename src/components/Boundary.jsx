@@ -139,7 +139,7 @@ function Boundary({ children }) {
             onClick={e => handleSetBound(e)}
             className="boundary"
             id="boundary"
-         > {editBoundRef ? 'Editable' : ''}
+         > {editBoundRef.current ? 'Editable' : ''}
             {pointList?.map((obj, index) => {
                // console.log(obj, 'point obj')
                return (

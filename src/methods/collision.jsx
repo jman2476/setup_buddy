@@ -52,7 +52,8 @@ function genBoundaryLine(vertices, center) {
             console.log('line direction obj', direction, center, midpoint)
             resultLines[i] = new Line(pointA, pointB, direction)
             // check getAngle function
-            getAngle(pointA,pointB)
+            const theta = getAngle(pointA,pointB)
+            console.log(rotateByAngle(pointA, theta), 'rotation output')
          }
       }
       console.log('genBoundaryLine:',resultLines)
@@ -78,8 +79,10 @@ function rotateByAngle (point, theta) {
    try {
       const pntArr = [point.x, point.y]
       const rotMatrix = [Math.cos(theta), Math.sin(theta)*-1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
-      const result = [pntArr[0]*rotMatrix[0] + pntArr[1]*rotMatrix[1], pntArr[0]*rotMatrix[3] + pntArr[1]*rotMatrix[4]]
+      const result = [pntArr[0]*rotMatrix[0] + pntArr[1]*rotMatrix[1], pntArr[0]*rotMatrix[2] + pntArr[1]*rotMatrix[3]]
       console.log(result, 'rotated point m')
+      console.log([point.x, point.y], 'initial point')
+      console.log('theta', theta)
       return result
    } catch (error) {
       console.error(error)
