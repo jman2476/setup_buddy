@@ -73,7 +73,7 @@ function Boundary({ children }) {
                   top: `${center.y}px`,
                   left: `${center.x}px`
                }}
-               className="center-point"></div>
+               className="center-point">y:{Math.floor(center.y)},x:{Math.floor(center.x)}</div>
          </>
       )
    }
@@ -91,7 +91,7 @@ function Boundary({ children }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="boundary-vertex"></div>
+               className="boundary-vertex">y:{Math.floor(positionObj.y)},x:{Math.floor(positionObj.x)}</div>
          </>
       )
    }

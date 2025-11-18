@@ -110,7 +110,7 @@ function Table({ number, tableObj, onClick, setPosList, circleCount, longCount, 
          buildSquare()
          break;
    }
-   console.log('Table render')
+   console.log('%cTable render', 'color: lightgreen')
    return (
       <>
          <div
