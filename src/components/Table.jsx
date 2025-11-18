@@ -60,7 +60,7 @@ function Table({ number, tableObj, onClick, setPosList, circleCount, longCount, 
       }
    }
 
-
+   // If Drag and Drop is screwed up, maybe start with these three functions
    const buildCircle = () => {
       circleCount.current++
       styles.current = {
