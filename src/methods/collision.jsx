@@ -14,7 +14,7 @@ function handleCollision(rectangle,) {
       for (let i = 0; i < vertices.length; i++) {
          const vertex = vertices.item(i).getBoundingClientRect()
          console.log('%cvertex', 'color:blue', vertex)
-         rotatedPoints.push(rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, 1.3, centerOfMass))
+         rotatedPoints.push(rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, Math.PI, centerOfMass))
       }
       console.log('%cRotated points', 'color:cyan', ...rotatedPoints)
       // return rotatedPoints
