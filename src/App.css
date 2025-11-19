@@ -65,6 +65,14 @@ button {
    background-color: yellow;
 }
 
+.rotation-vertex {
+   color: midnightblue;
+   border: 2px solid rgb(247, 0, 255);
+   height: 2px;
+   width: 2px;
+   background-color: rgb(247, 0, 255);
+}
+
 .boundary-vertex:hover {
    cursor: pointer;
    color: lightcyan;

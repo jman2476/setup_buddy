@@ -19,7 +19,7 @@ function App() {
    const [inputList, setInputList] = useState([])
    const keyRandomizer = useRef([])
    const listRef = useRef([])
-   const [tablePosList, setTablePosList] = useState([])
+   const [rotatedList, setRotatedList] = useState([])
    const [cCount, lCount, sqCount] = [useRef(0), useRef(0), useRef(0)]
 
    // const TablePosContext = createContext(tablePosList)
@@ -36,7 +36,7 @@ function App() {
          tableObj={newTableObj}
          key={tableRef.current}
          onClick={e => tableSelect(e)}
-         setPosList={setTablePosList}
+         setRotList={setRotatedList}
          squareCount={sqCount}
          longCount={lCount}
          circleCount={cCount}
@@ -71,7 +71,7 @@ function App() {
             tableObj={newTableObj}
             key={index}
             onClick={e => tableSelect(e)}
-            setPosList={setTablePosList}
+            setRotList={setRotatedList}
 
          />
          listRef.current[index] = updateTable
@@ -92,7 +92,7 @@ function App() {
          listRef.current[number] = <></>
          setTableList(listRef.current)
          return number
-} catch (error) {
+      } catch (error) {
          console.log(error)
       }
    }
@@ -133,7 +133,7 @@ function App() {
          console.log('renderData error:', error)
       }
    }
-   console.log('App render')
+   console.log('App render', rotatedList)
 
    return (
       <>
@@ -165,7 +165,7 @@ function App() {
          <div id="setup">
             <div id='setup-area' >
                {/* <TablePositionContext value={tablePosList}> */}
-               <Boundary>
+               <Boundary rotatedPoints={rotatedList}>
                   {tableList.length ? tableList : <div />}
                </Boundary>
                {/* </TablePositionContext> */}

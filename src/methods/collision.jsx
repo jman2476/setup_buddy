@@ -14,7 +14,8 @@ function handleCollision(rectangle,) {
             const element = tables.item(i)
             const table = element.getBoundingClientRect()
             const bool = collisionTableLine(table, centerOfMass, lines)
-            if (bool) continue
+            console.log('bool', bool)
+            if (bool) return bool
             else return new Error(`Table ${i} is out of bounds`)
          }
       }
@@ -26,54 +27,28 @@ function handleCollision(rectangle,) {
 // Take vertices, and build array of line Objects
 function genBoundaryLine(vertices, center, offset) {
    try {
-
       const length = vertices.length
       if (length <= 1) {
          throw new Error('Not enough vertices to draw lines between. Need 2 or more.')
       }
       const vertexArr = [...vertices].map((vertex) => vertex.getBoundingClientRect())
       const resultLines = new Array(length)
-      console.log('%cgenBound vertexArr', 'font-style: italic; color: cyan', JSON.parse(JSON.stringify(vertexArr)), offset)
-
       for (let i = 0; i < length; i++) {
          vertexArr[i].x -= offset.x
          vertexArr[i].y -= offset.y
       }
       for (let i = 0; i < length; i++) {
-         console.log('offset for lines', offset.x, offset.y, vertexArr[i])
          if (i === length - 1) {//if on last element, connect first and last point
             if (length === 2) continue //can only make one line, so already done
-            // console.log('last line')
-            // const pointA = vertexArr[i]
-            // const pointB = vertexArr[0]
-            // pointA.x -= offset.x
-            // pointB.x -= offset.x
-            // pointA.y -= offset.y
-            // pointB.y -= offset.y
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[0])
             const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
-            // console.log('line direction obj', direction)
-            resultLines[i] = new Line(pointA, pointB, direction)
+            resultLines[i] = new Line(vertexArr[i], vertexArr[0], direction)
          } else {
-            console.log('%cgenBound vertexArr', 'font-style: italic; color: cyan', JSON.parse(JSON.stringify(vertexArr)), offset)
-            const pointA = vertexArr[i]
-            const pointB = vertexArr[i + 1]
-            // pointA.x -= offset.x
-            // pointB.x -= offset.x
-            // pointA.y -= offset.y
-            // pointB.y -= offset.y
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[i + 1])
-            console.log('%cMidpoint', 'color: green', midpoint)
             const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
-            // console.log('line direction obj', direction, center, midpoint)
-            resultLines[i] = new Line(pointA, pointB, direction)
-            // check getAngle function
-            // const theta = getAngle(midpoint, { x: center[0], y: center[1] })
-            // console.log(rotateByAngle(pointA, theta), 'rotation output')
+            resultLines[i] = new Line(vertexArr[i], vertexArr[i + 1], direction)
          }
       }
-      console.log('%cgenBoundaryLine:', 'color: yellow', resultLines)
-      console.log('%cgenBound vertexArr', 'font-style: italic; color: cyan', JSON.parse(JSON.stringify(vertexArr)), offset)
       return resultLines
    } catch (error) {
       console.log('genBoundaryLine error', error)
@@ -89,19 +64,34 @@ function collisionTableLine(tableRect, center, lines) {
    // - Rotate about COM by setting COM to origin
    //    then rotate, then readjust points by COM coordinates
    console.log('%ccollisionTableLine props', 'color: red', tableRect, center, lines)
+   const numLines = lines.length
+   const rotatedList = []
+
+   for (let i = 0; i < numLines; i++) {
+      const angle = Math.atan(1 / lines[i].slope)
+      const direction = lines[i].direction
+      const tangle = lines[i].angle
+      const tableCorner = [tableRect.x - center[0], tableRect.y - center[1]]
+      const midpoint = lines[i].midpoint
+      console.log('%cCollision angle, direction, x/y', 'color: seagreen', angle, angle * 180 / Math.PI, direction, tableCorner, tangle, tangle * 180 / Math.PI)
+
+      const points = rotateByAngle(midpoint, tangle, center)
+      rotatedList.push({ x: points[0], y: points[1] })
+   }
+   return rotatedList
 }
 
 //Identical functions for checking vertical or horizontal collision
-function horizTLCollision () {
+function horizTLCollision() {
    try {
-      
+
    } catch (error) {
-   
+
       console.log('horizTLCol error:', error)
    }
 }
 
-function vertTLCollision () {
+function vertTLCollision() {
    try {
 
    } catch (error) {
@@ -110,14 +100,17 @@ function vertTLCollision () {
 }
 
 // takes a point object {x,y} and angle theta in radians
-function rotateByAngle(point, theta) {
+function rotateByAngle(point, theta, center) {
    try {
-      const pntArr = [point.x, point.y]
+      console.log(center)
+      const pntArr = [point.x - center[0], point.y - center[1]]
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
       const result = [pntArr[0] * rotMatrix[0] + pntArr[1] * rotMatrix[1], pntArr[0] * rotMatrix[2] + pntArr[1] * rotMatrix[3]]
-      // console.log('rotated point m', result)
-      // console.log('initial point', [point.x, point.y])
-      // console.log('theta', theta)
+      console.log('%crotated point', 'color:darkgoldenrod', [...result.map(a => Math.floor(a))])
+      console.log('%cinitial point', 'color:darkgoldenrod', [...pntArr.map(a => Math.floor(a))])
+      console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI)
+      result[0] += center[0]
+      result[1] += center[1]
       return result
    } catch (error) {
       console.error(error)
@@ -128,8 +121,8 @@ function rotateByAngle(point, theta) {
 function getAngle(pointA, pointB) {
    try {
       const slope = (pointA.y - pointB.y) / (pointA.x - pointB.x)
-      console.log('getAngle, slope, angle', slope, Math.atan(slope))
-      return Math.atan(slope)
+      console.log('getAngle, slope, angle', slope, Math.acot(slope), Math.atan(slope))
+      return Math.acot(slope)
    } catch (error) {
       console.log('getSlope error', error)
    }

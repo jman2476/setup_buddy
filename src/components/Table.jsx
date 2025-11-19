@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { handleCollision } from '../methods/collision'
 
 
-function Table({ number, tableObj, onClick, setPosList, circleCount, longCount, squareCount }) {
+function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount }) {
    const [offset, setOffSet] = useState({ x: 0, y: 0 })
    // const [tableState, setTableState] = useState(tableObj)
    const styles = useRef(null)
@@ -34,7 +34,7 @@ function Table({ number, tableObj, onClick, setPosList, circleCount, longCount, 
          x: event.clientX,
          y: event.clientY
       }
-      handleCollision()
+      setRotList(handleCollision())
       setOffSet(prev => ({
          x: prev.x + mouseRef.current.x - startRef.current.x,
          y: prev.y + mouseRef.current.y - startRef.current.y

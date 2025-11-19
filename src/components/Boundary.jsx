@@ -1,22 +1,23 @@
 import { useRef, useState } from "react"
 import { findCOM, findCOMCoord } from "../methods/collision"
 
-function Boundary({ children }) {
+function Boundary({ children, rotatedPoints }) {
    const [pointList, setPointList] = useState([])
    const editBoundRef = useRef(false)
    const [boundaryToggle, setBoundaryToggle] = useState(false)
    const pointCounter = useRef(1)
+   const [rotPointList, setRotPointList] = useState([...rotatedPoints])
 
    const handleEditButton = () => {
       editBoundRef.current = !editBoundRef.current
       setBoundaryToggle(!boundaryToggle)
       console.log(editBoundRef.current)
-
    }
 
    const handleResetButton = () => {
       try {
-         setPointList([])
+         // setPointList([])
+         setRotPointList([...rotatedPoints])
          pointCounter.current = 1
 
       } catch (error) {
@@ -47,22 +48,21 @@ function Boundary({ children }) {
 
    const handleTestBorder = () => {
       try {
-         
+         // const testVertices = [{ x: 400, y: 100 }, { x: 500, y: 400 },
+         // { x: 200, y: 500 }, { x: 100, y: 200 }]
          const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
-         { x: 500, y: 500 }, { x: 100, y: 500 }
-         ]
+         { x: 500, y: 500 }, { x: 100, y: 500 }]
          setPointList(testVertices)
       } catch (error) {
          console.log('Test Boundary error', error)
       }
-
    }
 
    function COMPoint({ points }) {
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
       const vertices = document.getElementsByClassName('boundary-vertex')
-   // const position = useRef(findCOM(vertices, divRect))
-   // console.log('COMPoint component', position)
+      // const position = useRef(findCOM(vertices, divRect))
+      // console.log('COMPoint component', position)
       const center = findCOMCoord(points)
       console.log('COMCoordPoint', center)
       return (
@@ -73,7 +73,7 @@ function Boundary({ children }) {
                   top: `${center.y}px`,
                   left: `${center.x}px`
                }}
-               className="center-point">y:{Math.floor(center.y)},x:{Math.floor(center.x)}</div>
+               className="center-point">y:{Math.floor(center.y)}, x:{Math.floor(center.x)}</div>
          </>
       )
    }
@@ -81,8 +81,8 @@ function Boundary({ children }) {
    // Can create points, but the offset is wrong
    // needs to be adjusted to account for the 
    // Boundary component position
-   function BoundaryPoint({ positionObj }) {
-      // console.log(positionObj, 'point position')
+   function BoundaryPoint({ positionObj, num }) {
+
       return (
          <>
             <div
@@ -91,11 +91,27 @@ function Boundary({ children }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="boundary-vertex">y:{Math.floor(positionObj.y)},x:{Math.floor(positionObj.x)}</div>
+               className="boundary-vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
          </>
       )
    }
 
+   function RotatedPoint({ positionObj, num }) {
+      console.log('position obj', positionObj)
+      return (
+         <>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
+               }}
+               className="rotation-vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
+         </>
+      )
+   }
+
+   console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
    return (
       <>
          <button
@@ -141,13 +157,22 @@ function Boundary({ children }) {
             id="boundary"
          > {editBoundRef.current ? 'Editable' : ''}
             {pointList?.map((obj, index) => {
-               // console.log(obj, 'point obj')
                return (
                   <BoundaryPoint
                      positionObj={obj}
-                     key={index + 'point'} />
+                     key={index + 'point'}
+                     num={index} />
                )
             })}
+            {rotPointList?.map((obj, index) => {
+               return (
+                  <RotatedPoint
+                     positionObj={obj}
+                     key={index + 'point'}
+                     num={index} />
+               )
+            })}
+
             <COMPoint points={pointList} />
             {children}
          </div>
