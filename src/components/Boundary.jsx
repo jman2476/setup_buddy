@@ -16,8 +16,8 @@ function Boundary({ children, rotatedPoints }) {
 
    const handleResetButton = () => {
       try {
-         // setPointList([])
-         setRotPointList([...rotatedPoints])
+         setPointList([])
+         setRotPointList([])
          pointCounter.current = 1
 
       } catch (error) {
@@ -25,6 +25,13 @@ function Boundary({ children, rotatedPoints }) {
       }
    }
 
+   const handleShowRotationButton = () => {
+      try {
+        setRotPointList([...rotatedPoints])
+      } catch (error) {
+         
+      }
+   }
    // if editBoundRef===true, click field to create points
    const handleSetBound = (event) => {
       try {
@@ -103,10 +110,10 @@ function Boundary({ children, rotatedPoints }) {
             <div
                style={{
                   position: 'absolute',
-                  top: `${positionObj[1]?? positionObj.y}px`,
-                  left: `${positionObj[0]?? positionObj.x}px`
+                  top: `${positionObj[1] ?? positionObj.y}px`,
+                  left: `${positionObj[0] ?? positionObj.x}px`
                }}
-               className="rotation-vertex">{num} y:{Math.floor(positionObj[1]?? positionObj.y)}, x:{Math.floor(positionObj[0]?? positionObj.x)}</div>
+               className="rotation-vertex">{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
          </>
       )
    }
@@ -143,7 +150,18 @@ function Boundary({ children, rotatedPoints }) {
          <button
             style={{
                position: 'absolute',
-               top: '40px',
+               top: '35px',
+               right: '-130px',
+               width: '170px',
+               height: '40px',
+               fontSize: '12pt'
+            }}
+            onClick={handleShowRotationButton}
+         >Show rotations</button>
+         <button
+            style={{
+               position: 'absolute',
+               top: '70px',
                right: '-130px',
                width: '170px',
                height: '40px',
