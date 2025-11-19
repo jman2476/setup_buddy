@@ -9,15 +9,26 @@ function handleCollision(rectangle,) {
       const centerOfMass = findCOM(vertices, divRect)
       console.log(centerOfMass, "COM")
       const lines = genBoundaryLine(vertices, centerOfMass, divRect)
+      // debugging rotation here
+      const rotatedPoints = []
+      for (let i = 0; i < vertices.length; i++) {
+         const vertex = vertices.item(i).getBoundingClientRect()
+         console.log('%cvertex', 'color:blue', vertex)
+         rotatedPoints.push(rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, 1.3, centerOfMass))
+      }
+      console.log('%cRotated points', 'color:cyan', ...rotatedPoints)
+      // return rotatedPoints
+
+
       if (tables.length > 0) {
-         for (let i = 0; i < tables.length; i++) {
-            const element = tables.item(i)
+         // for (let i = 0; i < tables.length; i++) {
+            const element = tables.item(0)
             const table = element.getBoundingClientRect()
             const bool = collisionTableLine(table, centerOfMass, lines)
             console.log('bool', bool)
-            if (bool) return bool
+            if (bool) return [...bool, ...rotatedPoints]
             else return new Error(`Table ${i} is out of bounds`)
-         }
+         // }
       }
    } catch (error) {
       console.log(error)
@@ -102,13 +113,20 @@ function vertTLCollision() {
 // takes a point object {x,y} and angle theta in radians
 function rotateByAngle(point, theta, center) {
    try {
-      console.log(center)
+      console.log(point, 'point')
       const pntArr = [point.x - center[0], point.y - center[1]]
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
       const result = [pntArr[0] * rotMatrix[0] + pntArr[1] * rotMatrix[1], pntArr[0] * rotMatrix[2] + pntArr[1] * rotMatrix[3]]
+
+      console.log('%ccos', 'color:cornflowerblue', rotMatrix[0], pntArr[0], pntArr[0] * rotMatrix[0])
+      console.log('%c-sin', 'color:cornflowerblue', rotMatrix[1], pntArr[1], pntArr[1] * rotMatrix[1])
+      console.log('%ccos', 'color:cornflowerblue', rotMatrix[2], pntArr[0] * rotMatrix[2])
+      console.log('%csin', 'color:cornflowerblue', rotMatrix[3], pntArr[1] * rotMatrix[3])
+
+
       console.log('%crotated point', 'color:darkgoldenrod', [...result.map(a => Math.floor(a))])
       console.log('%cinitial point', 'color:darkgoldenrod', [...pntArr.map(a => Math.floor(a))])
-      console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI)
+      console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI, center)
       result[0] += center[0]
       result[1] += center[1]
       return result

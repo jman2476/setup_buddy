@@ -10,7 +10,7 @@ class Line {
 
    setAngle() {
       if (this.slope > 0){
-         return Math.atan(this.slope)*-1
+         return Math.atan(this.slope)
       } else {
          return Math.atan(1/this.slope)
       }

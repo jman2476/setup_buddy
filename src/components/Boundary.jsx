@@ -103,10 +103,10 @@ function Boundary({ children, rotatedPoints }) {
             <div
                style={{
                   position: 'absolute',
-                  top: `${positionObj.y}px`,
-                  left: `${positionObj.x}px`
+                  top: `${positionObj[1]?? positionObj.y}px`,
+                  left: `${positionObj[0]?? positionObj.x}px`
                }}
-               className="rotation-vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
+               className="rotation-vertex">{num} y:{Math.floor(positionObj[1]?? positionObj.y)}, x:{Math.floor(positionObj[0]?? positionObj.x)}</div>
          </>
       )
    }
