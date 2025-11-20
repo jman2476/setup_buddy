@@ -11,28 +11,29 @@ function handleCollision(rectangle,) {
       const lines = genBoundaryLine(vertices, centerOfMass, divRect)
       // debugging rotation here
       const rotatedPoints = []
+      // currently only testing with one table
+      const table = tables.item(0).getBoundingClientRect()
       for (let i = 0; i < vertices.length; i++) {
          const vertex = vertices.item(i).getBoundingClientRect()
          const vAngle = getVertexAngle(vertex, centerOfMass, divRect)
-         console.log('%cCheck vertex angle func', 'color:cyan ', vAngle, vAngle*180/Math.PI)
-         console.log('%cvertex', 'color:lightblue',i, vertex)
          const rotVertex = rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, -1*vAngle, centerOfMass)
+         const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, divRect)
+         console.log('%cTable check: %s', 'color:coral;font-size:16pt', `${check}`)
          rotatedPoints.push(rotVertex)
       }
       console.log('%cRotated points', 'color:cyan', ...rotatedPoints)
       return rotatedPoints
 
-
-      if (tables.length > 0) {
-         // for (let i = 0; i < tables.length; i++) {
-         const element = tables.item(0)
-         const table = element.getBoundingClientRect()
-         const bool = collisionTableLine(table, centerOfMass, lines)
-         console.log('bool', bool)
-         if (bool) return [...bool, ...rotatedPoints]
-         else return new Error(`Table ${i} is out of bounds`)
-         // }
-      }
+      // if (tables.length > 0) {
+      //    // for (let i = 0; i < tables.length; i++) {
+      //    const element = tables.item(0)
+      //    const table = element.getBoundingClientRect()
+      //    const bool = collisionTableLine(table, centerOfMass, lines)
+      //    console.log('bool', bool)
+      //    if (bool) return [...bool, ...rotatedPoints]
+      //    else return new Error(`Table ${i} is out of bounds`)
+      //    // }
+      // }
    } catch (error) {
       console.log('handleCollision error',error)
    }
@@ -41,10 +42,8 @@ function handleCollision(rectangle,) {
 // Rewrite logic to rotate by vertex point
 
 // get angle between vertex and origin
-function getVertexAngle (point, center, offset) {
+function getVertexAngle (point, center, offset={x:0,y:0}) {
    try {
-      // console.log(point,center,offset)
-      const adjCenter = center
       const adjPoint = {x:point.x - offset.x, y:point.y - offset.y}
       console.log('gVA', [point.x,point.y], center, [offset.x, offset.y], [adjPoint.x, adjPoint.y])
       const ray = new Line(adjPoint, center)
@@ -55,7 +54,52 @@ function getVertexAngle (point, center, offset) {
    
 }
 
+// check if table is in interior of room
+// Has parameters:
+//    - tableDiv: un-rotated talbeDiv
+//    - rotVertex: pre-rotated vertex
+//    - angle: angle of rotation
+//    - line: un-rotated line obj
+//    - origin: point for rotation
+//    - offset: to adjust table during rotation
+function checkTable( rotVertex, angle, tableDiv, line, origin, offset) {
+   try{
+      const offsetTable = {
+         a: {x:tableDiv.top - offset.x, y: tableDiv.left - offset.y},
+         b: {x:tableDiv.top - offset.x, y: tableDiv.right - offset.y},
+         c: {x:tableDiv.bottom - offset.x, y: tableDiv.left - offset.y},
+         d: {x:tableDiv.bottom - offset.x, y: tableDiv.right - offset.y}
+      }
+      const rotTable = {}
+      for(const key in offsetTable){
+         console.log('key check table', key)
+         rotTable[key] = rotateByAngle(offsetTable[key], -1*angle, origin)
+         const line2Vertex = new Line(rotTable[key], rotVertex)
+         rotTable[key].slope = line2Vertex.slope
+         console.log('rottalbekey', rotTable[key])
+      }
+      const rotLinePoints = [rotateByAngle(line.pointA, angle, origin),rotateByAngle(line.pointB, angle, origin)]
+      const rotLine = new Line(rotLinePoints[0],rotLinePoints[1])
+      console.log('Offset table to rotated table comparison', offsetTable,rotTable)
 
+      console.log('Line to rotated line comparison', line, rotLinePoints, rotLine)
+
+      // check which side of origin rotVertex is on
+      if (rotVertex.x - origin.x > 0){ // vertex to the right of origin
+         for (const key in rotTable) {
+            if (rotTable[key].slope > rotLine.slope) return false
+         }
+      } else { // vertex is to the left of origin
+         for (const key in rotTable) {
+            if (rotTable[key].slope < rotLine.slope) return false
+         }
+      }
+      return true
+   } catch (error) {
+      console.log('checkTable error:', error)
+   }
+
+}
 
 
 
@@ -80,11 +124,11 @@ function genBoundaryLine(vertices, center, offset) {
             if (length === 2) continue //can only make one line, so already done
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[0])
             const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
-            resultLines[i] = new Line(vertexArr[i], vertexArr[0], direction)
+            resultLines[i] = new Line(vertexArr[i], vertexArr[0])
          } else {
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[i + 1])
             const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
-            resultLines[i] = new Line(vertexArr[i], vertexArr[i + 1], direction)
+            resultLines[i] = new Line(vertexArr[i], vertexArr[i + 1])
          }
       }
       return resultLines
@@ -142,7 +186,7 @@ function rotateByAngle(point, theta, center) {
       console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI, center)
       result[0] += center.x
       result[1] += center.y
-      return {x: result[0],y: result[1]}
+      return {x: Math.floor(result[0]),y: Math.floor(result[1])}
    } catch (error) {
       console.error(error)
    }

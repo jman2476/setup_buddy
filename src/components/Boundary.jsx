@@ -57,16 +57,16 @@ function Boundary({ children, rotatedPoints }) {
       try {
          // const testVertices = [{ x: 400, y: 100 }, { x: 500, y: 400 },
          // { x: 200, y: 500 }, { x: 100, y: 200 }]
-         const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
-         { x: 500, y: 500 }, { x: 100, y: 500 }]
+         // const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
+         // { x: 500, y: 500 }, { x: 100, y: 500 }]
          // const testVertices = [{ x: 100, y: 100 }, { x: 100, y: 500 },
          // { x: 100+200*Math.sqrt(3), y: 300 }]
          const c1 = Math.cos(Math.PI*2/5)*200
          const c2 = Math.cos(Math.PI/5)*200
          const s1 = Math.sin(Math.PI*2/5)*200
          const s2 = Math.sin(Math.PI*4/5)*200
-         const testPentagon = [{x: 300,y: 500},{x: s1+300,y: c1+300 },{x: s2+300,y: -1*c2+300},{x: -1*s2+300,y: -1*c2+300},{x: -1*s1+300,y: c1+300}]
-         setPointList(testPentagon)
+         const testVertices = [{x: 300,y: 500},{x: s1+300,y: c1+300 },{x: s2+300,y: -1*c2+300},{x: -1*s2+300,y: -1*c2+300},{x: -1*s1+300,y: c1+300}]
+         setPointList(testVertices)
       } catch (error) {
          console.log('Test Boundary error', error)
       }
