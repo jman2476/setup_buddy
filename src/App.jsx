@@ -72,6 +72,9 @@ function App() {
             key={index}
             onClick={e => tableSelect(e)}
             setRotList={setRotatedList}
+            squareCount={sqCount}
+            longCount={lCount}
+            circleCount={cCount}
 
          />
          listRef.current[index] = updateTable

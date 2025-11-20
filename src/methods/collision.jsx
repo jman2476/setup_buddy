@@ -13,27 +13,54 @@ function handleCollision(rectangle,) {
       const rotatedPoints = []
       for (let i = 0; i < vertices.length; i++) {
          const vertex = vertices.item(i).getBoundingClientRect()
-         console.log('%cvertex', 'color:blue', vertex)
-         rotatedPoints.push(rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, Math.PI, centerOfMass))
+         const vAngle = getVertexAngle(vertex, centerOfMass, divRect)
+         console.log('%cCheck vertex angle func', 'color:cyan ', vAngle, vAngle*180/Math.PI)
+         console.log('%cvertex', 'color:lightblue',i, vertex)
+         const rotVertex = rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, -1*vAngle, centerOfMass)
+         rotatedPoints.push(rotVertex)
       }
       console.log('%cRotated points', 'color:cyan', ...rotatedPoints)
-      // return rotatedPoints
+      return rotatedPoints
 
 
       if (tables.length > 0) {
          // for (let i = 0; i < tables.length; i++) {
-            const element = tables.item(0)
-            const table = element.getBoundingClientRect()
-            const bool = collisionTableLine(table, centerOfMass, lines)
-            console.log('bool', bool)
-            if (bool) return [...bool, ...rotatedPoints]
-            else return new Error(`Table ${i} is out of bounds`)
+         const element = tables.item(0)
+         const table = element.getBoundingClientRect()
+         const bool = collisionTableLine(table, centerOfMass, lines)
+         console.log('bool', bool)
+         if (bool) return [...bool, ...rotatedPoints]
+         else return new Error(`Table ${i} is out of bounds`)
          // }
       }
    } catch (error) {
-      console.log(error)
+      console.log('handleCollision error',error)
    }
 }
+
+// Rewrite logic to rotate by vertex point
+
+// get angle between vertex and origin
+function getVertexAngle (point, center, offset) {
+   try {
+      // console.log(point,center,offset)
+      const adjCenter = center
+      const adjPoint = {x:point.x - offset.x, y:point.y - offset.y}
+      console.log('gVA', [point.x,point.y], center, [offset.x, offset.y], [adjPoint.x, adjPoint.y])
+      const ray = new Line(adjPoint, center)
+      return ray.angle
+   } catch (error) {
+      console.log('getVertexAngle error',error)
+   }
+   
+}
+
+
+
+
+
+
+
 
 // Take vertices, and build array of line Objects
 function genBoundaryLine(vertices, center, offset) {
@@ -79,57 +106,43 @@ function collisionTableLine(tableRect, center, lines) {
    const rotatedList = []
 
    for (let i = 0; i < numLines; i++) {
+      console.log('%cMidpoints debug', 'color:salmon', i)
       const angle = Math.atan(1 / lines[i].slope)
       const direction = lines[i].direction
       const tangle = lines[i].angle
-      const tableCorner = [tableRect.x - center[0], tableRect.y - center[1]]
+      const tableCorner = [tableRect.x - center.x, tableRect.y - center.y]
       const midpoint = lines[i].midpoint
       console.log('%cCollision angle, direction, x/y', 'color: seagreen', angle, angle * 180 / Math.PI, direction, tableCorner, tangle, tangle * 180 / Math.PI)
 
-      const points = rotateByAngle(midpoint, tangle, center)
-      rotatedList.push({ x: points[0], y: points[1] })
+      const points = rotateByAngle(midpoint, angle, center)
+      // const points = rotateByAngle(midpoint, 0, center)
+      rotatedList.push(points)
    }
    return rotatedList
 }
 
-//Identical functions for checking vertical or horizontal collision
-function horizTLCollision() {
-   try {
 
-   } catch (error) {
-
-      console.log('horizTLCol error:', error)
-   }
-}
-
-function vertTLCollision() {
-   try {
-
-   } catch (error) {
-      console.log('vertTLCol error:', error)
-   }
-}
 
 // takes a point object {x,y} and angle theta in radians
 function rotateByAngle(point, theta, center) {
    try {
       console.log(point, 'point')
-      const pntArr = [point.x - center[0], point.y - center[1]]
+      const pntArr = [point.x - center.x, point.y - center.y]
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
       const result = [pntArr[0] * rotMatrix[0] + pntArr[1] * rotMatrix[1], pntArr[0] * rotMatrix[2] + pntArr[1] * rotMatrix[3]]
 
-      console.log('%ccos', 'color:cornflowerblue', rotMatrix[0], pntArr[0], pntArr[0] * rotMatrix[0])
-      console.log('%c-sin', 'color:cornflowerblue', rotMatrix[1], pntArr[1], pntArr[1] * rotMatrix[1])
-      console.log('%ccos', 'color:cornflowerblue', rotMatrix[2], pntArr[0] * rotMatrix[2])
-      console.log('%csin', 'color:cornflowerblue', rotMatrix[3], pntArr[1] * rotMatrix[3])
+      // console.log('%ccos', 'color:cornflowerblue', rotMatrix[0], pntArr[0], pntArr[0] * rotMatrix[0])
+      // console.log('%c-sin', 'color:cornflowerblue', rotMatrix[1], pntArr[1], pntArr[1] * rotMatrix[1])
+      // console.log('%ccos', 'color:cornflowerblue', rotMatrix[2], pntArr[0] * rotMatrix[2])
+      // console.log('%csin', 'color:cornflowerblue', rotMatrix[3], pntArr[1] * rotMatrix[3])
 
 
       console.log('%crotated point', 'color:darkgoldenrod', [...result.map(a => Math.floor(a))])
       console.log('%cinitial point', 'color:darkgoldenrod', [...pntArr.map(a => Math.floor(a))])
       console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI, center)
-      result[0] += center[0]
-      result[1] += center[1]
-      return result
+      result[0] += center.x
+      result[1] += center.y
+      return {x: result[0],y: result[1]}
    } catch (error) {
       console.error(error)
    }
@@ -171,10 +184,10 @@ function findCOM(vertices, divOffset) {
       results[0] /= length
       results[1] /= length
       // console.log(results, length)
-      return results
+      return {x:results[0],y:results[1]}
    } catch (error) {
       console.log('findCOM error:', error)
-      return [0, 0]
+      return {x:0,y:0}
    }
 }
 

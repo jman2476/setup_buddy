@@ -59,7 +59,14 @@ function Boundary({ children, rotatedPoints }) {
          // { x: 200, y: 500 }, { x: 100, y: 200 }]
          const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
          { x: 500, y: 500 }, { x: 100, y: 500 }]
-         setPointList(testVertices)
+         // const testVertices = [{ x: 100, y: 100 }, { x: 100, y: 500 },
+         // { x: 100+200*Math.sqrt(3), y: 300 }]
+         const c1 = Math.cos(Math.PI*2/5)*200
+         const c2 = Math.cos(Math.PI/5)*200
+         const s1 = Math.sin(Math.PI*2/5)*200
+         const s2 = Math.sin(Math.PI*4/5)*200
+         const testPentagon = [{x: 300,y: 500},{x: s1+300,y: c1+300 },{x: s2+300,y: -1*c2+300},{x: -1*s2+300,y: -1*c2+300},{x: -1*s1+300,y: c1+300}]
+         setPointList(testPentagon)
       } catch (error) {
          console.log('Test Boundary error', error)
       }
@@ -104,21 +111,23 @@ function Boundary({ children, rotatedPoints }) {
    }
 
    function RotatedPoint({ positionObj, num }) {
-      console.log('position obj', positionObj)
+      // console.log('position obj', positionObj)
       return (
          <>
             <div
                style={{
                   position: 'absolute',
-                  top: `${positionObj[1] ?? positionObj.y}px`,
-                  left: `${positionObj[0] ?? positionObj.x}px`
+                  // top: `${positionObj[1] ?? positionObj.y}px`,
+                  // left: `${positionObj[0] ?? positionObj.x}px`
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
                }}
-               className="rotation-vertex">{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+               className="rotation-vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
          </>
       )
    }
 
-   console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
+   // console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
    return (
       <>
          <button
