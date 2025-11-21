@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react'
+import { useState, useContext, useRef, useEffect } from 'react'
 import './App.css'
 import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
 import { DataBox, Table, Boundary } from './components'
@@ -21,8 +21,17 @@ function App() {
    const listRef = useRef([])
    const [rotatedList, setRotatedList] = useState([])
    const [cCount, lCount, sqCount] = [useRef(0), useRef(0), useRef(0)]
+   const [checks, setChecks] = useState([])
+   const checksList = useRef([])
 
    // const TablePosContext = createContext(tablePosList)
+
+   useEffect(()=>{
+      checksList.current = checks.map(val=>{
+                  if (val) return (<div style={{color: 'chartreuse'}}>{`${val}`}</div>)
+                  else return (<div style={{color: 'crimson'}}>{`${val}`}</div>)
+               })
+   })
 
    const setKeyRand = () => {
       keyRandomizer.current = Math.floor(Math.random() * 15)
@@ -37,6 +46,7 @@ function App() {
          key={tableRef.current}
          onClick={e => tableSelect(e)}
          setRotList={setRotatedList}
+         setChecks={setChecks}
          squareCount={sqCount}
          longCount={lCount}
          circleCount={cCount}
@@ -72,6 +82,7 @@ function App() {
             key={index}
             onClick={e => tableSelect(e)}
             setRotList={setRotatedList}
+            setChecks={setChecks}
             squareCount={sqCount}
             longCount={lCount}
             circleCount={cCount}
@@ -136,12 +147,19 @@ function App() {
          console.log('renderData error:', error)
       }
    }
-   console.log('App render', rotatedList)
+   console.log('App render', rotatedList, checks, checksList.current)
 
    return (
       <>
          <div id="toolbar">
             <h2 className='title'>Toolbar Time</h2>
+            <div id='check-vals'>
+               {/* {checksList.current} */}
+               {checks.map(val=>{
+                  if (val) return (<div style={{color: 'chartreuse'}}>{`${val}`}</div>)
+                  else return (<div style={{color: 'crimson'}}>{`${val}`}</div>)
+               })}
+            </div>
             <div id='databox' >
                <label htmlFor="">New table shape</label>
                <select name="newTableDrop" id="newTableDrop">

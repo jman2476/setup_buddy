@@ -46,6 +46,17 @@ button {
    padding: 0 3px;
 }
 
+#check-vals{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+}
+
+#check-vals>*{
+   padding: 0px 10px;
+   font-size: 120%;
+}
+
 /* #boundary {
   border: 1px solid springgreen ;
   background-color: aqua;
@@ -57,23 +68,42 @@ button {
    width: 100%;
 }
 
-.boundary-vertex {
-   color: midnightblue;
-   border: 2px solid yellow;
+.vertex {
    height: 2px;
    width: 2px;
+   color: midnightblue;
+}
+.boundary-vertex {
+
+   border: 2px solid yellow;
+
    background-color: yellow;
 }
 
 .rotation-vertex {
-   color: midnightblue;
+   /* color: midnightblue; */
    border: 2px solid rgb(247, 0, 255);
-   height: 2px;
-   width: 2px;
+   /* height: 2px;
+   width: 2px; */
    background-color: rgb(247, 0, 255);
 }
 
-.boundary-vertex:hover {
+.sqr-vertex {
+   /* color: midnightblue; */
+   border: 2px solid rgb(10, 230, 57);
+   /* height: 2px;
+   width: 2px; */
+   background-color: rgb(10, 230, 57);
+}
+.line-vertex {
+   /* color: midnightblue; */
+   border: 2px solid rgb(126, 32, 248);
+   /* height: 2px;
+   width: 2px; */
+   background-color: rgb(126, 32, 248);
+}
+ 
+.vertex:hover {
    cursor: pointer;
    color: lightcyan;
    filter: drop-shadow(lightseagreen -1px -1px 2pt) drop-shadow(seagreen 1px 1px 2pt);

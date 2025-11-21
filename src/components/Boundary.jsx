@@ -62,15 +62,14 @@ function Boundary({ children, rotatedPoints }) {
 
    const handleTestBorder = () => {
       try {
+         // Line
+         // const testVertices = [{x: 400, y: 500}, {x: 700, y: 500}]
          // Diamond
-         const testVertices = [{ x: 700, y: 400 }, { x: 800, y: 700 },
-         { x: 500, y: 800 }, { x: 400, y: 500 }]
+         // const testVertices = [{ x: 700, y: 400 }, { x: 800, y: 700 }, { x: 500, y: 800 }, { x: 400, y: 500 }]
          // Square
-         // const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
-         // { x: 500, y: 500 }, { x: 100, y: 500 }]
+         const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 }, { x: 500, y: 500 }, { x: 100, y: 500 }]
          // Triangle
-         // const testVertices = [{ x: 100, y: 100 }, { x: 100, y: 500 },
-         // { x: 100+200*Math.sqrt(3), y: 300 }]
+         // const testVertices = [{ x: 100, y: 100 }, { x: 100, y: 500 }, { x: 100+200*Math.sqrt(3), y: 300 }]
          // Pentagon
          const c1 = Math.cos(Math.PI*2/5)*200
          const c2 = Math.cos(Math.PI/5)*200
@@ -116,7 +115,7 @@ function Boundary({ children, rotatedPoints }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="boundary-vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
+               className="boundary-vertex vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
          </>
       )
    }
@@ -133,7 +132,7 @@ function Boundary({ children, rotatedPoints }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="rotation-vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+               className="rotation-vertex vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
          </>
       )
    }
@@ -150,7 +149,7 @@ function Boundary({ children, rotatedPoints }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="rotation-vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+               className="sqr-vertex vertex">__{num}</div>
          </>
       )
    }
@@ -167,7 +166,7 @@ function Boundary({ children, rotatedPoints }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="rotation-vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+               className="line-vertex vertex">__{num} </div>
          </>
       )
    }

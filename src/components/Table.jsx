@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { handleCollision } from '../methods/collision'
 
 
-function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount }) {
+function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks }) {
    const [offset, setOffSet] = useState({ x: 0, y: 0 })
    // const [tableState, setTableState] = useState(tableObj)
    const styles = useRef(null)
@@ -34,7 +34,15 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          x: event.clientX,
          y: event.clientY
       }
-      setRotList(handleCollision())
+      const dummyOffset = {
+         x: offset.x + mouseRef.current.x - startRef.current.x,
+         y: offset.y + mouseRef.current.y - startRef.current.y
+      }
+      console.log('%cdummyOffset', 'color:lightred', dummyOffset)
+      const [pointsArray, checkBools] = handleCollision(dummyOffset)
+      setChecks(checkBools)
+      console.log('%cShow bool checks:', 'color:dodgerblue', checkBools)
+      setRotList(pointsArray)
       setOffSet(prev => ({
          x: prev.x + mouseRef.current.x - startRef.current.x,
          y: prev.y + mouseRef.current.y - startRef.current.y
@@ -71,7 +79,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          width: `${tableObj.diameter}px`,
          lineHeight: `${tableObj.diameter}px`,
       }
-
+      console.log('%cTable coordinates', 'color:violet', styles.current.top, styles.current.left)
       return styles
    }
    const buildLong = () => {
