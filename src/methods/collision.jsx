@@ -63,7 +63,6 @@ function getVertexAngle(point, center, offset = { x: 0, y: 0 }) {
    } catch (error) {
       console.log('getVertexAngle error', error)
    }
-
 }
 
 // check if table is in interior of room
@@ -79,6 +78,7 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       console.log('line: ', line)
       console.log('tableCoords', tableCoords)
       const pointsArraySqr = []
+      const pointsArrayLine = []
       // const offsettable = {
       //    a: { x: tablediv.top - offset.x, y: tablediv.left - offset.y },
       //    b: { x: tablediv.top - offset.x, y: tablediv.right - offset.y },
@@ -91,10 +91,14 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
          c: { x: tableCoords.x + tableDiv.width, y: tableCoords.y + tableDiv.height },
          d: { x: tableCoords.x, y: tableCoords.y + tableDiv.height }
       }
+
+      // check that table is within main boundaries
       const rotTable = {}
       for (const key in offsetTable) {
-         // for (const key in offsetTable) {
-         // console.log('key check table', key)
+         console.log(offsetTable[key], 'ofsetTable')
+         if (checkOutsideWindow(offsetTable)) {
+            throw new Error('Table is too far outside of setup window')
+         }
          rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin)
          const line2Vertex = new Line(rotTable[key], rotVertex)
          rotTable[key].slope = line2Vertex.slope
@@ -105,8 +109,7 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
       console.log('Offset table to rotated table comparison', tableDiv, offsetTable, rotTable, pointsArraySqr)
       console.log('Line to rotated line comparison', line, rotLinePoints, rotLine)
-
-      const pointsArrayLine = [...rotLinePoints]
+      pointsArrayLine.push(...rotLinePoints)
       // check which side of origin rotVertex is on
       if (rotVertex.x - origin.x > 0) { // vertex to the right of origin
          for (const key in rotTable) {
@@ -120,11 +123,26 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       return [true, { sqr: pointsArraySqr, lin: pointsArrayLine }]
    } catch (error) {
       console.log('checkTable error:', error)
+      return [false, { sqr: [], lin: [] }]
    }
 
 }
 
-
+function checkOutsideWindow(pointsObj) {
+   const divRect = document.getElementById('boundary')?.getBoundingClientRect()
+   const [height, width] = [divRect.height, divRect.width]
+   for (const key in pointsObj) {
+      if (pointsObj[key].x < 0 ||
+         pointsObj[key].y < 0 ||
+         pointsObj[key].x > width ||
+         pointsObj[key].y > height
+      ) {
+         console.log("%cTABLE IS OUTSIDE BOUNDARIES", 'color:red;font-size:150%')
+         return true
+      }
+   }
+   return false
+}
 
 
 
@@ -191,8 +209,6 @@ function collisionTableLine(tableRect, center, lines) {
    return rotatedList
 }
 
-
-
 // takes a point object {x,y} and angle theta in radians
 function rotateByAngle(point, theta, center) {
    try {
@@ -217,22 +233,10 @@ function rotateByAngle(point, theta, center) {
    }
 }
 
-// Get angle needed for rotation
-function getAngle(pointA, pointB) {
-   try {
-      const slope = (pointA.y - pointB.y) / (pointA.x - pointB.x)
-      console.log('getAngle, slope, angle', slope, Math.acot(slope), Math.atan(slope))
-      return Math.acot(slope)
-   } catch (error) {
-      console.log('getSlope error', error)
-   }
-}
-
 function calcMidpoint(pointA, pointB) {
    // console.log('calc midpoint', pointA, pointB)
    return { x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2 }
 }
-
 
 // For finding the Center of Mass based on already rendered components
 function findCOM(vertices, divOffset) {

@@ -22,16 +22,6 @@ function App() {
    const [rotatedList, setRotatedList] = useState([])
    const [cCount, lCount, sqCount] = [useRef(0), useRef(0), useRef(0)]
    const [checks, setChecks] = useState([])
-   const checksList = useRef([])
-
-   // const TablePosContext = createContext(tablePosList)
-
-   useEffect(()=>{
-      checksList.current = checks.map(val=>{
-                  if (val) return (<div style={{color: 'chartreuse'}}>{`${val}`}</div>)
-                  else return (<div style={{color: 'crimson'}}>{`${val}`}</div>)
-               })
-   })
 
    const setKeyRand = () => {
       keyRandomizer.current = Math.floor(Math.random() * 15)
@@ -147,14 +137,14 @@ function App() {
          console.log('renderData error:', error)
       }
    }
-   console.log('App render', rotatedList, checks, checksList.current)
+   console.log('App render', rotatedList, checks)
 
    return (
       <>
          <div id="toolbar">
             <h2 className='title'>Toolbar Time</h2>
             <div id='check-vals'>
-               {/* {checksList.current} */}
+               
                {checks.map(val=>{
                   if (val) return (<div style={{color: 'chartreuse'}}>{`${val}`}</div>)
                   else return (<div style={{color: 'crimson'}}>{`${val}`}</div>)

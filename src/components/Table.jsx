@@ -3,7 +3,7 @@ import { handleCollision } from '../methods/collision'
 
 
 function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks }) {
-   const [offset, setOffSet] = useState({ x: 0, y: 0 })
+   const [offset, setOffSet] = useState({ x: -80, y: number*10 })
    // const [tableState, setTableState] = useState(tableObj)
    const styles = useRef(null)
    const startRef = useRef({ x: 0, y: 0 })
@@ -73,8 +73,9 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
       circleCount.current++
       styles.current = {
          position: "absolute",
-         top: `${offset.y - 5 * circleCount.current}px`,
-         left: `${offset.x - 5 * circleCount.current - 50}px`,
+
+         top: `${offset.y}px`,
+         left: `${offset.x}px`,
          height: `${tableObj.diameter}px`,
          width: `${tableObj.diameter}px`,
          lineHeight: `${tableObj.diameter}px`,
@@ -86,8 +87,8 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
       longCount.current++
       styles.current = {
          position: "absolute",
-         top: `${offset.y - 5 * longCount.current + 200}px`,
-         left: `${offset.x - 5 * longCount.current - 20}px`,
+         top: `${offset.y}px`,
+         left: `${offset.x}px`,
          height: `${tableObj.length}px`,
          width: `${tableObj.width}px`,
          lineHeight: `${tableObj.width}px`,
@@ -98,8 +99,8 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
       squareCount.current++
       styles.current = {
          position: "absolute",
-         top: `${offset.y - 5 * squareCount.current + 400}px`,
-         left: `${offset.x - 5 * squareCount.current - 50}px`,
+         top: `${offset.y}px`,
+         left: `${offset.x}px`,
          height: `${tableObj.side}px`,
          width: `${tableObj.side}px`,
          lineHeight: `${tableObj.side}px`,
