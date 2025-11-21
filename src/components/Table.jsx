@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { handleCollision } from '../methods/collision'
 
 
-function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks }) {
-   const [offset, setOffSet] = useState({ x: -80, y: number*10 })
+function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks  }) {
+   const [offset, setOffSet] = useState({ x: -80, y: number * 10 })
    // const [tableState, setTableState] = useState(tableObj)
    const styles = useRef(null)
    const startRef = useRef({ x: 0, y: 0 })
@@ -24,61 +24,52 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
             y: event.clientY
          }
       }
+      
       document.addEventListener('mousemove', handleMouse)
       return () => {
          document.removeEventListener('mousemove', handleMouse)
       }
    })
    const dragEnd = (event) => {
-      mouseRef.current = {
-         x: event.clientX,
-         y: event.clientY
+      try {
+         mouseRef.current = {
+            x: event.clientX,
+            y: event.clientY
+         }
+         const dummyOffset = {
+            x: offset.x + mouseRef.current.x - startRef.current.x,
+            y: offset.y + mouseRef.current.y - startRef.current.y
+         }
+         console.log('%cdummyOffset', 'color:lightred', dummyOffset)
+         const [pointsArray, checkBools] = handleCollision(dummyOffset)
+         setChecks(checkBools)
+         console.log('%cShow bool checks:', 'color:dodgerblue', checkBools)
+         if (checkBools.includes(false)) {
+            console.log('That cant happen')
+            throw new Error('%cCan\'t move that table there')
+         }
+         setRotList(pointsArray)
+         setOffSet(prev => ({
+            x: prev.x + mouseRef.current.x - startRef.current.x,
+            y: prev.y + mouseRef.current.y - startRef.current.y
+         }))
+      } catch (error) {
+         console.log(error)
       }
-      const dummyOffset = {
-         x: offset.x + mouseRef.current.x - startRef.current.x,
-         y: offset.y + mouseRef.current.y - startRef.current.y
-      }
-      console.log('%cdummyOffset', 'color:lightred', dummyOffset)
-      const [pointsArray, checkBools] = handleCollision(dummyOffset)
-      setChecks(checkBools)
-      console.log('%cShow bool checks:', 'color:dodgerblue', checkBools)
-      setRotList(pointsArray)
-      setOffSet(prev => ({
-         x: prev.x + mouseRef.current.x - startRef.current.x,
-         y: prev.y + mouseRef.current.y - startRef.current.y
-      }))
    }
 
-   //Supposed to rotate the table, but currently not functional
-   const handleDoubleClick = () => {
-      if (tableObj.shape === 'rectangle') {
-         const newWidth = styles.current.height
-         const newHeight = styles.current.width
-         styles.current = {
-            position: "absolute",
-            top: `${offset.y + 100 * number}px`,
-            left: `${offset.x + 100 * number}px`,
-            height: newHeight,
-            width: newWidth,
-            lineHeight: `${tableObj.width}px`,
-         }
-         console.log('double click', flip, styles.current)
-         console.log(newHeight, newWidth)
-         setFlip(!flip)
-      }
-   }
 
    // If Drag and Drop is screwed up, maybe start with these three functions
    const buildCircle = () => {
       circleCount.current++
       styles.current = {
          position: "absolute",
-
          top: `${offset.y}px`,
          left: `${offset.x}px`,
          height: `${tableObj.diameter}px`,
          width: `${tableObj.diameter}px`,
          lineHeight: `${tableObj.diameter}px`,
+         transform: `rotate(${tableObj.angle}deg)`
       }
       console.log('%cTable coordinates', 'color:violet', styles.current.top, styles.current.left)
       return styles
@@ -92,6 +83,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          height: `${tableObj.length}px`,
          width: `${tableObj.width}px`,
          lineHeight: `${tableObj.width}px`,
+         transform: `rotate(${tableObj.angle}deg)`
       }
       return styles
    }
@@ -104,6 +96,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          height: `${tableObj.side}px`,
          width: `${tableObj.side}px`,
          lineHeight: `${tableObj.side}px`,
+         transform: `rotate(${tableObj.angle}deg)`
       }
       return styles
    }
@@ -130,7 +123,6 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
             onDragEnd={dragEnd}
             style={styles.current}
             onClick={onClick}
-            onDoubleClick={handleDoubleClick}
          >{number}
          </div>
 

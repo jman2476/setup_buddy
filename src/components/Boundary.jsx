@@ -42,6 +42,8 @@ function Boundary({ children, rotatedPoints }) {
    // if editBoundRef===true, click field to create points
    const handleSetBound = (event) => {
       try {
+         console.log('%cClicked object', 'color:goldenrod', event.target.className)
+         if(!event.target.className.includes('boundary')) return
          const divRect = document.getElementById('boundary')?.getBoundingClientRect()
          if (editBoundRef.current) {
             const mousePosition = {

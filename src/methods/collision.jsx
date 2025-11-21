@@ -35,17 +35,6 @@ function handleCollision(tableCoord,) {
       console.log('%cRotated Square points', 'color:cyan', ...sqrPoints)
       console.log('%cRotated Line points', 'color:cyan', ...linPoints)
       return [[rotatedPoints, sqrPoints, linPoints], checkBools]
-
-      // if (tables.length > 0) {
-      //    // for (let i = 0; i < tables.length; i++) {
-      //    const element = tables.item(0)
-      //    const table = element.getBoundingClientRect()
-      //    const bool = collisionTableLine(table, centerOfMass, lines)
-      //    console.log('bool', bool)
-      //    if (bool) return [...bool, ...rotatedPoints]
-      //    else return new Error(`Table ${i} is out of bounds`)
-      //    // }
-      // }
    } catch (error) {
       console.log('handleCollision error', error)
    }
@@ -79,45 +68,52 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       console.log('tableCoords', tableCoords)
       const pointsArraySqr = []
       const pointsArrayLine = []
-      // const offsettable = {
-      //    a: { x: tablediv.top - offset.x, y: tablediv.left - offset.y },
-      //    b: { x: tablediv.top - offset.x, y: tablediv.right - offset.y },
-      //    c: { x: tablediv.bottom - offset.x, y: tablediv.left - offset.y },
-      //    d: { x: tablediv.bottom - offset.x, y: tablediv.right - offset.y }
-      // }
       const offsetTable = {
-         a: { x: tableCoords.x, y: tableCoords.y },
-         b: { x: tableCoords.x + tableDiv.width, y: tableCoords.y },
-         c: { x: tableCoords.x + tableDiv.width, y: tableCoords.y + tableDiv.height },
-         d: { x: tableCoords.x, y: tableCoords.y + tableDiv.height }
+         a: { 
+            x: tableCoords.x,
+            y: tableCoords.y },
+         b: { 
+            x: tableCoords.x + tableDiv.width, 
+            y: tableCoords.y },
+         c: {
+            x: tableCoords.x + tableDiv.width, 
+            y: tableCoords.y + tableDiv.height },
+         d: { 
+            x: tableCoords.x, 
+            y: tableCoords.y + tableDiv.height }
       }
 
       // check that table is within main boundaries
       const rotTable = {}
       for (const key in offsetTable) {
-         console.log(offsetTable[key], 'ofsetTable')
          if (checkOutsideWindow(offsetTable)) {
             throw new Error('Table is too far outside of setup window')
          }
          rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin)
          const line2Vertex = new Line(rotTable[key], rotVertex)
          rotTable[key].slope = line2Vertex.slope
-         // console.log('rottalbekey', rotTable[key])
-         pointsArraySqr.push({ x: rotTable[key].x, y: rotTable[key].y })
+         pointsArraySqr.push({ 
+            x: rotTable[key].x, 
+            y: rotTable[key].y })
       }
-      const rotLinePoints = [rotateByAngle(line?.pointA, angle, origin), rotateByAngle(line.pointB, angle, origin)]
+      const rotLinePoints = [rotateByAngle(line?.pointA, angle, origin),
+          rotateByAngle(line.pointB, angle, origin)]
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
-      console.log('Offset table to rotated table comparison', tableDiv, offsetTable, rotTable, pointsArraySqr)
-      console.log('Line to rotated line comparison', line, rotLinePoints, rotLine)
+      console.log('Offset table to rotated table comparison',
+         tableDiv, offsetTable, rotTable)
+      console.log('Line to rotated line comparison',
+         line, rotLine)
       pointsArrayLine.push(...rotLinePoints)
       // check which side of origin rotVertex is on
       if (rotVertex.x - origin.x > 0) { // vertex to the right of origin
          for (const key in rotTable) {
-            if (rotTable[key].slope > rotLine.slope) return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]
+            if (rotTable[key].slope > rotLine.slope) {
+               return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]}
          }
       } else { // vertex is to the left of origin
          for (const key in rotTable) {
-            if (rotTable[key].slope > rotLine.slope) return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]
+            if (rotTable[key].slope > rotLine.slope) {
+               return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]}
          }
       }
       return [true, { sqr: pointsArraySqr, lin: pointsArrayLine }]
@@ -253,10 +249,10 @@ function findCOM(vertices, divOffset) {
          results[0] -= offset[0]
          results[1] -= offset[1]
       }
-      // console.log(results)
+
       results[0] /= length
       results[1] /= length
-      // console.log(results, length)
+      
       return { x: results[0], y: results[1] }
    } catch (error) {
       console.log('findCOM error:', error)

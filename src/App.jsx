@@ -30,6 +30,7 @@ function App() {
    const tableMaker = (event) => {
       const newShape = event.target.previousElementSibling.value
       const newTableObj = TableCon.make(newShape)
+      console.log('%cCheck newTableObj', 'color:springgreen', newTableObj)
       const newTable = <Table
          number={tableRef.current}
          tableObj={newTableObj}
@@ -46,7 +47,6 @@ function App() {
       tableRef.current++
       setFocusTable(newTable)
    }
-
 
    const tableSelect = (e) => {
       const index = e.target.innerText
@@ -65,6 +65,8 @@ function App() {
             newVals.push(element[0].value)
          }
          const newTableObj = TableCon.make(...newVals)
+         console.log('%cCheck newVals', 'color:springgreen', newVals)
+         console.log('%cCheck newTableObj', 'color:springgreen', newTableObj)
          const index = tableDelete()
          const updateTable = <Table
             number={index}
@@ -76,7 +78,6 @@ function App() {
             squareCount={sqCount}
             longCount={lCount}
             circleCount={cCount}
-
          />
          listRef.current[index] = updateTable
          setTableList([...listRef.current])
@@ -86,6 +87,14 @@ function App() {
       }
    }
 
+   const tableRotate = (e) => {
+      try {
+         // e.preventDefault()
+         console.log('%cTable rotate event', 'color:orange', e)
+      } catch (error) {
+         console.log('%cTable rotate error', 'color:yellow', error)
+      }
+   }
    // currently deletes a table by setting its 
    // array[index] to an empty div.
    // NOTE: Do not create a new table with the same key
@@ -144,10 +153,10 @@ function App() {
          <div id="toolbar">
             <h2 className='title'>Toolbar Time</h2>
             <div id='check-vals'>
-               
-               {checks.map(val=>{
-                  if (val) return (<div style={{color: 'chartreuse'}}>{`${val}`}</div>)
-                  else return (<div style={{color: 'crimson'}}>{`${val}`}</div>)
+
+               {checks.map(val => {
+                  if (val) return (<div style={{ color: 'chartreuse' }}>{`${val}`}</div>)
+                  else return (<div style={{ color: 'crimson' }}>{`${val}`}</div>)
                })}
             </div>
             <div id='databox' >
