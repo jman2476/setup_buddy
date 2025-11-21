@@ -6,8 +6,6 @@ class Line {
       this.midpoint = { x: (this.pointA.x + this.pointB.x) / 2, y: (this.pointA.y + this.pointB.y) / 2 }
       this.angle = this.setAngle()
       this.length = this.getLength()
-
-      console.log('Line length', this.length)
    }
 
    getLength() {

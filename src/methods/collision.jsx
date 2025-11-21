@@ -5,12 +5,14 @@ function handleCollision(rectangle,) {
       const tables = document.getElementsByClassName('table-obj')
       const vertices = document.getElementsByClassName('boundary-vertex')
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-      console.log('vertices, handleCollision', vertices)
+      // console.log('vertices, handleCollision', vertices)
       const centerOfMass = findCOM(vertices, divRect)
-      console.log(centerOfMass, "COM")
+      // console.log(centerOfMass, "COM")
       const lines = genBoundaryLine(vertices, centerOfMass, divRect)
       // debugging rotation here
       const rotatedPoints = []
+      const sqrPoints = []
+      const linPoints = []
       // currently only testing with one table
       const table = tables.item(0).getBoundingClientRect()
       for (let i = 0; i < vertices.length; i++) {
@@ -18,11 +20,13 @@ function handleCollision(rectangle,) {
          const vAngle = getVertexAngle(vertex, centerOfMass, divRect)
          const rotVertex = rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, -1*vAngle, centerOfMass)
          const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, divRect)
-         console.log('%cTable check: %s', 'color:coral;font-size:16pt', `${check}`)
+         console.log('%cTable check: %s', 'color:coral;font-size:16pt', `${check[0]}`)
          rotatedPoints.push(rotVertex)
+         sqrPoints.push(...check[1].sqr)
+         linPoints.push(...check[1].lin)
       }
       console.log('%cRotated points', 'color:cyan', ...rotatedPoints)
-      return rotatedPoints
+      return [rotatedPoints,sqrPoints,linPoints]
 
       // if (tables.length > 0) {
       //    // for (let i = 0; i < tables.length; i++) {
@@ -64,6 +68,7 @@ function getVertexAngle (point, center, offset={x:0,y:0}) {
 //    - offset: to adjust table during rotation
 function checkTable( rotVertex, angle, tableDiv, line, origin, offset) {
    try{
+      const pointsArraySqr = []
       const offsetTable = {
          a: {x:tableDiv.top - offset.x, y: tableDiv.left - offset.y},
          b: {x:tableDiv.top - offset.x, y: tableDiv.right - offset.y},
@@ -72,29 +77,30 @@ function checkTable( rotVertex, angle, tableDiv, line, origin, offset) {
       }
       const rotTable = {}
       for(const key in offsetTable){
-         console.log('key check table', key)
+         // console.log('key check table', key)
          rotTable[key] = rotateByAngle(offsetTable[key], -1*angle, origin)
          const line2Vertex = new Line(rotTable[key], rotVertex)
          rotTable[key].slope = line2Vertex.slope
-         console.log('rottalbekey', rotTable[key])
+         // console.log('rottalbekey', rotTable[key])
+         pointsArraySqr.push({x: rotTable[key].x, y: rotTable[key].y})
       }
       const rotLinePoints = [rotateByAngle(line.pointA, angle, origin),rotateByAngle(line.pointB, angle, origin)]
       const rotLine = new Line(rotLinePoints[0],rotLinePoints[1])
-      console.log('Offset table to rotated table comparison', offsetTable,rotTable)
-
+      console.log('Offset table to rotated table comparison', pointsArraySqr, offsetTable,rotTable)
       console.log('Line to rotated line comparison', line, rotLinePoints, rotLine)
 
+      const pointsArrayLine = [...rotLinePoints]
       // check which side of origin rotVertex is on
       if (rotVertex.x - origin.x > 0){ // vertex to the right of origin
          for (const key in rotTable) {
-            if (rotTable[key].slope > rotLine.slope) return false
+            if (rotTable[key].slope > rotLine.slope) return [false,{sqr: pointsArraySqr, lin: pointsArrayLine}]
          }
       } else { // vertex is to the left of origin
          for (const key in rotTable) {
-            if (rotTable[key].slope < rotLine.slope) return false
+            if (rotTable[key].slope < rotLine.slope) return [false,{sqr: pointsArraySqr, lin: pointsArrayLine}]
          }
       }
-      return true
+      return [true,{sqr: pointsArraySqr, lin: pointsArrayLine}]
    } catch (error) {
       console.log('checkTable error:', error)
    }
@@ -170,7 +176,6 @@ function collisionTableLine(tableRect, center, lines) {
 // takes a point object {x,y} and angle theta in radians
 function rotateByAngle(point, theta, center) {
    try {
-      console.log(point, 'point')
       const pntArr = [point.x - center.x, point.y - center.y]
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
       const result = [pntArr[0] * rotMatrix[0] + pntArr[1] * rotMatrix[1], pntArr[0] * rotMatrix[2] + pntArr[1] * rotMatrix[3]]
@@ -181,9 +186,9 @@ function rotateByAngle(point, theta, center) {
       // console.log('%csin', 'color:cornflowerblue', rotMatrix[3], pntArr[1] * rotMatrix[3])
 
 
-      console.log('%crotated point', 'color:darkgoldenrod', [...result.map(a => Math.floor(a))])
-      console.log('%cinitial point', 'color:darkgoldenrod', [...pntArr.map(a => Math.floor(a))])
-      console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI, center)
+      // console.log('%crotated point', 'color:darkgoldenrod', [...result.map(a => Math.floor(a))])
+      // console.log('%cinitial point', 'color:darkgoldenrod', [...pntArr.map(a => Math.floor(a))])
+      // console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI, center)
       result[0] += center.x
       result[1] += center.y
       return {x: Math.floor(result[0]),y: Math.floor(result[1])}

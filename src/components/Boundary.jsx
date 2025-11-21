@@ -2,11 +2,14 @@ import { useRef, useState } from "react"
 import { findCOM, findCOMCoord } from "../methods/collision"
 
 function Boundary({ children, rotatedPoints }) {
+   
    const [pointList, setPointList] = useState([])
    const editBoundRef = useRef(false)
    const [boundaryToggle, setBoundaryToggle] = useState(false)
    const pointCounter = useRef(1)
-   const [rotPointList, setRotPointList] = useState([...rotatedPoints])
+   const [rotPointList, setRotPointList] = useState(rotatedPoints[0])
+   const [sqrPointList, setSqrPointList] = useState(rotatedPoints[1])
+   const [linPointList, setLinPointList] = useState(rotatedPoints[2])
 
    const handleEditButton = () => {
       editBoundRef.current = !editBoundRef.current
@@ -18,6 +21,8 @@ function Boundary({ children, rotatedPoints }) {
       try {
          setPointList([])
          setRotPointList([])
+         setSqrPointList([])
+         setLinPointList([])
          pointCounter.current = 1
 
       } catch (error) {
@@ -27,7 +32,9 @@ function Boundary({ children, rotatedPoints }) {
 
    const handleShowRotationButton = () => {
       try {
-        setRotPointList([...rotatedPoints])
+        setRotPointList(rotatedPoints[0])
+        setSqrPointList(rotatedPoints[1])
+        setLinPointList(rotatedPoints[2])
       } catch (error) {
          
       }
@@ -55,17 +62,21 @@ function Boundary({ children, rotatedPoints }) {
 
    const handleTestBorder = () => {
       try {
-         // const testVertices = [{ x: 400, y: 100 }, { x: 500, y: 400 },
-         // { x: 200, y: 500 }, { x: 100, y: 200 }]
+         // Diamond
+         const testVertices = [{ x: 700, y: 400 }, { x: 800, y: 700 },
+         { x: 500, y: 800 }, { x: 400, y: 500 }]
+         // Square
          // const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
          // { x: 500, y: 500 }, { x: 100, y: 500 }]
+         // Triangle
          // const testVertices = [{ x: 100, y: 100 }, { x: 100, y: 500 },
          // { x: 100+200*Math.sqrt(3), y: 300 }]
+         // Pentagon
          const c1 = Math.cos(Math.PI*2/5)*200
          const c2 = Math.cos(Math.PI/5)*200
          const s1 = Math.sin(Math.PI*2/5)*200
          const s2 = Math.sin(Math.PI*4/5)*200
-         const testVertices = [{x: 300,y: 500},{x: s1+300,y: c1+300 },{x: s2+300,y: -1*c2+300},{x: -1*s2+300,y: -1*c2+300},{x: -1*s1+300,y: c1+300}]
+         // const testVertices = [{x: 300,y: 500},{x: s1+300,y: c1+300 },{x: s2+300,y: -1*c2+300},{x: -1*s2+300,y: -1*c2+300},{x: -1*s1+300,y: c1+300}]
          setPointList(testVertices)
       } catch (error) {
          console.log('Test Boundary error', error)
@@ -127,6 +138,39 @@ function Boundary({ children, rotatedPoints }) {
       )
    }
 
+   function SquarePoint({ positionObj, num }) {
+      // console.log('position obj', positionObj)
+      return (
+         <>
+            <div
+               style={{
+                  position: 'absolute',
+                  // top: `${positionObj[1] ?? positionObj.y}px`,
+                  // left: `${positionObj[0] ?? positionObj.x}px`
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
+               }}
+               className="rotation-vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+         </>
+      )
+   }
+
+   function LinePoint({ positionObj, num }) {
+      // console.log('position obj', positionObj)
+      return (
+         <>
+            <div
+               style={{
+                  position: 'absolute',
+                  // top: `${positionObj[1] ?? positionObj.y}px`,
+                  // left: `${positionObj[0] ?? positionObj.x}px`
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
+               }}
+               className="rotation-vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+         </>
+      )
+   }
    // console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
    return (
       <>
@@ -199,7 +243,24 @@ function Boundary({ children, rotatedPoints }) {
                      num={index} />
                )
             })}
+            {sqrPointList?.map((obj, index) =>{
+               return (
+                  <SquarePoint
+                     positionObj={obj}
+                     key={index + 'sqr'}
+                     num={index} />
+               )
+            })}
+            {linPointList?.map((obj, index)=> {
+               return (
+                  <LinePoint
+                     positionObj={obj}
+                     key={index + 'line'}
+                     num={index} /> 
+               )
+            })
 
+            }
             <COMPoint points={pointList} />
             {children}
          </div>
