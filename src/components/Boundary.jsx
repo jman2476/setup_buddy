@@ -2,11 +2,14 @@ import { useRef, useState } from "react"
 import { findCOM, findCOMCoord } from "../methods/collision"
 
 function Boundary({ children, rotatedPoints }) {
+
    const [pointList, setPointList] = useState([])
    const editBoundRef = useRef(false)
    const [boundaryToggle, setBoundaryToggle] = useState(false)
    const pointCounter = useRef(1)
-   const [rotPointList, setRotPointList] = useState([...rotatedPoints])
+   const [rotPointList, setRotPointList] = useState(rotatedPoints[0])
+   const [sqrPointList, setSqrPointList] = useState(rotatedPoints[1])
+   const [linPointList, setLinPointList] = useState(rotatedPoints[2])
 
    const handleEditButton = () => {
       editBoundRef.current = !editBoundRef.current
@@ -18,6 +21,8 @@ function Boundary({ children, rotatedPoints }) {
       try {
          setPointList([])
          setRotPointList([])
+         setSqrPointList([])
+         setLinPointList([])
          pointCounter.current = 1
 
       } catch (error) {
@@ -27,14 +32,19 @@ function Boundary({ children, rotatedPoints }) {
 
    const handleShowRotationButton = () => {
       try {
-        setRotPointList([...rotatedPoints])
+         setRotPointList(rotatedPoints[0])
+         setSqrPointList(rotatedPoints[1])
+         setLinPointList(rotatedPoints[2])
       } catch (error) {
-         
+
       }
    }
    // if editBoundRef===true, click field to create points
    const handleSetBound = (event) => {
       try {
+         console.log('%cClicked object', 'color:goldenrod', event.target.className)
+         if (!event.target.className.includes('boundary')
+            &&!event.target.className.includes('canvas')) return
          const divRect = document.getElementById('boundary')?.getBoundingClientRect()
          if (editBoundRef.current) {
             const mousePosition = {
@@ -55,10 +65,20 @@ function Boundary({ children, rotatedPoints }) {
 
    const handleTestBorder = () => {
       try {
-         // const testVertices = [{ x: 400, y: 100 }, { x: 500, y: 400 },
-         // { x: 200, y: 500 }, { x: 100, y: 200 }]
-         const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 },
-         { x: 500, y: 500 }, { x: 100, y: 500 }]
+         // Line
+         // const testVertices = [{x: 400, y: 500}, {x: 700, y: 500}]
+         // Diamond
+         // const testVertices = [{ x: 700-300, y: 400-300 }, { x: 800-300, y: 700-300 }, { x: 500-300, y: 800-300 }, { x: 400-300, y: 500-299 }]
+         // Square
+         // const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 }, { x: 500, y: 500 }, { x: 100, y: 500 }]
+         // Triangle
+         const testVertices = [{ x: 400, y: 100 }, { x: 400, y: 500 }, { x: 400+200*Math.sqrt(3), y: 300 }]
+         // Pentagon
+         const c1 = Math.cos(Math.PI * 2 / 5) * 200
+         const c2 = Math.cos(Math.PI / 5) * 200
+         const s1 = Math.sin(Math.PI * 2 / 5) * 200
+         const s2 = Math.sin(Math.PI * 4 / 5) * 200
+         // const testVertices = [{x: 300,y: 500},{x: s1+300,y: c1+300 },{x: s2+300,y: -1*c2+300},{x: -1*s2+300,y: -1*c2+300},{x: -1*s1+300,y: c1+300}]
          setPointList(testVertices)
       } catch (error) {
          console.log('Test Boundary error', error)
@@ -98,27 +118,56 @@ function Boundary({ children, rotatedPoints }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="boundary-vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
+               className="boundary-vertex vertex">{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
          </>
       )
    }
 
    function RotatedPoint({ positionObj, num }) {
-      console.log('position obj', positionObj)
+      // console.log('position obj', positionObj)
       return (
          <>
             <div
                style={{
                   position: 'absolute',
-                  top: `${positionObj[1] ?? positionObj.y}px`,
-                  left: `${positionObj[0] ?? positionObj.x}px`
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
                }}
-               className="rotation-vertex">{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+               className="rotation-vertex vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
          </>
       )
    }
 
-   console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
+   function SquarePoint({ positionObj, num }) {
+      // console.log('position obj', positionObj)
+      return (
+         <>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
+               }}
+               className="sqr-vertex vertex">__{num}</div>
+         </>
+      )
+   }
+
+   function LinePoint({ positionObj, num }) {
+      // console.log('position obj', positionObj)
+      return (
+         <>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: `${positionObj.y}px`,
+                  left: `${positionObj.x}px`
+               }}
+               className="line-vertex vertex">__{num} </div>
+         </>
+      )
+   }
+   // console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
    return (
       <>
          <button
@@ -173,7 +222,15 @@ function Boundary({ children, rotatedPoints }) {
             onClick={e => handleSetBound(e)}
             className="boundary"
             id="boundary"
-         > {editBoundRef.current ? 'Editable' : ''}
+            style={{
+               zIndex: -1
+            }}
+         >
+            <canvas id='canvas'
+               className="canvas"
+               height={600}
+               width={1140}></canvas>
+            {editBoundRef.current ? 'Editable' : ''}
             {pointList?.map((obj, index) => {
                return (
                   <BoundaryPoint
@@ -190,8 +247,78 @@ function Boundary({ children, rotatedPoints }) {
                      num={index} />
                )
             })}
-
-            <COMPoint points={pointList} />
+            {sqrPointList?.map((obj, index) => {
+               return (
+                  <SquarePoint
+                     positionObj={obj}
+                     key={index + 'sqr'}
+                     num={index} />
+               )
+            })}
+            {linPointList?.map((obj, index) => {
+               return (
+                  <LinePoint
+                     positionObj={obj}
+                     key={index + 'line'}
+                     num={index} />
+               )
+            })}
+            <COMPoint points={pointList}
+            />
+            <div
+               style={{
+                  position: 'absolute',
+                  top: '0px',
+                  left: '250px',
+                  color: 'ghostwhite'
+               }}
+               className="vertex">250
+            </div>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: '0px',
+                  left: '500px',
+                  color: 'ghostwhite'
+               }}
+               className="vertex">500
+            </div>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: '0px',
+                  left: '750px',
+                  color: 'ghostwhite'
+               }}
+               className="vertex">750
+            </div>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: '0px',
+                  left: '1000px',
+                  color: 'ghostwhite'
+               }}
+               className="vertex">1000
+            </div>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: '500px',
+                  left: '0px',
+                  color: 'ghostwhite'
+               }}
+               className="vertex">500
+            </div>
+            <div
+               style={{
+                  position: 'absolute',
+                  top: '250px',
+                  left: '0px',
+                  color: 'ghostwhite'
+               }}
+               className="vertex">250
+            </div>
             {children}
          </div>
       </>
