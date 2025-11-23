@@ -1,7 +1,7 @@
 {
   "name": "setup_buddy",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "event setup tool",
   "homepage": "https://github.com/jman2476/setup_buddy#readme",
   "bugs": {
