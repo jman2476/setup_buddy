@@ -1,14 +1,7 @@
 {
-   "compilerOptions": {
-      "outDir": "./built",
-      "allowJs": true,
-      "target": "es6",
-      "jsx": "react-jsx",
-      "noImplicitAny": true,
-      "noImplicitThis": true,
-      "strictNullChecks": false
-   },
-   "include": [
-      "./src/**/*"
-   ]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

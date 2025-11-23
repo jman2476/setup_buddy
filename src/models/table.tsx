@@ -1,6 +1,4 @@
 class TableCore {
-   shape: string
-   angle: number
 }
 
 class TableCon extends TableCore {
@@ -12,6 +10,8 @@ class TableCon extends TableCore {
 }
 
 class RoundTable extends TableCore {
+   shape: string
+   angle: number
    diameter: number
 
    constructor(shape: string, angle: number, diameter: number) {
@@ -24,6 +24,8 @@ class RoundTable extends TableCore {
 }
 
 class LongTable extends TableCore {
+   shape: string
+   angle: number
    length: number
    width: number
 
@@ -39,6 +41,8 @@ class LongTable extends TableCore {
 }
 
 class SquareTable extends TableCore {
+   shape: string
+   angle: number
    side: number
 
    constructor(shape: string, angle: number, side: number) {
