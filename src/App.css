@@ -31,8 +31,7 @@ button {
 
 #canvas {
    background-color: rgba(146, 132, 132, 0);
-   /* position: relative;
-   z-index: -100; */
+
 }
 
 #toolbar {
@@ -43,7 +42,6 @@ button {
 
 #databox {
    align-items: flex-start;
-   /* padding: 0 3px; */
    display: flex;
 }
 
@@ -63,11 +61,6 @@ button {
    font-size: 120%;
 }
 
-/* #boundary {
-  border: 1px solid springgreen ;
-  background-color: aqua;
-} */
-
 .boundary {
    border: 1px solid springgreen;
    height: 600px;
@@ -83,32 +76,22 @@ button {
 .boundary-vertex {
    z-index: 1;
    border: 2px solid yellow;
-
    background-color: yellow;
 }
 
 .rotation-vertex {
-   /* color: midnightblue; */
    border: 2px solid rgb(247, 0, 255);
-   /* height: 2px;
-   width: 2px; */
    background-color: rgb(247, 0, 255);
    z-index: 1;
 }
 
 .sqr-vertex {
-   /* color: midnightblue; */
    border: 2px solid rgb(10, 230, 57);
-   /* height: 2px;
-   width: 2px; */
    background-color: rgb(10, 230, 57);
    
 }
 .line-vertex {
-   /* color: midnightblue; */
    border: 2px solid rgb(126, 32, 248);
-   /* height: 2px;
-   width: 2px; */
    background-color: rgb(126, 32, 248);
 }
  
@@ -146,7 +129,6 @@ button {
 
 .table-obj:hover {
    filter: drop-shadow(lightseagreen -1px -1px 2pt) drop-shadow(seagreen 1px 1px 2pt);
-   /* position: absolute; */
 }
 
 .circle {
@@ -180,10 +162,7 @@ button {
    position: relative;
    top: -30px;
    left: 50px;
-   /* max-height: 20px;
-  max-width: 20px; */
    font-size: 12pt;
-   /* font-display: ; */
 }
 
 .hidden {

@@ -25,7 +25,6 @@ class Line {
       lineWriter.moveTo(this.pointA.x,this.pointA.y)
       lineWriter.lineTo(this.pointB.x,this.pointB.y)
       lineWriter.stroke()
-      console.log(`%cLine drawn from ${this.pointA.x},${this.pointA.y}to ${this.pointB.x},${this.pointB.y}`, `color: ${color}`)
    }
 }
 

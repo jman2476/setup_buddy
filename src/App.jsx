@@ -4,14 +4,6 @@ import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
 import { DataBox, Table, Boundary } from './components'
 
 
-// TODO:: Add boundaries to the setup area
-//      - Make Boundary component
-//        - Identify vertices in blueprint
-//        - Use these points for collision
-//        - Check Table position compared to points
-//        - Make consistent size independent of window size
-//          - Can scale to screen, but not stretch in any dimension
-
 function App() {
    const tableRef = useRef(0)
    const [tableList, setTableList] = useState([])
@@ -30,7 +22,6 @@ function App() {
    const tableMaker = (event) => {
       const newShape = event.target.previousElementSibling.value
       const newTableObj = TableCon.make(newShape)
-      console.log('%cCheck newTableObj', 'color:springgreen', newTableObj)
       const newTable = <Table
          number={tableRef.current}
          tableObj={newTableObj}
@@ -65,8 +56,6 @@ function App() {
             newVals.push(element[0].value)
          }
          const newTableObj = TableCon.make(...newVals)
-         console.log('%cCheck newVals', 'color:springgreen', newVals)
-         console.log('%cCheck newTableObj', 'color:springgreen', newTableObj)
          const index = tableDelete()
          const updateTable = <Table
             number={index}
@@ -87,14 +76,6 @@ function App() {
       }
    }
 
-   const tableRotate = (e) => {
-      try {
-         // e.preventDefault()
-         console.log('%cTable rotate event', 'color:orange', e)
-      } catch (error) {
-         console.log('%cTable rotate error', 'color:yellow', error)
-      }
-   }
    // currently deletes a table by setting its 
    // array[index] to an empty div.
    // NOTE: Do not create a new table with the same key
@@ -106,7 +87,7 @@ function App() {
          setTableList(listRef.current)
          return number
       } catch (error) {
-         console.log(error)
+         console.log('tableDelete error:',error)
       }
    }
 
@@ -146,7 +127,6 @@ function App() {
          console.log('renderData error:', error)
       }
    }
-   console.log('App render', rotatedList, checks)
 
    return (
       <>
@@ -187,14 +167,9 @@ function App() {
          </div>
          <div id="setup">
             <div id='setup-area' >
-               {/* <TablePositionContext value={tablePosList}> */}
                <Boundary rotatedPoints={rotatedList}>
                   {tableList.length ? tableList : <div />}
                </Boundary>
-
-
-
-               {/* </TablePositionContext> */}
             </div>
          </div>
       </>
