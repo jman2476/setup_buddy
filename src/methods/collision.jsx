@@ -1,6 +1,6 @@
 import { Line } from "../models"
 
-function handleCollision(tableCoord,) {
+function handleCollision(tableCoord,number) {
    try {
       console.log('handleCollision tableCoord', tableCoord)
       const tables = document.getElementsByClassName('table-obj')
@@ -9,6 +9,7 @@ function handleCollision(tableCoord,) {
       // console.log('vertices, handleCollision', vertices)
       const centerOfMass = findCOM(vertices, divRect)
       // console.log(centerOfMass, "COM")
+      resetCanvas()
       const lines = genBoundaryLine(vertices, centerOfMass, divRect)
       console.log('%cLines array', 'color:seagreen', lines)
       // debugging rotation here
@@ -16,8 +17,9 @@ function handleCollision(tableCoord,) {
       const sqrPoints = []
       const linPoints = []
       const checkBools = []
+
       // currently only testing with one table
-      const table = tables.item(0).getBoundingClientRect()
+      const table = tables.item(number).getBoundingClientRect()
       for (let i = 0; i < vertices.length; i++) {
          // for (let i = 0; i < 1; i++) {
          if (vertices.length === 2 && i === 1) break
@@ -91,28 +93,31 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
          }
          rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin)
          const line2Vertex = new Line(rotTable[key], rotVertex)
+         line2Vertex.renderToBoundary()
          rotTable[key].slope = line2Vertex.slope
          pointsArraySqr.push({ 
             x: rotTable[key].x, 
             y: rotTable[key].y })
       }
-      const rotLinePoints = [rotateByAngle(line?.pointA, angle, origin),
-          rotateByAngle(line.pointB, angle, origin)]
+      const rotLinePoints = [rotateByAngle(line?.pointA, -1* angle, origin),
+          rotateByAngle(line.pointB, -1* angle, origin)]
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
+      rotLine.renderToBoundary('purple')
       console.log('Offset table to rotated table comparison',
          tableDiv, offsetTable, rotTable)
       console.log('Line to rotated line comparison',
          line, rotLine)
       pointsArrayLine.push(...rotLinePoints)
+      
       // check which side of origin rotVertex is on
       if (rotVertex.x - origin.x > 0) { // vertex to the right of origin
          for (const key in rotTable) {
-            if (rotTable[key].slope > rotLine.slope) {
+            if (Math.abs(rotTable[key].slope) > Math.abs(rotLine.slope)) {
                return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]}
          }
       } else { // vertex is to the left of origin
          for (const key in rotTable) {
-            if (rotTable[key].slope > rotLine.slope) {
+            if (Math.abs(rotTable[key].slope) > Math.abs(rotLine.slope)) {
                return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]}
          }
       }
@@ -165,10 +170,12 @@ function genBoundaryLine(vertices, center, offset) {
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[0])
             const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
             resultLines[i] = new Line(vertexArr[i], vertexArr[0])
+            resultLines[i].renderToBoundary('blue')
          } else {
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[i + 1])
             const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
             resultLines[i] = new Line(vertexArr[i], vertexArr[i + 1])
+            resultLines[i].renderToBoundary('blue')
          }
       }
       return resultLines
@@ -234,6 +241,11 @@ function calcMidpoint(pointA, pointB) {
    return { x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2 }
 }
 
+function resetCanvas(){
+   const canvas = document.getElementById('canvas').getContext('2d')
+   canvas.reset()
+}
+
 // For finding the Center of Mass based on already rendered components
 function findCOM(vertices, divOffset) {
    try {
@@ -252,7 +264,7 @@ function findCOM(vertices, divOffset) {
 
       results[0] /= length
       results[1] /= length
-      
+
       return { x: results[0], y: results[1] }
    } catch (error) {
       console.log('findCOM error:', error)

@@ -15,6 +15,18 @@ class Line {
    setAngle() {
       return Math.atan(this.slope)
    }
+
+   renderToBoundary(color='green') {
+      const canvas = document.getElementById('canvas')
+      const lineWriter = canvas.getContext('2d')
+
+      lineWriter.beginPath()
+      lineWriter.strokeStyle = `${color}` 
+      lineWriter.moveTo(this.pointA.x,this.pointA.y)
+      lineWriter.lineTo(this.pointB.x,this.pointB.y)
+      lineWriter.stroke()
+      console.log(`%cLine drawn from ${this.pointA.x},${this.pointA.y}to ${this.pointB.x},${this.pointB.y}`, `color: ${color}`)
+   }
 }
 
 export default Line

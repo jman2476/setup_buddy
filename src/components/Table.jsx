@@ -4,7 +4,6 @@ import { handleCollision } from '../methods/collision'
 
 function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks  }) {
    const [offset, setOffSet] = useState({ x: -80, y: number * 10 })
-   // const [tableState, setTableState] = useState(tableObj)
    const styles = useRef(null)
    const startRef = useRef({ x: 0, y: 0 })
    const mouseRef = useRef({ x: 0, y: 0 })
@@ -41,23 +40,22 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
             y: offset.y + mouseRef.current.y - startRef.current.y
          }
          console.log('%cdummyOffset', 'color:lightred', dummyOffset)
-         const [pointsArray, checkBools] = handleCollision(dummyOffset)
+         const [pointsArray, checkBools] = handleCollision(dummyOffset,number)
          setChecks(checkBools)
          console.log('%cShow bool checks:', 'color:dodgerblue', checkBools)
-         if (checkBools.includes(false)) {
-            console.log('That cant happen')
-            throw new Error('%cCan\'t move that table there')
-         }
          setRotList(pointsArray)
+         if (checkBools.includes(false)) {
+            console.log('%cThat cant happen', 'color: mistyrose; background-color:hotpink')
+            throw new Error('Can\'t move that table there')
+         }
          setOffSet(prev => ({
             x: prev.x + mouseRef.current.x - startRef.current.x,
             y: prev.y + mouseRef.current.y - startRef.current.y
          }))
       } catch (error) {
-         console.log(error)
+         console.log(`%c${error}`, 'color:red')
       }
    }
-
 
    // If Drag and Drop is screwed up, maybe start with these three functions
    const buildCircle = () => {

@@ -29,6 +29,12 @@ button {
    position: fixed;
 }
 
+#canvas {
+   background-color: rgba(146, 132, 132, 0);
+   /* position: relative;
+   z-index: -100; */
+}
+
 #toolbar {
    display: flex;
    justify-content: space-between;
@@ -66,6 +72,7 @@ button {
    border: 1px solid springgreen;
    height: 600px;
    width: 100%;
+   z-index: -100;
 }
 
 .vertex {
@@ -74,7 +81,7 @@ button {
    color: midnightblue;
 }
 .boundary-vertex {
-
+   z-index: 1;
    border: 2px solid yellow;
 
    background-color: yellow;
@@ -86,6 +93,7 @@ button {
    /* height: 2px;
    width: 2px; */
    background-color: rgb(247, 0, 255);
+   z-index: 1;
 }
 
 .sqr-vertex {
