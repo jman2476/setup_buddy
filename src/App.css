@@ -128,6 +128,14 @@ button {
 .title {
    position: relative;
    text-justify: left;
+   top: -80px;
+   min-width: 300px;
+}
+
+.title>img {
+   position: relative;
+   left: 20px;
+   top: 40px;
 }
 
 .table-obj {
