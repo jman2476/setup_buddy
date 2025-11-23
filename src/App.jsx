@@ -151,7 +151,10 @@ function App() {
    return (
       <>
          <div id="toolbar">
-            <h2 className='title'>Toolbar Time</h2>
+            <h2 className='title'> Setup Buddy
+            <img src="./table.svg" alt="The glorious table of snacking" height={'80px'} width={'80px'} />
+            </h2>
+
             <div id='check-vals'>
 
                {checks.map(val => {
@@ -188,9 +191,9 @@ function App() {
                <Boundary rotatedPoints={rotatedList}>
                   {tableList.length ? tableList : <div />}
                </Boundary>
-               
-               
-               
+
+
+
                {/* </TablePositionContext> */}
             </div>
          </div>
