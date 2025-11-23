@@ -12,9 +12,12 @@ function Boundary({ children, rotatedPoints }) {
    const [linPointList, setLinPointList] = useState(rotatedPoints[2])
 
    const handleEditButton = () => {
-      editBoundRef.current = !editBoundRef.current
-      setBoundaryToggle(!boundaryToggle)
-      console.log(editBoundRef.current)
+      try {
+         editBoundRef.current = !editBoundRef.current
+         setBoundaryToggle(!boundaryToggle)
+      } catch (error) {
+         console.log(error)
+      }
    }
 
    const handleResetButton = () => {
@@ -24,7 +27,6 @@ function Boundary({ children, rotatedPoints }) {
          setSqrPointList([])
          setLinPointList([])
          pointCounter.current = 1
-
       } catch (error) {
          console.log(error)
       }
@@ -42,7 +44,6 @@ function Boundary({ children, rotatedPoints }) {
    // if editBoundRef===true, click field to create points
    const handleSetBound = (event) => {
       try {
-         console.log('%cClicked object', 'color:goldenrod', event.target.className)
          if (!event.target.className.includes('boundary')
             &&!event.target.className.includes('canvas')) return
          const divRect = document.getElementById('boundary')?.getBoundingClientRect()
@@ -51,10 +52,8 @@ function Boundary({ children, rotatedPoints }) {
                x: event.clientX - divRect.x,
                y: event.clientY - divRect.y
             }
-            console.log(mousePosition, 'click')
             pointCounter.current++
             setPointList(arr => [...arr, mousePosition])
-            // test to locate 0,0
          } else {
             throw new Error('Boundary edit is toggled off')
          }
@@ -70,9 +69,11 @@ function Boundary({ children, rotatedPoints }) {
          // Diamond
          // const testVertices = [{ x: 700-300, y: 400-300 }, { x: 800-300, y: 700-300 }, { x: 500-300, y: 800-300 }, { x: 400-300, y: 500-299 }]
          // Square
+         const testVertices = [{ x: 100, y: 100 }, { x: 800, y: 100 }, { x: 800, y: 300 }, { x: 100, y: 300 }]
+         // Square
          // const testVertices = [{ x: 100, y: 100 }, { x: 500, y: 100 }, { x: 500, y: 500 }, { x: 100, y: 500 }]
          // Triangle
-         const testVertices = [{ x: 400, y: 100 }, { x: 400, y: 500 }, { x: 400+200*Math.sqrt(3), y: 300 }]
+         // const testVertices = [{ x: 400, y: 100 }, { x: 400, y: 500 }, { x: 400+200*Math.sqrt(3), y: 300 }]
          // Pentagon
          const c1 = Math.cos(Math.PI * 2 / 5) * 200
          const c2 = Math.cos(Math.PI / 5) * 200
@@ -88,10 +89,7 @@ function Boundary({ children, rotatedPoints }) {
    function COMPoint({ points }) {
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
       const vertices = document.getElementsByClassName('boundary-vertex')
-      // const position = useRef(findCOM(vertices, divRect))
-      // console.log('COMPoint component', position)
       const center = findCOMCoord(points)
-      console.log('COMCoordPoint', center)
       return (
          <>
             <div
@@ -109,7 +107,6 @@ function Boundary({ children, rotatedPoints }) {
    // needs to be adjusted to account for the 
    // Boundary component position
    function BoundaryPoint({ positionObj, num }) {
-
       return (
          <>
             <div
@@ -124,7 +121,6 @@ function Boundary({ children, rotatedPoints }) {
    }
 
    function RotatedPoint({ positionObj, num }) {
-      // console.log('position obj', positionObj)
       return (
          <>
             <div
@@ -139,7 +135,6 @@ function Boundary({ children, rotatedPoints }) {
    }
 
    function SquarePoint({ positionObj, num }) {
-      // console.log('position obj', positionObj)
       return (
          <>
             <div
@@ -154,7 +149,6 @@ function Boundary({ children, rotatedPoints }) {
    }
 
    function LinePoint({ positionObj, num }) {
-      // console.log('position obj', positionObj)
       return (
          <>
             <div
@@ -167,7 +161,6 @@ function Boundary({ children, rotatedPoints }) {
          </>
       )
    }
-   // console.log('%cBoundary render', 'color:lightblue', rotatedPoints, rotPointList)
    return (
       <>
          <button

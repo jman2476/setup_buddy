@@ -16,19 +16,6 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          y: mouseRef.current.y
       }
    }
-   useEffect(() => {
-      const handleMouse = (event) => {
-         mouseRef.current = {
-            x: event.clientX,
-            y: event.clientY
-         }
-      }
-      
-      document.addEventListener('mousemove', handleMouse)
-      return () => {
-         document.removeEventListener('mousemove', handleMouse)
-      }
-   })
    const dragEnd = (event) => {
       try {
          mouseRef.current = {
@@ -39,23 +26,33 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
             x: offset.x + mouseRef.current.x - startRef.current.x,
             y: offset.y + mouseRef.current.y - startRef.current.y
          }
-         console.log('%cdummyOffset', 'color:lightred', dummyOffset)
          const [pointsArray, checkBools] = handleCollision(dummyOffset,number)
          setChecks(checkBools)
-         console.log('%cShow bool checks:', 'color:dodgerblue', checkBools)
          setRotList(pointsArray)
          if (checkBools.includes(false)) {
-            console.log('%cThat cant happen', 'color: mistyrose; background-color:hotpink')
-            throw new Error('Can\'t move that table there')
+            console.log('%c', '')
+            throw new Error('That can\'t happen. Can\'t move that table there')
          }
          setOffSet(prev => ({
             x: prev.x + mouseRef.current.x - startRef.current.x,
             y: prev.y + mouseRef.current.y - startRef.current.y
          }))
       } catch (error) {
-         console.log(`%c${error}`, 'color:red')
+         console.log(`%c${error}`, 'color: mistyrose; background-color:hotpink; border:11px dotted red;')
       }
    }
+   useEffect(() => {
+      const handleMouse = (event) => {
+         mouseRef.current = {
+            x: event.clientX,
+            y: event.clientY
+         }
+      }
+      document.addEventListener('mousemove', handleMouse)
+      return () => {
+         document.removeEventListener('mousemove', handleMouse)
+      }
+   })
 
    // If Drag and Drop is screwed up, maybe start with these three functions
    const buildCircle = () => {
@@ -69,7 +66,6 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          lineHeight: `${tableObj.diameter}px`,
          transform: `rotate(${tableObj.angle}deg)`
       }
-      console.log('%cTable coordinates', 'color:violet', styles.current.top, styles.current.left)
       return styles
    }
    const buildLong = () => {
@@ -110,7 +106,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          buildSquare()
          break;
    }
-   console.log('%cTable render', 'color: lightgreen;font-size:16px')
+   
    return (
       <>
          <div

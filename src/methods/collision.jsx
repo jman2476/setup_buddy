@@ -2,53 +2,40 @@ import { Line } from "../models"
 
 function handleCollision(tableCoord,number) {
    try {
-      console.log('handleCollision tableCoord', tableCoord)
       const tables = document.getElementsByClassName('table-obj')
       const vertices = document.getElementsByClassName('boundary-vertex')
       const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-      // console.log('vertices, handleCollision', vertices)
       const centerOfMass = findCOM(vertices, divRect)
-      // console.log(centerOfMass, "COM")
       resetCanvas()
       const lines = genBoundaryLine(vertices, centerOfMass, divRect)
-      console.log('%cLines array', 'color:seagreen', lines)
-      // debugging rotation here
       const rotatedPoints = []
       const sqrPoints = []
       const linPoints = []
       const checkBools = []
 
-      // currently only testing with one table
       const table = tables.item(number).getBoundingClientRect()
       for (let i = 0; i < vertices.length; i++) {
-         // for (let i = 0; i < 1; i++) {
          if (vertices.length === 2 && i === 1) break
          const vertex = vertices.item(i).getBoundingClientRect()
          const vAngle = getVertexAngle(vertex, centerOfMass, divRect)
          const rotVertex = rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, -1 * vAngle, centerOfMass)
          const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, divRect, tableCoord)
-         console.log('%cTable check: %s', 'color:coral;font-size:16pt', `${check[0]}`)
          rotatedPoints.push(rotVertex)
          sqrPoints.push(...check[1].sqr)
          linPoints.push(...check[1].lin)
          checkBools.push(check[0])
       }
-      console.log('%cRotated points', 'color:cyan', ...rotatedPoints)
-      console.log('%cRotated Square points', 'color:cyan', ...sqrPoints)
-      console.log('%cRotated Line points', 'color:cyan', ...linPoints)
       return [[rotatedPoints, sqrPoints, linPoints], checkBools]
    } catch (error) {
       console.log('handleCollision error', error)
    }
 }
 
-// Rewrite logic to rotate by vertex point
 
 // get angle between vertex and origin
 function getVertexAngle(point, center, offset = { x: 0, y: 0 }) {
    try {
       const adjPoint = { x: point.x - offset.x, y: point.y - offset.y }
-      console.log('gVA', [point.x, point.y], center, [offset.x, offset.y], [adjPoint.x, adjPoint.y])
       const ray = new Line(adjPoint, center)
       return ray.angle
    } catch (error) {
@@ -57,17 +44,8 @@ function getVertexAngle(point, center, offset = { x: 0, y: 0 }) {
 }
 
 // check if table is in interior of room
-// has parameters:
-//    - tablediv: un-rotated talbediv
-//    - rotvertex: pre-rotated vertex
-//    - angle: angle of rotation
-//    - line: un-rotated line obj
-//    - origin: point for rotation
-//    - offset: to adjust table during rotation
 function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoords) {
    try {
-      console.log('line: ', line)
-      console.log('tableCoords', tableCoords)
       const pointsArraySqr = []
       const pointsArrayLine = []
       const offsetTable = {
@@ -84,7 +62,6 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
             x: tableCoords.x, 
             y: tableCoords.y + tableDiv.height }
       }
-
       // check that table is within main boundaries
       const rotTable = {}
       for (const key in offsetTable) {
@@ -103,10 +80,6 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
           rotateByAngle(line.pointB, -1* angle, origin)]
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
       rotLine.renderToBoundary('purple')
-      console.log('Offset table to rotated table comparison',
-         tableDiv, offsetTable, rotTable)
-      console.log('Line to rotated line comparison',
-         line, rotLine)
       pointsArrayLine.push(...rotLinePoints)
       
       // check which side of origin rotVertex is on
@@ -126,7 +99,6 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       console.log('checkTable error:', error)
       return [false, { sqr: [], lin: [] }]
    }
-
 }
 
 function checkOutsideWindow(pointsObj) {
@@ -138,15 +110,11 @@ function checkOutsideWindow(pointsObj) {
          pointsObj[key].x > width ||
          pointsObj[key].y > height
       ) {
-         console.log("%cTABLE IS OUTSIDE BOUNDARIES", 'color:red;font-size:150%')
          return true
       }
    }
    return false
 }
-
-
-
 
 // Take vertices, and build array of line Objects
 function genBoundaryLine(vertices, center, offset) {
@@ -164,7 +132,6 @@ function genBoundaryLine(vertices, center, offset) {
       for (let i = 0; i < length; i++) {
          if (i === length - 1) {//if on last element, connect first and last point
             if (length === 2) {
-               console.log('%cLine detected', 'color:orange')
                return resultLines
             } //can only make one line, so already done
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[0])
@@ -185,32 +152,6 @@ function genBoundaryLine(vertices, center, offset) {
    }
 }
 
-function collisionTableLine(tableRect, center, lines) {
-   //For each of the four points, check that it is 
-   // between the line and the COM 
-   //Apply rotation matrix to coordinate points to
-   // rotate the points about the COM
-   // - Rotate about COM by setting COM to origin
-   //    then rotate, then readjust points by COM coordinates
-   console.log('%ccollisionTableLine props', 'color: red', tableRect, center, lines)
-   const numLines = lines.length
-   const rotatedList = []
-
-   for (let i = 0; i < numLines; i++) {
-      console.log('%cMidpoints debug', 'color:salmon', i)
-      const angle = Math.atan(1 / lines[i].slope)
-      const direction = lines[i].direction
-      const tangle = lines[i].angle
-      const tableCorner = [tableRect.x - center.x, tableRect.y - center.y]
-      const midpoint = lines[i].midpoint
-      console.log('%cCollision angle, direction, x/y', 'color: seagreen', angle, angle * 180 / Math.PI, direction, tableCorner, tangle, tangle * 180 / Math.PI)
-
-      const points = rotateByAngle(midpoint, angle, center)
-      // const points = rotateByAngle(midpoint, 0, center)
-      rotatedList.push(points)
-   }
-   return rotatedList
-}
 
 // takes a point object {x,y} and angle theta in radians
 function rotateByAngle(point, theta, center) {
@@ -219,15 +160,6 @@ function rotateByAngle(point, theta, center) {
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
       const result = [pntArr[0] * rotMatrix[0] + pntArr[1] * rotMatrix[1], pntArr[0] * rotMatrix[2] + pntArr[1] * rotMatrix[3]]
 
-      // console.log('%ccos', 'color:cornflowerblue', rotMatrix[0], pntArr[0], pntArr[0] * rotMatrix[0])
-      // console.log('%c-sin', 'color:cornflowerblue', rotMatrix[1], pntArr[1], pntArr[1] * rotMatrix[1])
-      // console.log('%ccos', 'color:cornflowerblue', rotMatrix[2], pntArr[0] * rotMatrix[2])
-      // console.log('%csin', 'color:cornflowerblue', rotMatrix[3], pntArr[1] * rotMatrix[3])
-
-
-      // console.log('%crotated point', 'color:darkgoldenrod', [...result.map(a => Math.floor(a))])
-      // console.log('%cinitial point', 'color:darkgoldenrod', [...pntArr.map(a => Math.floor(a))])
-      // console.log('%ctheta', 'color:darkgoldenrod', theta * 180 / Math.PI, center)
       result[0] += center.x
       result[1] += center.y
       return { x: Math.floor(result[0]), y: Math.floor(result[1]) }
@@ -237,7 +169,6 @@ function rotateByAngle(point, theta, center) {
 }
 
 function calcMidpoint(pointA, pointB) {
-   // console.log('calc midpoint', pointA, pointB)
    return { x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2 }
 }
 
@@ -283,7 +214,6 @@ function findCOMCoord(coordArray) {
       }, { x: 0, y: 0 })
       center.x /= coordArray.length
       center.y /= coordArray.length
-      // console.log(center, 'findCOMCoord')
       return center
    } catch (error) {
       console.log('findCOMCoord error', error)
