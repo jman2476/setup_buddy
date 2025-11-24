@@ -1,11 +1,11 @@
-import { Line } from "../models"
+import { Line, Point } from "../models"
 
-function handleCollision(tableCoord, number: number) {
+function handleCollision(tableCoord: Point, number: number) {
    try {
       const tables = document.getElementsByClassName('table-obj')
-      const vertices = document.getElementsByClassName('boundary-vertex')
-      const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-      const centerOfMass = findCOM(vertices, divRect)
+      const vertices = document.getElementsByClassName('boundary-vertex') as HTMLCollection
+      const divRect = document.getElementById('boundary')?.getBoundingClientRect() as DOMRect
+      const centerOfMass: Point = findCOM(vertices, divRect)
       resetCanvas()
       const lines = genBoundaryLine(vertices, centerOfMass, divRect)
       const rotatedPoints = []
@@ -13,7 +13,7 @@ function handleCollision(tableCoord, number: number) {
       const linPoints = []
       const checkBools = []
 
-      const table = tables.item(number).getBoundingClientRect()
+      const table = tables?.item(number)?.getBoundingClientRect() as DOMRect
       for (let i = 0; i < vertices.length; i++) {
          if (vertices.length === 2 && i === 1) break
          const vertex = vertices.item(i).getBoundingClientRect()
@@ -33,22 +33,23 @@ function handleCollision(tableCoord, number: number) {
 
 
 // get angle between vertex and origin
-function getVertexAngle(point, center, offset = { x: 0, y: 0 }) {
+function getVertexAngle(point: Point, center: Point, offset: Point = { x: 0, y: 0 }): number {
    try {
       const adjPoint = { x: point.x - offset.x, y: point.y - offset.y }
       const ray = new Line(adjPoint, center)
       return ray.angle
    } catch (error) {
       console.log('getVertexAngle error', error)
+      return NaN
    }
 }
 
 // check if table is in interior of room
-function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoords, lineIndex) {
+function checkTable(rotVertex: Point, angle: number, tableDiv: DOMRect, line: Line, origin: Point, offset: Point, tableCoords: Point, lineIndex: number): [Boolean, { sqr: Point[], lin: Point[] }] {
    try {
       const pointsArraySqr = []
       const pointsArrayLine = []
-      const offsetTable = {
+      const offsetTable: {[key:string]:Point}  = {
          a: {
             x: tableCoords.x,
             y: tableCoords.y
@@ -67,7 +68,7 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
          }
       }
       // check that table is within main boundaries
-      const rotTable = {}
+      const rotTable: {[key:string]:Point} = {}
       for (const key in offsetTable) {
          if (checkOutsideWindow(offsetTable)) {
             throw new Error('Table is too far outside of setup window')
@@ -83,8 +84,10 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
             y: rotTable[key].y
          })
       }
-      const rotLinePoints = [rotateByAngle(line?.pointA, -1 * angle, origin),
-      rotateByAngle(line.pointB, -1 * angle, origin)]
+      const rotLinePoints: Point[] = [
+         rotateByAngle(line?.pointA, -1 * angle, origin),
+         rotateByAngle(line.pointB, -1 * angle, origin)
+      ]
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
       rotLine.renderToBoundary('purple')
       pointsArrayLine.push(...rotLinePoints)
@@ -112,8 +115,8 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
    }
 }
 
-function checkOutsideWindow(pointsObj) {
-   const divRect = document.getElementById('boundary')?.getBoundingClientRect()
+function checkOutsideWindow(pointsObj: { [key: string]: Point }) {
+   const divRect = document.getElementById('boundary')?.getBoundingClientRect() as DOMRect
    const [height, width] = [divRect.height, divRect.width]
    for (const key in pointsObj) {
       if (pointsObj[key].x < 0 ||
@@ -128,7 +131,7 @@ function checkOutsideWindow(pointsObj) {
 }
 
 // Take vertices, and build array of line Objects
-function genBoundaryLine(vertices, center, offset) {
+function genBoundaryLine(vertices: HTMLCollection, center: Point, offset: DOMRect): Line[] {
    try {
       const length = vertices.length
       if (length <= 1) {
@@ -146,12 +149,12 @@ function genBoundaryLine(vertices, center, offset) {
                return resultLines
             } //can only make one line, so already done
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[0])
-            const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
+            const direction = { x: center.x - midpoint.x, y: center.y - midpoint.y }
             resultLines[i] = new Line(vertexArr[i], vertexArr[0])
             resultLines[i].renderToBoundary('blue')
          } else {
             const midpoint = calcMidpoint(vertexArr[i], vertexArr[i + 1])
-            const direction = { x: center[0] - midpoint.x, y: center[1] - midpoint.y }
+            const direction = { x: center.x - midpoint.x, y: center.y - midpoint.y }
             resultLines[i] = new Line(vertexArr[i], vertexArr[i + 1])
             resultLines[i].renderToBoundary('blue')
          }
@@ -159,13 +162,13 @@ function genBoundaryLine(vertices, center, offset) {
       return resultLines
    } catch (error) {
       console.log('genBoundaryLine error', error)
-      return error
+      return []
    }
 }
 
 
 // takes a point object {x,y} and angle theta in radians
-function rotateByAngle(point, theta: number, center) {
+function rotateByAngle(point: Point, theta: number, center: Point): Point {
    try {
       const pntArr = [point.x - center.x, point.y - center.y]
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
@@ -176,27 +179,29 @@ function rotateByAngle(point, theta: number, center) {
       return { x: Math.floor(result[0]), y: Math.floor(result[1]) }
    } catch (error) {
       console.error(error)
+      return { x: NaN, y: NaN }
    }
 }
 
-function calcMidpoint(pointA, pointB) {
+function calcMidpoint(pointA: Point, pointB: Point): Point {
    return { x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2 }
 }
 
 function resetCanvas() {
-   const canvas = document.getElementById('canvas').getContext('2d')
-   canvas.reset()
+   const canvas = document?.getElementById('canvas') as HTMLCanvasElement
+   const context = canvas?.getContext('2d') as CanvasRenderingContext2D
+   context.reset()
 }
 
 // For finding the Center of Mass based on already rendered components
-function findCOM(vertices, divOffset) {
+function findCOM(vertices: HTMLCollection, divOffset: DOMRect): Point {
    try {
       const vertexArr = [...vertices]
       const length = vertices.length
       let results = [0, 0] // [x,y]
       const offset = [divOffset.x, divOffset.y]
       for (let item in vertexArr) {
-         if (item === 0) continue
+         if (item === '0') continue
          const rect = vertexArr[item].getBoundingClientRect()
          results[0] += rect.x
          results[1] += rect.y
@@ -215,7 +220,7 @@ function findCOM(vertices, divOffset) {
 }
 
 // For finding the Center of Mass based on vertex coordinates
-function findCOMCoord(coordArray) {
+function findCOMCoord(coordArray: Point[]) {
    try {
       const center = coordArray.reduce((acc, curr) => {
          acc.x += curr.x

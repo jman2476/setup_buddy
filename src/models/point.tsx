@@ -1,6 +1,8 @@
 class Point {
    x: number
    y: number
+   angle?: number
+   slope?: number
 
    constructor(x:number, y:number){
       this.x = x
