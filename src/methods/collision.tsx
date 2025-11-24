@@ -1,6 +1,6 @@
 import { Line } from "../models"
 
-function handleCollision(tableCoord,number) {
+function handleCollision(tableCoord, number: number) {
    try {
       const tables = document.getElementsByClassName('table-obj')
       const vertices = document.getElementsByClassName('boundary-vertex')
@@ -49,18 +49,22 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       const pointsArraySqr = []
       const pointsArrayLine = []
       const offsetTable = {
-         a: { 
+         a: {
             x: tableCoords.x,
-            y: tableCoords.y },
-         b: { 
-            x: tableCoords.x + tableDiv.width, 
-            y: tableCoords.y },
+            y: tableCoords.y
+         },
+         b: {
+            x: tableCoords.x + tableDiv.width,
+            y: tableCoords.y
+         },
          c: {
-            x: tableCoords.x + tableDiv.width, 
-            y: tableCoords.y + tableDiv.height },
-         d: { 
-            x: tableCoords.x, 
-            y: tableCoords.y + tableDiv.height }
+            x: tableCoords.x + tableDiv.width,
+            y: tableCoords.y + tableDiv.height
+         },
+         d: {
+            x: tableCoords.x,
+            y: tableCoords.y + tableDiv.height
+         }
       }
       // check that table is within main boundaries
       const rotTable = {}
@@ -70,33 +74,35 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
          }
          rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin)
          const line2Vertex = new Line(rotTable[key], rotVertex)
-         const lineColor = ['red','green','orange','cyan','indigo', 'lightgreen', 'maroon', 'pink', 'yellow']
+         const lineColor = ['red', 'green', 'orange', 'cyan', 'indigo', 'lightgreen', 'maroon', 'pink', 'yellow']
          line2Vertex.renderToBoundary(lineColor[lineIndex])
          rotTable[key].slope = line2Vertex.slope
          rotTable[key].angle = line2Vertex.angle
-         pointsArraySqr.push({ 
-            x: rotTable[key].x, 
-            y: rotTable[key].y })
+         pointsArraySqr.push({
+            x: rotTable[key].x,
+            y: rotTable[key].y
+         })
       }
-      const rotLinePoints = [rotateByAngle(line?.pointA, -1* angle, origin),
-          rotateByAngle(line.pointB, -1* angle, origin)]
+      const rotLinePoints = [rotateByAngle(line?.pointA, -1 * angle, origin),
+      rotateByAngle(line.pointB, -1 * angle, origin)]
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
       rotLine.renderToBoundary('purple')
       pointsArrayLine.push(...rotLinePoints)
 
       // Check direction of vertices
       if (rotLine.angle < 0) { // vertices are arranged clockwise
-         for (const key  in rotTable){
-            if(rotTable[key].angle < rotLine.angle
-               || rotTable[key].angle > rotLine.angle + Math.PI){
-                  return [false, {sqr: pointsArraySqr, lin: pointsArrayLine}]
-               }
+         for (const key in rotTable) {
+            if (rotTable[key].angle < rotLine.angle
+               || rotTable[key].angle > rotLine.angle + Math.PI) {
+               return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]
+            }
          }
       } else { // vertices are arranged counter-clockwise
-         for (const key  in rotTable){
-            if (rotTable[key].angle > rotLine.angle 
+         for (const key in rotTable) {
+            if (rotTable[key].angle > rotLine.angle
                && rotTable[key].angle < rotLine.angle + Math.PI) {
-               return [false, {sqr: pointsArraySqr, lin: pointsArrayLine}]}
+               return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]
+            }
          }
       }
       return [true, { sqr: pointsArraySqr, lin: pointsArrayLine }]
@@ -159,7 +165,7 @@ function genBoundaryLine(vertices, center, offset) {
 
 
 // takes a point object {x,y} and angle theta in radians
-function rotateByAngle(point, theta, center) {
+function rotateByAngle(point, theta: number, center) {
    try {
       const pntArr = [point.x - center.x, point.y - center.y]
       const rotMatrix = [Math.cos(theta), Math.sin(theta) * -1, Math.sin(theta), Math.cos(theta)] // cos theta   -sin theta/ sin theta cos theta
@@ -177,7 +183,7 @@ function calcMidpoint(pointA, pointB) {
    return { x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2 }
 }
 
-function resetCanvas(){
+function resetCanvas() {
    const canvas = document.getElementById('canvas').getContext('2d')
    canvas.reset()
 }
