@@ -73,6 +73,7 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
          const lineColor = ['red','green','orange','cyan','indigo', 'lightgreen', 'maroon', 'pink', 'yellow']
          line2Vertex.renderToBoundary(lineColor[lineIndex])
          rotTable[key].slope = line2Vertex.slope
+         rotTable[key].angle = line2Vertex.angle
          pointsArraySqr.push({ 
             x: rotTable[key].x, 
             y: rotTable[key].y })
@@ -82,17 +83,20 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
       const rotLine = new Line(rotLinePoints[0], rotLinePoints[1])
       rotLine.renderToBoundary('purple')
       pointsArrayLine.push(...rotLinePoints)
-      
-      // check which side of origin rotVertex is on
-      if (rotVertex.x - origin.x > 0) { // vertex to the right of origin
-         for (const key in rotTable) {
-            if (Math.abs(rotTable[key].slope) > Math.abs(rotLine.slope)) {
-               return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]}
+
+      // Check direction of vertices
+      if (rotLine.angle < 0) { // vertices are arranged clockwise
+         for (const key  in rotTable){
+            if(rotTable[key].angle < rotLine.angle
+               || rotTable[key].angle > rotLine.angle + Math.PI){
+                  return [false, {sqr: pointsArraySqr, lin: pointsArrayLine}]
+               }
          }
-      } else { // vertex is to the left of origin
-         for (const key in rotTable) {
-            if (Math.abs(rotTable[key].slope) > Math.abs(rotLine.slope)) {
-               return [false, { sqr: pointsArraySqr, lin: pointsArrayLine }]}
+      } else { // vertices are arranged counter-clockwise
+         for (const key  in rotTable){
+            if (rotTable[key].angle > rotLine.angle 
+               && rotTable[key].angle < rotLine.angle + Math.PI) {
+               return [false, {sqr: pointsArraySqr, lin: pointsArrayLine}]}
          }
       }
       return [true, { sqr: pointsArraySqr, lin: pointsArrayLine }]
