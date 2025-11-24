@@ -1,12 +1,14 @@
+import Point from "./point"
+
 class Line {
-   pointA: { x: number, y: number }
-   pointB: { x: number, y: number }
+   pointA: Point
+   pointB: Point
    slope: number
-   midpoint: { x: number, y: number }
+   midpoint: Point
    angle: number
    length: number
 
-   constructor(pointA: { x: number, y: number }, pointB: { x: number, y: number }) {
+   constructor(pointA: Point, pointB: Point) {
       this.pointA = { x: pointA.x, y: pointA.y }
       this.pointB = { x: pointB.x, y: pointB.y }
       this.slope = (this.pointA.y - this.pointB.y) / (this.pointA.x - this.pointB.x)
