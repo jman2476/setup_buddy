@@ -19,7 +19,7 @@ function handleCollision(tableCoord,number) {
          const vertex = vertices.item(i).getBoundingClientRect()
          const vAngle = getVertexAngle(vertex, centerOfMass, divRect)
          const rotVertex = rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, -1 * vAngle, centerOfMass)
-         const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, divRect, tableCoord)
+         const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, divRect, tableCoord, i)
          rotatedPoints.push(rotVertex)
          sqrPoints.push(...check[1].sqr)
          linPoints.push(...check[1].lin)
@@ -44,7 +44,7 @@ function getVertexAngle(point, center, offset = { x: 0, y: 0 }) {
 }
 
 // check if table is in interior of room
-function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoords) {
+function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoords, lineIndex) {
    try {
       const pointsArraySqr = []
       const pointsArrayLine = []
@@ -70,7 +70,8 @@ function checkTable(rotVertex, angle, tableDiv, line, origin, offset, tableCoord
          }
          rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin)
          const line2Vertex = new Line(rotTable[key], rotVertex)
-         line2Vertex.renderToBoundary()
+         const lineColor = ['red','green','orange','cyan','indigo', 'lightgreen', 'maroon', 'pink', 'yellow']
+         line2Vertex.renderToBoundary(lineColor[lineIndex])
          rotTable[key].slope = line2Vertex.slope
          pointsArraySqr.push({ 
             x: rotTable[key].x, 
