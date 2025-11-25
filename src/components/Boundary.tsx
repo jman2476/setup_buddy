@@ -4,7 +4,7 @@ import { Point } from "../models"
 
 interface BoundaryProps {
    children: React.ReactElement
-   rotatedPoints: [Point[],Point[],Point[]]
+   rotatedPoints: Point[][]
 }
 
 interface PointListProps {
