@@ -1,18 +1,23 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
-function DataBox({ field, value }) {
+interface DataBoxProps {
+   field: string
+   value: string|number
+}
+
+function DataBox({ field, value }: DataBoxProps) {
    // // opt-out of auto-memoization
    // 'use no memo'
    // handle the state in this 
-   const dimension = useRef()
+   const dimension = useRef(value)
 
-   const handleKeyDown = (event) => {
+   const handleKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === 'Enter') {
          console.log('Press the update button')
       }
    }
-   const handleChange = (e) => {
-      dimension.current = e.target.value
+   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      dimension.current = e.target.value 
    }
 
    if (field === 'shape') {
