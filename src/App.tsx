@@ -1,26 +1,29 @@
-import { useState, useContext, useRef, useEffect } from 'react'
+import { useState, useRef, } from 'react'
 import './App.css'
-import { TableCon, RoundTable, LongTable, SquareTable } from "./models/"
+import { TableCon, Point } from "./models"
 import { DataBox, Table, Boundary } from './components'
 
 
 function App() {
-   const tableRef = useRef(0)
+   const tableRef = useRef<number>(0)
    const [tableList, setTableList] = useState([])
    const [focusTable, setFocusTable] = useState({})
    const [inputList, setInputList] = useState([])
-   const keyRandomizer = useRef([])
+   const keyRandomizer = useRef<number>(0)
    const listRef = useRef([])
-   const [rotatedList, setRotatedList] = useState([])
-   const [cCount, lCount, sqCount] = [useRef(0), useRef(0), useRef(0)]
-   const [checks, setChecks] = useState([])
+   const [rotatedList, setRotatedList] = useState<Point[][]>([])
+   const [cCount, lCount, sqCount] =
+      [useRef<number>(0), useRef<number>(0), useRef<number>(0)]
+   const [checks, setChecks] = useState<boolean[]>([])
 
    const setKeyRand = () => {
       keyRandomizer.current = Math.floor(Math.random() * 15)
    }
 
-   const tableMaker = (event) => {
-      const newShape = event.target.previousElementSibling.value
+   const tableMaker = (event: React.MouseEvent<HTMLButtonElement>) => {
+      const target = event.target as HTMLElement
+      const sibling = target.previousElementSibling as HTMLSelectElement
+      const newShape = sibling.value
       const newTableObj = TableCon.make(newShape)
       const newTable = <Table
          number={tableRef.current}
@@ -87,7 +90,7 @@ function App() {
          setTableList(listRef.current)
          return number
       } catch (error) {
-         console.log('tableDelete error:',error)
+         console.log('tableDelete error:', error)
       }
    }
 
@@ -132,7 +135,7 @@ function App() {
       <>
          <div id="toolbar">
             <h2 className='title'> Setup Buddy
-            <img src="./table.svg" alt="The glorious table of snacking" height={'80px'} width={'80px'} />
+               <img src="./table.svg" alt="The glorious table of snacking" height={'80px'} width={'80px'} />
             </h2>
 
             <div id='check-vals'>
