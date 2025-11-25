@@ -1,4 +1,4 @@
-import { Line, Point } from "../models"
+import { Line, Point, CollisionPoint } from "../models"
 
 function handleCollision(tableCoord: Point, number: number) {
    try {
@@ -7,7 +7,7 @@ function handleCollision(tableCoord: Point, number: number) {
       const divRect = document.getElementById('boundary')?.getBoundingClientRect() as DOMRect
       const centerOfMass: Point = findCOM(vertices, divRect)
       resetCanvas()
-      const lines = genBoundaryLine(vertices, centerOfMass, divRect)
+      const lines = genBoundaryLine(vertices, divRect)
       const rotatedPoints = []
       const sqrPoints = []
       const linPoints = []
@@ -16,10 +16,10 @@ function handleCollision(tableCoord: Point, number: number) {
       const table = tables?.item(number)?.getBoundingClientRect() as DOMRect
       for (let i = 0; i < vertices.length; i++) {
          if (vertices.length === 2 && i === 1) break
-         const vertex = vertices.item(i).getBoundingClientRect()
+         const vertex = vertices?.item(i)?.getBoundingClientRect() as DOMRect
          const vAngle = getVertexAngle(vertex, centerOfMass, divRect)
          const rotVertex = rotateByAngle({ x: vertex.x - divRect.x, y: vertex.y - divRect.y }, -1 * vAngle, centerOfMass)
-         const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, divRect, tableCoord, i)
+         const check = checkTable(rotVertex, vAngle, table, lines[i], centerOfMass, tableCoord, i)
          rotatedPoints.push(rotVertex)
          sqrPoints.push(...check[1].sqr)
          linPoints.push(...check[1].lin)
@@ -45,7 +45,7 @@ function getVertexAngle(point: Point, center: Point, offset: Point = { x: 0, y: 
 }
 
 // check if table is in interior of room
-function checkTable(rotVertex: Point, angle: number, tableDiv: DOMRect, line: Line, origin: Point, offset: Point, tableCoords: Point, lineIndex: number): [Boolean, { sqr: Point[], lin: Point[] }] {
+function checkTable(rotVertex: Point, angle: number, tableDiv: DOMRect, line: Line, origin: Point, tableCoords: Point, lineIndex: number): [Boolean, { sqr: Point[], lin: Point[] }] {
    try {
       const pointsArraySqr = []
       const pointsArrayLine = []
@@ -68,12 +68,12 @@ function checkTable(rotVertex: Point, angle: number, tableDiv: DOMRect, line: Li
          }
       }
       // check that table is within main boundaries
-      const rotTable: {[key:string]:Point} = {}
+      const rotTable: {[key:string]:CollisionPoint} = {}
       for (const key in offsetTable) {
          if (checkOutsideWindow(offsetTable)) {
             throw new Error('Table is too far outside of setup window')
          }
-         rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin)
+         rotTable[key] = rotateByAngle(offsetTable[key], -1 * angle, origin) as CollisionPoint
          const line2Vertex = new Line(rotTable[key], rotVertex)
          const lineColor = ['red', 'green', 'orange', 'cyan', 'indigo', 'lightgreen', 'maroon', 'pink', 'yellow']
          line2Vertex.renderToBoundary(lineColor[lineIndex])
@@ -131,7 +131,7 @@ function checkOutsideWindow(pointsObj: { [key: string]: Point }) {
 }
 
 // Take vertices, and build array of line Objects
-function genBoundaryLine(vertices: HTMLCollection, center: Point, offset: DOMRect): Line[] {
+function genBoundaryLine(vertices: HTMLCollection, offset: DOMRect): Line[] {
    try {
       const length = vertices.length
       if (length <= 1) {
@@ -148,13 +148,9 @@ function genBoundaryLine(vertices: HTMLCollection, center: Point, offset: DOMRec
             if (length === 2) {
                return resultLines
             } //can only make one line, so already done
-            const midpoint = calcMidpoint(vertexArr[i], vertexArr[0])
-            const direction = { x: center.x - midpoint.x, y: center.y - midpoint.y }
             resultLines[i] = new Line(vertexArr[i], vertexArr[0])
             resultLines[i].renderToBoundary('blue')
          } else {
-            const midpoint = calcMidpoint(vertexArr[i], vertexArr[i + 1])
-            const direction = { x: center.x - midpoint.x, y: center.y - midpoint.y }
             resultLines[i] = new Line(vertexArr[i], vertexArr[i + 1])
             resultLines[i].renderToBoundary('blue')
          }
@@ -183,9 +179,6 @@ function rotateByAngle(point: Point, theta: number, center: Point): Point {
    }
 }
 
-function calcMidpoint(pointA: Point, pointB: Point): Point {
-   return { x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2 }
-}
 
 function resetCanvas() {
    const canvas = document?.getElementById('canvas') as HTMLCanvasElement

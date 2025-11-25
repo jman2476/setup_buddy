@@ -1,4 +1,4 @@
-import Point from "./point"
+import {Point} from "./point"
 
 class Line {
    pointA: Point

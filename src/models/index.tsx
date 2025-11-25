@@ -5,7 +5,10 @@ import {
    SquareTable
 } from './table'
 import Line from './line'
-import Point from './point'
+import {
+   Point,
+   CollisionPoint
+} from './point'
 
 export {
    TableCon,
@@ -13,5 +16,6 @@ export {
    LongTable,
    SquareTable,
    Line,
-   Point
+   Point,
+   CollisionPoint
 }
