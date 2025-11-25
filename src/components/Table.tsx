@@ -1,13 +1,25 @@
 import { useState, useEffect, useRef } from 'react'
 import { handleCollision } from '../methods/collision'
+import { RoundTable, LongTable, SquareTable, Point } from '../models'
+
+interface TableProps {
+   number: number
+   tableObj: RoundTable | LongTable | SquareTable
+   onClick: null
+   setRotList: null
+   circleCount: number
+   longCount: number
+   sqareCount: number
+   setChecks: null
+}
 
 
-function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks  }) {
-   const [offset, setOffSet] = useState({ x: -80, y: number * 10 })
-   const styles = useRef(null)
-   const startRef = useRef({ x: 0, y: 0 })
-   const mouseRef = useRef({ x: 0, y: 0 })
-   const [flip, setFlip] = useState(false)
+function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks }: TableProps) {
+   const [offset, setOffSet] = useState<Point>({ x: -80, y: number * 10 })
+   const styles = useRef<React.CSSProperties>({})
+   const startRef = useRef<Point>({ x: 0, y: 0 })
+   const mouseRef = useRef<Point>({ x: 0, y: 0 })
+   const [flip, setFlip] = useState<boolean>(false)
    // dragStart, dragEnd and the useEffect between are 
    // what handle the drag and drop functionality
    const dragStart = (event) => {
@@ -26,7 +38,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
             x: offset.x + mouseRef.current.x - startRef.current.x,
             y: offset.y + mouseRef.current.y - startRef.current.y
          }
-         const [pointsArray, checkBools] = handleCollision(dummyOffset,number)
+         const [pointsArray, checkBools] = handleCollision(dummyOffset, number)
          setChecks(checkBools)
          setRotList(pointsArray)
          if (checkBools.includes(false)) {
@@ -106,7 +118,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          buildSquare()
          break;
    }
-   
+
    return (
       <>
          <div

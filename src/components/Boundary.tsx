@@ -1,15 +1,30 @@
 import { useRef, useState } from "react"
-import { findCOM, findCOMCoord } from "../methods/collision"
+import { findCOMCoord } from "../methods/collision"
+import { Point } from "../models"
 
-function Boundary({ children, rotatedPoints }) {
+interface BoundaryProps {
+   children: React.ReactElement
+   rotatedPoints: [Point[],Point[],Point[]]
+}
 
-   const [pointList, setPointList] = useState([])
-   const editBoundRef = useRef(false)
-   const [boundaryToggle, setBoundaryToggle] = useState(false)
-   const pointCounter = useRef(1)
-   const [rotPointList, setRotPointList] = useState(rotatedPoints[0])
-   const [sqrPointList, setSqrPointList] = useState(rotatedPoints[1])
-   const [linPointList, setLinPointList] = useState(rotatedPoints[2])
+interface PointListProps {
+   positionObj: Point
+   num: number
+}
+
+interface COMProps {
+   points: Point[]
+}
+
+function Boundary({ children, rotatedPoints }: BoundaryProps) {
+
+   const [pointList, setPointList] = useState<Point[]>([])
+   const editBoundRef = useRef<boolean>(false)
+   const [boundaryToggle, setBoundaryToggle] = useState<boolean>(false)
+   const pointCounter = useRef<number>(1)
+   const [rotPointList, setRotPointList] = useState<Point[]>(rotatedPoints[0])
+   const [sqrPointList, setSqrPointList] = useState<Point[]>(rotatedPoints[1])
+   const [linPointList, setLinPointList] = useState<Point[]>(rotatedPoints[2])
 
    const handleEditButton = () => {
       try {
@@ -42,11 +57,12 @@ function Boundary({ children, rotatedPoints }) {
       }
    }
    // if editBoundRef===true, click field to create points
-   const handleSetBound = (event) => {
+   const handleSetBound = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       try {
-         if (!event.target.className.includes('boundary')
-            &&!event.target.className.includes('canvas')) return
-         const divRect = document.getElementById('boundary')?.getBoundingClientRect()
+         const target = event.target as HTMLDivElement
+         if (!target.className.includes('boundary')
+            &&!target.className.includes('canvas')) return
+         const divRect = document.getElementById('boundary')?.getBoundingClientRect() as DOMRect
          if (editBoundRef.current) {
             const mousePosition = {
                x: event.clientX - divRect.x,
@@ -86,9 +102,7 @@ function Boundary({ children, rotatedPoints }) {
       }
    }
 
-   function COMPoint({ points }) {
-      const divRect = document.getElementById('boundary')?.getBoundingClientRect()
-      const vertices = document.getElementsByClassName('boundary-vertex')
+   function COMPoint({ points }: COMProps) {
       const center = findCOMCoord(points)
       return (
          <>
@@ -106,7 +120,7 @@ function Boundary({ children, rotatedPoints }) {
    // Can create points, but the offset is wrong
    // needs to be adjusted to account for the 
    // Boundary component position
-   function BoundaryPoint({ positionObj, num }) {
+   function BoundaryPoint({ positionObj, num }: PointListProps) {
       return (
          <>
             <div
@@ -120,7 +134,7 @@ function Boundary({ children, rotatedPoints }) {
       )
    }
 
-   function RotatedPoint({ positionObj, num }) {
+   function RotatedPoint({ positionObj, num }: PointListProps) {
       return (
          <>
             <div
@@ -129,12 +143,12 @@ function Boundary({ children, rotatedPoints }) {
                   top: `${positionObj.y}px`,
                   left: `${positionObj.x}px`
                }}
-               className="rotation-vertex vertex">__{num} y:{Math.floor(positionObj[1] ?? positionObj.y)}, x:{Math.floor(positionObj[0] ?? positionObj.x)}</div>
+               className="rotation-vertex vertex">__{num} y:{Math.floor(positionObj.y)}, x:{Math.floor(positionObj.x)}</div>
          </>
       )
    }
 
-   function SquarePoint({ positionObj, num }) {
+   function SquarePoint({ positionObj, num }: PointListProps) {
       return (
          <>
             <div
@@ -148,7 +162,7 @@ function Boundary({ children, rotatedPoints }) {
       )
    }
 
-   function LinePoint({ positionObj, num }) {
+   function LinePoint({ positionObj, num }: PointListProps) {
       return (
          <>
             <div
