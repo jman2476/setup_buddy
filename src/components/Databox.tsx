@@ -9,7 +9,7 @@ function DataBox({ field, value }: DataBoxProps) {
    // // opt-out of auto-memoization
    // 'use no memo'
    // handle the state in this 
-   const dimension = useRef(value)
+   const dimension = useRef<string|number>(value)
 
    const handleKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === 'Enter') {

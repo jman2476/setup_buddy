@@ -1,6 +1,6 @@
 import { Line, Point, CollisionPoint } from "../models"
 
-function handleCollision(tableCoord: Point, number: number) {
+function handleCollision(tableCoord: Point, number: number):[Point[][],boolean[]] {
    try {
       const tables = document.getElementsByClassName('table-obj')
       const vertices = document.getElementsByClassName('boundary-vertex') as HTMLCollection
@@ -28,6 +28,7 @@ function handleCollision(tableCoord: Point, number: number) {
       return [[rotatedPoints, sqrPoints, linPoints], checkBools]
    } catch (error) {
       console.log('handleCollision error', error)
+      return [[[],[],],[]]
    }
 }
 
@@ -45,7 +46,7 @@ function getVertexAngle(point: Point, center: Point, offset: Point = { x: 0, y: 
 }
 
 // check if table is in interior of room
-function checkTable(rotVertex: Point, angle: number, tableDiv: DOMRect, line: Line, origin: Point, tableCoords: Point, lineIndex: number): [Boolean, { sqr: Point[], lin: Point[] }] {
+function checkTable(rotVertex: Point, angle: number, tableDiv: DOMRect, line: Line, origin: Point, tableCoords: Point, lineIndex: number): [boolean, { sqr: Point[], lin: Point[] }] {
    try {
       const pointsArraySqr = []
       const pointsArrayLine = []

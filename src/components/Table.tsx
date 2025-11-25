@@ -5,12 +5,12 @@ import { RoundTable, LongTable, SquareTable, Point } from '../models'
 interface TableProps {
    number: number
    tableObj: RoundTable | LongTable | SquareTable
-   onClick: null
-   setRotList: null
-   circleCount: number
-   longCount: number
-   sqareCount: number
-   setChecks: null
+   onClick: React.MouseEventHandler<HTMLDivElement>
+   setRotList: React.Dispatch<React.SetStateAction<Point[][]>>
+   circleCount: { current: number }
+   longCount: { current: number }
+   squareCount: { current: number }
+   setChecks: React.Dispatch<React.SetStateAction<boolean[]>>
 }
 
 
@@ -19,16 +19,16 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
    const styles = useRef<React.CSSProperties>({})
    const startRef = useRef<Point>({ x: 0, y: 0 })
    const mouseRef = useRef<Point>({ x: 0, y: 0 })
-   const [flip, setFlip] = useState<boolean>(false)
+
    // dragStart, dragEnd and the useEffect between are 
    // what handle the drag and drop functionality
-   const dragStart = (event) => {
+   const dragStart = () => {
       startRef.current = {
          x: mouseRef.current.x,
          y: mouseRef.current.y
       }
    }
-   const dragEnd = (event) => {
+   const dragEnd = (event: React.DragEvent<HTMLDivElement>) => {
       try {
          mouseRef.current = {
             x: event.clientX,
@@ -54,7 +54,7 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
       }
    }
    useEffect(() => {
-      const handleMouse = (event) => {
+      const handleMouse = (event: MouseEvent) => {
          mouseRef.current = {
             x: event.clientX,
             y: event.clientY
@@ -68,43 +68,49 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
 
    // If Drag and Drop is screwed up, maybe start with these three functions
    const buildCircle = () => {
-      circleCount.current++
-      styles.current = {
-         position: "absolute",
-         top: `${offset.y}px`,
-         left: `${offset.x}px`,
-         height: `${tableObj.diameter}px`,
-         width: `${tableObj.diameter}px`,
-         lineHeight: `${tableObj.diameter}px`,
-         transform: `rotate(${tableObj.angle}deg)`
+      if (tableObj instanceof RoundTable) {
+         circleCount.current++
+         styles.current = {
+            position: "absolute",
+            top: `${offset.y}px`,
+            left: `${offset.x}px`,
+            height: `${tableObj.diameter}px`,
+            width: `${tableObj.diameter}px`,
+            lineHeight: `${tableObj.diameter}px`,
+            transform: `rotate(${tableObj.angle}deg)`
+         }
+         return styles
       }
-      return styles
    }
    const buildLong = () => {
-      longCount.current++
-      styles.current = {
-         position: "absolute",
-         top: `${offset.y}px`,
-         left: `${offset.x}px`,
-         height: `${tableObj.length}px`,
-         width: `${tableObj.width}px`,
-         lineHeight: `${tableObj.width}px`,
-         transform: `rotate(${tableObj.angle}deg)`
+      if (tableObj instanceof LongTable) {
+         longCount.current++
+         styles.current = {
+            position: "absolute",
+            top: `${offset.y}px`,
+            left: `${offset.x}px`,
+            height: `${tableObj.length}px`,
+            width: `${tableObj.width}px`,
+            lineHeight: `${tableObj.width}px`,
+            transform: `rotate(${tableObj.angle}deg)`
+         }
+         return styles
       }
-      return styles
    }
    const buildSquare = () => {
-      squareCount.current++
-      styles.current = {
-         position: "absolute",
-         top: `${offset.y}px`,
-         left: `${offset.x}px`,
-         height: `${tableObj.side}px`,
-         width: `${tableObj.side}px`,
-         lineHeight: `${tableObj.side}px`,
-         transform: `rotate(${tableObj.angle}deg)`
+      if (tableObj instanceof SquareTable) {
+         squareCount.current++
+         styles.current = {
+            position: "absolute",
+            top: `${offset.y}px`,
+            left: `${offset.x}px`,
+            height: `${tableObj.side}px`,
+            width: `${tableObj.side}px`,
+            lineHeight: `${tableObj.side}px`,
+            transform: `rotate(${tableObj.angle}deg)`
+         }
+         return styles
       }
-      return styles
    }
 
    switch (tableObj.shape) {
