@@ -1,16 +1,17 @@
 import { useState, useRef, } from 'react'
 import './App.css'
-import { TableCon, Point } from "./models"
+import { TableCon, Point, RoundTable, LongTable, SquareTable } from "./models"
 import { DataBox, Table, Boundary } from './components'
+import type { FakeEvent } from './models'
 
 
 function App() {
    const tableRef = useRef<number>(0)
-   const [tableList, setTableList] = useState([])
-   const [focusTable, setFocusTable] = useState({})
-   const [inputList, setInputList] = useState([])
+   const [tableList, setTableList] = useState<React.ReactElement[]>([])
+   const [focusTable, setFocusTable] = useState<React.ReactElement<any>>(<div />)
+   const [inputList, setInputList] = useState<React.ReactElement[]>([])
    const keyRandomizer = useRef<number>(0)
-   const listRef = useRef([])
+   const listRef = useRef<React.ReactElement[]>([])
    const [rotatedList, setRotatedList] = useState<Point[][]>([])
    const [cCount, lCount, sqCount] =
       [useRef<number>(0), useRef<number>(0), useRef<number>(0)]
@@ -20,7 +21,7 @@ function App() {
       keyRandomizer.current = Math.floor(Math.random() * 15)
    }
 
-   const tableMaker = (event: React.MouseEvent<HTMLButtonElement>) => {
+   const tableMaker = (event: React.MouseEvent<HTMLButtonElement>|FakeEvent) => {
       const target = event.target as HTMLElement
       const sibling = target.previousElementSibling as HTMLSelectElement
       const newShape = sibling.value
@@ -42,8 +43,10 @@ function App() {
       setFocusTable(newTable)
    }
 
-   const tableSelect = (e) => {
-      const index = e.target.innerText
+   const tableSelect = (event: React.MouseEvent<HTMLDivElement>) => {
+      const target = event.target as HTMLDivElement
+      const text = target.innerText as string
+      const index = Number(text)
       setFocusTable(listRef.current[index])
       renderData(listRef.current[index])
       console.log(listRef.current[index])
@@ -53,12 +56,12 @@ function App() {
       try {
          const table = focusTable.props.tableObj
          const keys = Object.keys(table)
-         const newVals = []
+         const newVals: string[]= [] as any
          for (let i in keys) {
-            const element = document.getElementsByName(keys[i])
+            const element = document.getElementsByName(keys[i]) as NodeListOf<HTMLSelectElement>
             newVals.push(element[0].value)
          }
-         const newTableObj = TableCon.make(...newVals)
+         const newTableObj = TableCon.remake(newVals) as RoundTable | LongTable | SquareTable
          const index = tableDelete()
          const updateTable = <Table
             number={index}
@@ -85,23 +88,24 @@ function App() {
    //        unless you are updating that table
    const tableDelete = () => {
       try {
-         const number = focusTable.props.number
+         const number: number = focusTable.props.number
          listRef.current[number] = <></>
          setTableList(listRef.current)
          return number
       } catch (error) {
          console.log('tableDelete error:', error)
+         return -1
       }
    }
 
    const genTest1 = () => {
-      let obj = {
+      const obj: FakeEvent = {
          target: {
             previousElementSibling: {
                value: 'circle'
-            }
-         }
-      }
+            } as HTMLSelectElement
+         } as any
+      } 
       tableMaker(obj)
       obj.target.previousElementSibling.value = 'rectangle'
       tableMaker(obj)
@@ -109,12 +113,12 @@ function App() {
       tableMaker(obj)
    }
 
-   const renderData = (target) => {
+   const renderData = (target: React.ReactElement<any >) => {
       try {
-         const obj = target.props.tableObj
+         const obj = target.props.tableObj as RoundTable | LongTable | SquareTable
          const keys = Object.keys(obj)
          setKeyRand()
-         const arr = []
+         const arr: React.ReactElement[] = []
          for (let item in keys) {
             const prop = keys[item]
             const box = <DataBox

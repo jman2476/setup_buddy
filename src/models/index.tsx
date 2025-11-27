@@ -9,6 +9,7 @@ import {
    Point,
    CollisionPoint
 } from './point'
+import type {FakeEvent} from './testing'
 
 export {
    TableCon,
@@ -17,5 +18,9 @@ export {
    SquareTable,
    Line,
    Point,
-   CollisionPoint
+   CollisionPoint,
+}
+
+export type {
+   FakeEvent
 }

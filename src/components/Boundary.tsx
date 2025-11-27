@@ -3,7 +3,7 @@ import { findCOMCoord } from "../methods/collision"
 import { Point } from "../models"
 
 interface BoundaryProps {
-   children: React.ReactElement
+   children: React.ReactElement[] | React.ReactElement
    rotatedPoints: Point[][]
 }
 
