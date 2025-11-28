@@ -2,6 +2,9 @@
 I need to figure out how to add scale and real world units to the program.
 After writing this document, maybe this'll be a few git branches instead of one xD.
 
+## What are we going to do in this branch?
+I think the first thing to add would be scale tables and walls. People don't measure the real world in pixels, so lets create a way to see real units. Changeable boundaries and non-table elements are important, but can be in the next branch.
+
 ## Things to have
 - Make a table with specific dimensions
    - maybe a RealTable class that can take a shape and dimensions, and use that to construct the Round|Long|Square table
