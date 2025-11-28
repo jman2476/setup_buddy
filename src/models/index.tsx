@@ -9,7 +9,13 @@ import {
    Point,
    CollisionPoint
 } from './point'
+import {
+   RealTableLong,
+   RealTableRound,
+   RealTableSquare
+} from './realtable'
 import type {FakeEvent} from './testing'
+
 
 export {
    TableCon,
@@ -19,6 +25,9 @@ export {
    Line,
    Point,
    CollisionPoint,
+   RealTableLong,
+   RealTableRound,
+   RealTableSquare
 }
 
 export type {
