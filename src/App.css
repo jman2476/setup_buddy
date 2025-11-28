@@ -30,8 +30,10 @@ button {
 }
 
 #canvas {
-   background-color: rgba(146, 132, 132, 0);
-
+   background-color: rgba(175, 52, 52, 0);
+   position: absolute;
+   top: 0;
+   left:0
 }
 
 #toolbar {
