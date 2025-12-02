@@ -82,3 +82,7 @@ export {
    RealTableRound,
    RealTableSquare
 }
+
+export type {
+   RealTable
+}

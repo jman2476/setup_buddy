@@ -14,6 +14,7 @@ import {
    RealTableRound,
    RealTableSquare
 } from './realtable'
+import type { RealTable } from './realtable'
 import type {FakeEvent} from './testing'
 
 
@@ -31,5 +32,6 @@ export {
 }
 
 export type {
-   FakeEvent
+   FakeEvent,
+   RealTable
 }
