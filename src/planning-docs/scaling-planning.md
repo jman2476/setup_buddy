@@ -5,6 +5,23 @@ After writing this document, maybe this'll be a few git branches instead of one 
 ## What are we going to do in this branch?
 I think the first thing to add would be scale tables and walls. People don't measure the real world in pixels, so lets create a way to see real units. Changeable boundaries and non-table elements are important, but can be in the next branch.
 
+## What am I ACTUALLY going to do in this branch/sub-branches?
+- realtable-implementation -> replace all Table objects with RealTable objects, use RealTable.alias to access corresponding Table object
+- scale-object -> create a Scale object that will take a distance in pixels and a corresponding real length unit measurement in ft/m
+### and after that
+- chair-object -> create a Chair class with:
+   - Chair -> props(length, width)
+   - ChairField -> props(Chair, length, width, columns, rows, numberOfChairs)
+- slapdash-backend -> python or js server 
+   - basic login w/ username/password
+   - save and load setups
+   - MySQL or SQLite?
+
+## Then REFACTORING
+- Transfer to NextJS
+- Find packages that handle shape drawing
+- Adjust collision, add table on table collision
+
 ## Things to have
 - Make a table with specific dimensions
    - maybe a RealTable class that can take a shape and dimensions, and use that to construct the Round|Long|Square table

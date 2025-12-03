@@ -1,8 +1,8 @@
 import { useState, useRef, } from 'react'
 import './App.css'
-import { TableCon, Point, RoundTable, LongTable, SquareTable } from "./models"
+import { TableCon, Point, RoundTable, LongTable, SquareTable, RealTableLong, RealTableRound, RealTableSquare } from "./models"
 import { DataBox, Table, Boundary } from './components'
-import type { FakeEvent } from './models'
+import type { RealTable, FakeEvent } from './models'
 
 
 function App() {
