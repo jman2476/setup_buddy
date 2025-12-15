@@ -43,6 +43,11 @@ function App() {
       setFocusTable(newTable)
    }
 
+   const realTableMaker = (event: React.MouseEvent<HTMLButtonElement>|FakeEvent) => {
+      const target  = event.target as HTMLElement
+      const sibling = target.previousElementSibling as HTMLSelectElement
+   }
+
    const tableSelect = (event: React.MouseEvent<HTMLDivElement>) => {
       const target = event.target as HTMLDivElement
       const text = target.innerText as string
