@@ -12,6 +12,30 @@ interface RealTable {
    diameter?: number
    units: 'ft' | 'm'
    scaleFactor: number
+   alias: RoundTable | LongTable | SquareTable
+}
+
+class RealTableCon {
+   static make(shape: string): RealTable {
+      let newTable: RealTable
+      switch(shape) {
+         case 'circle': {
+            newTable = new RealTableRound
+            break
+         };
+         case 'square': {
+            newTable = new RealTableSquare
+            break
+         };
+         case 'rectangle': {
+            newTable = new RealTableLong
+            break
+         };
+         default: newTable = new RealTableRound
+      }
+
+      return newTable
+   }
 }
 
 class RealTableRound implements RealTable{
@@ -80,7 +104,8 @@ class RealTableSquare implements RealTable{
 export {
    RealTableLong,
    RealTableRound,
-   RealTableSquare
+   RealTableSquare,
+   RealTableCon
 }
 
 export type {

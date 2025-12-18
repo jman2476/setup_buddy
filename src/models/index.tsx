@@ -12,7 +12,8 @@ import {
 import {
    RealTableLong,
    RealTableRound,
-   RealTableSquare
+   RealTableSquare,
+   RealTableCon
 } from './realtable'
 import type { RealTable } from './realtable'
 import type {FakeEvent} from './testing'
@@ -28,7 +29,8 @@ export {
    CollisionPoint,
    RealTableLong,
    RealTableRound,
-   RealTableSquare
+   RealTableSquare,
+   RealTableCon
 }
 
 export type {

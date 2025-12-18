@@ -1,6 +1,6 @@
 import { useState, useRef, } from 'react'
 import './App.css'
-import { TableCon, Point, RoundTable, LongTable, SquareTable, RealTableLong, RealTableRound, RealTableSquare } from "./models"
+import { TableCon, Point, RoundTable, LongTable, SquareTable, RealTableLong, RealTableRound, RealTableSquare, RealTableCon } from "./models"
 import { DataBox, Table, Boundary } from './components'
 import type { RealTable, FakeEvent } from './models'
 
@@ -8,6 +8,7 @@ import type { RealTable, FakeEvent } from './models'
 function App() {
    const tableRef = useRef<number>(0)
    const [tableList, setTableList] = useState<React.ReactElement[]>([])
+   const [rTList, setRTList] = useState<RealTable[]>([])
    const [focusTable, setFocusTable] = useState<React.ReactElement<any>>(<div />)
    const [inputList, setInputList] = useState<React.ReactElement[]>([])
    const keyRandomizer = useRef<number>(0)
@@ -46,6 +47,25 @@ function App() {
    const realTableMaker = (event: React.MouseEvent<HTMLButtonElement>|FakeEvent) => {
       const target  = event.target as HTMLElement
       const sibling = target.previousElementSibling as HTMLSelectElement
+      const newShape = sibling.value
+      const newTableObj = RealTableCon.make(newShape)
+      const newTable = <Table
+         number={tableRef.current}
+         tableObj={newTableObj.alias}
+         key={tableRef.current}
+         onClick={e => tableSelect(e)}
+         setRotList={setRotatedList}
+         setChecks={setChecks}
+         squareCount={sqCount}
+         longCount={lCount}
+         circleCount={cCount}
+      />
+      // still need to set RT list, listRef, and tableRef
+      setRTList(arr => [...arr, newTableObj])
+      setTableList(arr => [...arr, newTable])
+      listRef.current.push(newTable)
+      tableRef.current++
+      setFocusTable(newTable)
    }
 
    const tableSelect = (event: React.MouseEvent<HTMLDivElement>) => {
