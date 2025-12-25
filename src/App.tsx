@@ -1,4 +1,4 @@
-import { useState, useRef, } from 'react'
+import { useState, useRef, type ReactElement, } from 'react'
 import './App.css'
 import { TableCon, Point, RoundTable, LongTable, SquareTable, RealTableLong, RealTableRound, RealTableSquare, RealTableCon } from "./models"
 import { DataBox, Table, Boundary } from './components'
@@ -17,6 +17,7 @@ function App() {
    const [cCount, lCount, sqCount] =
       [useRef<number>(0), useRef<number>(0), useRef<number>(0)]
    const [checks, setChecks] = useState<boolean[]>([])
+   const [scale, setScale] = useState<number>(1)
 
    const setKeyRand = () => {
       keyRandomizer.current = Math.floor(Math.random() * 15)
@@ -66,6 +67,7 @@ function App() {
       listRef.current.push(newTable)
       tableRef.current++
       setFocusTable(newTable)
+      console.log('Real table object:', newTableObj)
    }
 
    const tableSelect = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -123,6 +125,13 @@ function App() {
       }
    }
 
+   const handleScale = (event: React.MouseEvent<HTMLDivElement>) => {
+      const target = event.target as HTMLElement
+      const sibling =  target.previousElementSibling as HTMLSelectElement
+      const newScale = sibling.value as Number
+      setScale(newScale)
+   }
+
    const genTest1 = () => {
       const obj: FakeEvent = {
          target: {
@@ -174,6 +183,13 @@ function App() {
                   else return (<div style={{ color: 'crimson' }}>{`${val}`}</div>)
                })}
             </div>
+            <div className='databox'>
+               <input type="number" name="scale-factor" id="scale-factor"/>
+               <button
+                  onClick={handleScale}
+               >Update Scale</button>
+            </div>
+            
             <div id='databox' >
                <label htmlFor="">New table shape</label>
                <select name="newTableDrop" id="newTableDrop">
@@ -182,7 +198,7 @@ function App() {
                   <option value="square">Square</option>
                </select>
                <button
-                  onClick={tableMaker}
+                  onClick={realTableMaker}
                >Make new table</button>
                <button
                   onClick={genTest1}
