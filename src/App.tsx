@@ -2,6 +2,7 @@ import { useState, useRef, type ReactElement, } from 'react'
 import './App.css'
 import { TableCon, Point, RoundTable, LongTable, SquareTable, RealTableLong, RealTableRound, RealTableSquare, RealTableCon } from "./models"
 import { DataBox, Table, Boundary } from './components'
+import { cleanNumInput } from './methods'
 import type { RealTable, FakeEvent } from './models'
 
 
@@ -125,11 +126,13 @@ function App() {
       }
    }
 
-   const handleScale = (event: React.MouseEvent<HTMLDivElement>) => {
+   const handleScale = (event: React.MouseEvent<HTMLButtonElement>) => {
       const target = event.target as HTMLElement
       const sibling =  target.previousElementSibling as HTMLSelectElement
-      const newScale = sibling.value as Number
+      cleanNumInput(sibling.value)
+      const newScale = cleanNumInput(sibling.value) as number
       setScale(newScale)
+      console.log(newScale)
    }
 
    const genTest1 = () => {
@@ -184,7 +187,11 @@ function App() {
                })}
             </div>
             <div className='databox'>
-               <input type="number" name="scale-factor" id="scale-factor"/>
+               <input type="number"
+                  name="scale-factor" 
+                  id="scale-factor"
+                  placeholder='1.0'
+                  step={0.1}/>
                <button
                   onClick={handleScale}
                >Update Scale</button>

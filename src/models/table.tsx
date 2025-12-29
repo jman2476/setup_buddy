@@ -80,6 +80,7 @@ class SquareTable extends TableCore implements Table {
    }
 }
 
+
 export {
    TableCon,
    RoundTable,

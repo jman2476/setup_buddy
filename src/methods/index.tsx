@@ -3,9 +3,13 @@ import {
    findCOM,
    findCOMCoord
 } from './collision'
+import {
+   cleanNumInput
+} from './utils'
 
 export {
    handleCollision,
    findCOM,
-   findCOMCoord
+   findCOMCoord,
+   cleanNumInput
 }
