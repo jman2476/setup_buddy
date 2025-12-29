@@ -6,4 +6,6 @@ function cleanNumInput (inputVal: String): Number {
     // -check for other characters
     //  -if contains, return -1
     //  -else, continue
+    const regex: RegExp = /[-0123456789.]/g
+
 }
