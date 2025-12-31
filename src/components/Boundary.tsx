@@ -274,57 +274,45 @@ function Boundary({ children, rotatedPoints }: BoundaryProps) {
             />
             <div
                style={{
-                  position: 'absolute',
                   top: '0px',
-                  left: '250px',
-                  color: 'ghostwhite'
+                  left: '250px'
                }}
-               className="vertex">250
+               className="pixel-scale-vertex">250
             </div>
             <div
                style={{
-                  position: 'absolute',
                   top: '0px',
-                  left: '500px',
-                  color: 'ghostwhite'
+                  left: '500px'
                }}
-               className="vertex">500
+               className="pixel-scale-vertex">500
             </div>
             <div
                style={{
-                  position: 'absolute',
                   top: '0px',
-                  left: '750px',
-                  color: 'ghostwhite'
+                  left: '750px'
                }}
-               className="vertex">750
+               className="pixel-scale-vertex">750
             </div>
             <div
                style={{
-                  position: 'absolute',
                   top: '0px',
-                  left: '1000px',
-                  color: 'ghostwhite'
+                  left: '1000px'
                }}
-               className="vertex">1000
+               className="pixel-scale-vertex">1000
             </div>
             <div
                style={{
-                  position: 'absolute',
                   top: '500px',
-                  left: '0px',
-                  color: 'ghostwhite'
+                  left: '0px'
                }}
-               className="vertex">500
+               className="pixel-scale-vertex">500
             </div>
             <div
                style={{
-                  position: 'absolute',
                   top: '250px',
-                  left: '0px',
-                  color: 'ghostwhite'
+                  left: '0px'
                }}
-               className="vertex">250
+               className="pixel-scale-vertex">250
             </div>
             {children}
          </div>

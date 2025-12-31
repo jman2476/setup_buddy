@@ -2,7 +2,7 @@ import { useState, useRef, type ReactElement, } from 'react'
 import './App.css'
 import { TableCon, Point, RoundTable, LongTable, SquareTable, RealTableLong, RealTableRound, RealTableSquare, RealTableCon } from "./models"
 import { DataBox, Table, Boundary } from './components'
-import { cleanNumInput } from './methods'
+import { cleanNumInput, scaler } from './methods'
 import type { RealTable, FakeEvent } from './models'
 
 
@@ -24,7 +24,7 @@ function App() {
       keyRandomizer.current = Math.floor(Math.random() * 15)
    }
 
-   const tableMaker = (event: React.MouseEvent<HTMLButtonElement>|FakeEvent) => {
+   const tableMaker = (event: React.MouseEvent<HTMLButtonElement> | FakeEvent) => {
       const target = event.target as HTMLElement
       const sibling = target.previousElementSibling as HTMLSelectElement
       const newShape = sibling.value
@@ -46,8 +46,8 @@ function App() {
       setFocusTable(newTable)
    }
 
-   const realTableMaker = (event: React.MouseEvent<HTMLButtonElement>|FakeEvent) => {
-      const target  = event.target as HTMLElement
+   const realTableMaker = (event: React.MouseEvent<HTMLButtonElement> | FakeEvent) => {
+      const target = event.target as HTMLElement
       const sibling = target.previousElementSibling as HTMLSelectElement
       const newShape = sibling.value
       const newTableObj = RealTableCon.make(newShape)
@@ -84,7 +84,7 @@ function App() {
       try {
          const table = focusTable.props.tableObj
          const keys = Object.keys(table)
-         const newVals: string[]= [] as any
+         const newVals: string[] = [] as any
          for (let i in keys) {
             const element = document.getElementsByName(keys[i]) as NodeListOf<HTMLSelectElement>
             newVals.push(element[0].value)
@@ -128,11 +128,14 @@ function App() {
 
    const handleScale = (event: React.MouseEvent<HTMLButtonElement>) => {
       const target = event.target as HTMLElement
-      const sibling =  target.previousElementSibling as HTMLSelectElement
+      const sibling = target.previousElementSibling as HTMLSelectElement
       cleanNumInput(sibling.value)
       const newScale = cleanNumInput(sibling.value) as number
-      setScale(newScale)
-      console.log(newScale)
+      if (newScale > 0) {
+         setScale(newScale)
+         console.log(newScale)
+         scaler(scale, newScale, [rTList, []])
+      }
    }
 
    const genTest1 = () => {
@@ -142,7 +145,7 @@ function App() {
                value: 'circle'
             } as HTMLSelectElement
          } as any
-      } 
+      }
       tableMaker(obj)
       obj.target.previousElementSibling.value = 'rectangle'
       tableMaker(obj)
@@ -150,7 +153,7 @@ function App() {
       tableMaker(obj)
    }
 
-   const renderData = (target: React.ReactElement<any >) => {
+   const renderData = (target: React.ReactElement<any>) => {
       try {
          const obj = target.props.tableObj as RoundTable | LongTable | SquareTable
          const keys = Object.keys(obj)
@@ -172,6 +175,10 @@ function App() {
       }
    }
 
+   // debug console dump
+   console.log('%cReal Tables', "color: green" ,rTList)
+   console.log('%cTable List', 'color:blue', ...tableList)
+
    return (
       <>
          <div id="toolbar">
@@ -188,15 +195,15 @@ function App() {
             </div>
             <div className='databox'>
                <input type="number"
-                  name="scale-factor" 
+                  name="scale-factor"
                   id="scale-factor"
                   placeholder='1.0'
-                  step={0.1}/>
+                  step={0.1} />
                <button
                   onClick={handleScale}
                >Update Scale</button>
             </div>
-            
+
             <div id='databox' >
                <label htmlFor="">New table shape</label>
                <select name="newTableDrop" id="newTableDrop">

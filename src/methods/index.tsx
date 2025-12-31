@@ -4,12 +4,14 @@ import {
    findCOMCoord
 } from './collision'
 import {
-   cleanNumInput
+   cleanNumInput,
+   scaler
 } from './utils'
 
 export {
    handleCollision,
    findCOM,
    findCOMCoord,
-   cleanNumInput
+   cleanNumInput,
+   scaler
 }
