@@ -38,8 +38,11 @@ function scaler(initScale: number, finScale: number, objects: [RealTable[], Poin
 
    console.log(initScale, finScale, rtArr)
    for (let i = 0; i < rtArr.length; i++) {
-      const rtObj: RealTable = rtArr[i]
-      console.log(rtObj.component, 'toast')
+      const realTable: RealTable = rtArr[i]
+      console.log('before rescale',realTable)
+      realTable.rescale(finScale)
+      console.log('after rescale',realTable)
+
    }
 
    // Here's the new plan:

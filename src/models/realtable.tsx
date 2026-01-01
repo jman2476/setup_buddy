@@ -64,6 +64,12 @@ class RealTableRound implements RealTable{
 
    rescale(newScale: number): void {
       this.scaleFactor *= newScale
+      this.realias()
+   }
+
+   private realias (): void {
+      this.alias = new RoundTable(this.shape,0,
+         this.diameter*this.scaleFactor)
    }
 
 }
@@ -94,6 +100,13 @@ class RealTableLong implements RealTable{
 
    rescale(newScale: number): void {
       this.scaleFactor *= newScale
+      this.realias()
+   }
+
+   private realias (): void {
+      this.alias = new LongTable(this.shape,0,
+         this.length*this.scaleFactor,
+         this.width*this.scaleFactor) 
    }
 }
 
@@ -119,6 +132,12 @@ class RealTableSquare implements RealTable{
 
    rescale(newScale: number): void {
       this.scaleFactor *= newScale
+      this.realias()
+   }
+
+   private realias (): void {
+      this.alias = new SquareTable(this.shape,0,
+         this.width*this.scaleFactor)
    }
 }
 
