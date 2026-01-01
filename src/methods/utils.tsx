@@ -31,7 +31,14 @@ function scaler(initScale: number, finScale: number, objects?: [RealTable[], Poi
 
    // I think this function is the wrong way to do it. Why am I making a function to scale everything when I can hard code the scale into the position of each object?
    // By storing initial scale on creation of an object, we can check on each rerender what the position should be
+
    // ANSWER:::   Because if you scale the position at table creation, you cannot dynamically scale the tables. Only gets applied once at table creation.
+
+   console.log(initScale, finScale)
+   if (objects) {
+      console.log(objects[0])
+   }
+
 }
 
 export {

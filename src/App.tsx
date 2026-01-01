@@ -67,8 +67,8 @@ function App() {
          scale={scale}
       />
       // still need to set RT list, listRef, and tableRef
-      setRTList(arr => [...arr, newTableObj])
-      setTableList(arr => [...arr, newTable])
+      setRTList(arr => [...arr, newTableObj]) //List of RealTable Objects
+      setTableList(arr => [...arr, newTable]) //List of Table components
       listRef.current.push(newTable)
       tableRef.current++
       setFocusTable(newTable)
@@ -84,6 +84,7 @@ function App() {
       console.log(listRef.current[index])
    }
 
+   // Needs to be patched to update RealTable list as well
    const tableUpdate = () => {
       try {
          const table = focusTable.props.tableObj
@@ -138,7 +139,6 @@ function App() {
       const newScale = cleanNumInput(sibling.value) as number
       if (newScale > 0) {
          setScale(newScale)
-         console.log(newScale)
          scaler(scale, newScale, [rTList, []])
       }
    }
