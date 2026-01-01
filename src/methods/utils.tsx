@@ -20,7 +20,7 @@ function cleanNumInput(inputVal: string): number {
 // - initial scale: number
 // - final scale: number
 // - Objects tuple: [RealTables[], BoundaryPoints[]]
-function scaler(initScale: number, finScale: number, objects?: [RealTable[], Point[]]): void {
+function scaler(initScale: number, finScale: number, objects: [RealTable[], Point[]]): void {
    // Effectively will go through all position values, multiply by final/init
    // then update lists of tables, points and lines
 

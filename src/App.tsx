@@ -66,6 +66,7 @@ function App() {
          circleCount={cCount}
          scale={scale}
       />
+      newTableObj.component = newTable
       // still need to set RT list, listRef, and tableRef
       setRTList(arr => [...arr, newTableObj]) //List of RealTable Objects
       setTableList(arr => [...arr, newTable]) //List of Table components
