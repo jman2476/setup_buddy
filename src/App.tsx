@@ -152,11 +152,11 @@ function App() {
             } as HTMLSelectElement
          } as any
       }
-      tableMaker(obj)
+      realTableMaker(obj)
       obj.target.previousElementSibling.value = 'rectangle'
-      tableMaker(obj)
+      realTableMaker(obj)
       obj.target.previousElementSibling.value = 'square'
-      tableMaker(obj)
+      realTableMaker(obj)
    }
 
    const renderData = (target: React.ReactElement<any>) => {

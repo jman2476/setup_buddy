@@ -64,7 +64,7 @@ class RealTableRound implements RealTable{
 }
 
 class RealTableLong implements RealTable{
-   [key: string]: string | number | LongTable | ReactElement
+   [key: string]: string | number | LongTable | React.ReactElement
    shape: string
    name: string
    length: number
@@ -90,7 +90,7 @@ class RealTableLong implements RealTable{
 }
 
 class RealTableSquare implements RealTable{
-   [key: string]: string | number | SquareTable | ReactElement
+   [key: string]: string | number | SquareTable | React.ReactElement
    shape: string
    name: string
    width: number

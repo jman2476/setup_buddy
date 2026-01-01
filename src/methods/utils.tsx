@@ -33,10 +33,12 @@ function scaler(initScale: number, finScale: number, objects: [RealTable[], Poin
    // By storing initial scale on creation of an object, we can check on each rerender what the position should be
 
    // ANSWER:::   Because if you scale the position at table creation, you cannot dynamically scale the tables. Only gets applied once at table creation.
+   const rtArr: RealTable[] = objects[0]
+   const pArr: Point[] = objects[1]
 
-   console.log(initScale, finScale)
-   if (objects) {
-      console.log(objects[0])
+   console.log(initScale, finScale, rtArr)
+   for (let i = 0; i < rtArr.length; i++) {
+      console.log(rtArr[i].component)
    }
 
 }
