@@ -73,12 +73,12 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          circleCount.current++
          styles.current = {
             position: "absolute",
-            top: `${offset.y*scale}px`,
-            left: `${offset.x*scale}px`,
-            height: `${tableObj.diameter*scale}px`,
-            width: `${tableObj.diameter*scale}px`,
-            lineHeight: `${tableObj.diameter*scale}px`,
-            transform: `rotate(${tableObj.angle*scale}deg)`
+            top: `${offset.y}px`,
+            left: `${offset.x}px`,
+            height: `${tableObj.diameter}px`,
+            width: `${tableObj.diameter}px`,
+            lineHeight: `${tableObj.diameter}px`,
+            transform: `rotate(${tableObj.angle}deg)`
          }
          return styles
       }
@@ -88,12 +88,12 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          longCount.current++
          styles.current = {
             position: "absolute",
-            top: `${offset.y*scale}px`,
-            left: `${offset.x*scale}px`,
-            height: `${tableObj.length*scale}px`,
-            width: `${tableObj.width*scale}px`,
-            lineHeight: `${tableObj.width*scale}px`,
-            transform: `rotate(${tableObj.angle*scale}deg)`
+            top: `${offset.y}px`,
+            left: `${offset.x}px`,
+            height: `${tableObj.length}px`,
+            width: `${tableObj.width}px`,
+            lineHeight: `${tableObj.width}px`,
+            transform: `rotate(${tableObj.angle}deg)`
          }
          return styles
       }
@@ -103,12 +103,12 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          squareCount.current++
          styles.current = {
             position: "absolute",
-            top: `${offset.y*scale}px`,
-            left: `${offset.x*scale}px`,
-            height: `${tableObj.side*scale}px`,
-            width: `${tableObj.side*scale}px`,
-            lineHeight: `${tableObj.side*scale}px`,
-            transform: `rotate(${tableObj.angle*scale}deg)`
+            top: `${offset.y}px`,
+            left: `${offset.x}px`,
+            height: `${tableObj.side}px`,
+            width: `${tableObj.side}px`,
+            lineHeight: `${tableObj.side}px`,
+            transform: `rotate(${tableObj.angle}deg)`
          }
          return styles
       }
