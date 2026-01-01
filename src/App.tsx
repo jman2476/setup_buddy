@@ -204,6 +204,7 @@ function App() {
                   name="scale-factor"
                   id="scale-factor"
                   placeholder='1.0'
+                  defaultValue={1}
                   step={0.1} />
                <button
                   onClick={handleScale}
