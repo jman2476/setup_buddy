@@ -24,6 +24,8 @@ function App() {
       keyRandomizer.current = Math.floor(Math.random() * 15)
    }
 
+
+   // Moving towards only using realTableMaker
    const tableMaker = (event: React.MouseEvent<HTMLButtonElement> | FakeEvent) => {
       const target = event.target as HTMLElement
       const sibling = target.previousElementSibling as HTMLSelectElement
@@ -39,6 +41,7 @@ function App() {
          squareCount={sqCount}
          longCount={lCount}
          circleCount={cCount}
+         scale={scale}
       />
       setTableList(arr => [...arr, newTable])
       listRef.current.push(newTable)
@@ -61,6 +64,7 @@ function App() {
          squareCount={sqCount}
          longCount={lCount}
          circleCount={cCount}
+         scale={scale}
       />
       // still need to set RT list, listRef, and tableRef
       setRTList(arr => [...arr, newTableObj])
@@ -101,6 +105,7 @@ function App() {
             squareCount={sqCount}
             longCount={lCount}
             circleCount={cCount}
+            scale={scale}
          />
          listRef.current[index] = updateTable
          setTableList([...listRef.current])
@@ -176,8 +181,8 @@ function App() {
    }
 
    // debug console dump
-   console.log('%cReal Tables', "color: green" ,rTList)
-   console.log('%cTable List', 'color:blue', ...tableList)
+   // console.log('%cReal Tables', "color: green" ,rTList)
+   // console.log('%cTable List', 'color:blue', ...tableList)
 
    return (
       <>
@@ -229,7 +234,7 @@ function App() {
          </div>
          <div id="setup">
             <div id='setup-area' >
-               <Boundary rotatedPoints={rotatedList}>
+               <Boundary rotatedPoints={rotatedList} scale={scale}>
                   {tableList.length ? tableList : <div />}
                </Boundary>
             </div>

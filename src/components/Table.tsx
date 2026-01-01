@@ -11,10 +11,11 @@ interface TableProps {
    longCount: { current: number }
    squareCount: { current: number }
    setChecks: React.Dispatch<React.SetStateAction<boolean[]>>
+   scale: number
 }
 
 
-function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks }: TableProps) {
+function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks, scale }: TableProps) {
    const [offset, setOffSet] = useState<Point>({ x: -80, y: number * 10 })
    const styles = useRef<React.CSSProperties>({})
    const startRef = useRef<Point>({ x: 0, y: 0 })
@@ -72,12 +73,12 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          circleCount.current++
          styles.current = {
             position: "absolute",
-            top: `${offset.y}px`,
-            left: `${offset.x}px`,
-            height: `${tableObj.diameter}px`,
-            width: `${tableObj.diameter}px`,
-            lineHeight: `${tableObj.diameter}px`,
-            transform: `rotate(${tableObj.angle}deg)`
+            top: `${offset.y*scale}px`,
+            left: `${offset.x*scale}px`,
+            height: `${tableObj.diameter*scale}px`,
+            width: `${tableObj.diameter*scale}px`,
+            lineHeight: `${tableObj.diameter*scale}px`,
+            transform: `rotate(${tableObj.angle*scale}deg)`
          }
          return styles
       }
@@ -87,12 +88,12 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          longCount.current++
          styles.current = {
             position: "absolute",
-            top: `${offset.y}px`,
-            left: `${offset.x}px`,
-            height: `${tableObj.length}px`,
-            width: `${tableObj.width}px`,
-            lineHeight: `${tableObj.width}px`,
-            transform: `rotate(${tableObj.angle}deg)`
+            top: `${offset.y*scale}px`,
+            left: `${offset.x*scale}px`,
+            height: `${tableObj.length*scale}px`,
+            width: `${tableObj.width*scale}px`,
+            lineHeight: `${tableObj.width*scale}px`,
+            transform: `rotate(${tableObj.angle*scale}deg)`
          }
          return styles
       }
@@ -102,12 +103,12 @@ function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, 
          squareCount.current++
          styles.current = {
             position: "absolute",
-            top: `${offset.y}px`,
-            left: `${offset.x}px`,
-            height: `${tableObj.side}px`,
-            width: `${tableObj.side}px`,
-            lineHeight: `${tableObj.side}px`,
-            transform: `rotate(${tableObj.angle}deg)`
+            top: `${offset.y*scale}px`,
+            left: `${offset.x*scale}px`,
+            height: `${tableObj.side*scale}px`,
+            width: `${tableObj.side*scale}px`,
+            lineHeight: `${tableObj.side*scale}px`,
+            transform: `rotate(${tableObj.angle*scale}deg)`
          }
          return styles
       }

@@ -5,6 +5,7 @@ import { Point } from "../models"
 interface BoundaryProps {
    children: React.ReactElement[] | React.ReactElement
    rotatedPoints: Point[][]
+   scale: number
 }
 
 interface PointListProps {
@@ -16,7 +17,7 @@ interface COMProps {
    points: Point[]
 }
 
-function Boundary({ children, rotatedPoints }: BoundaryProps) {
+function Boundary({ children, rotatedPoints, scale }: BoundaryProps) {
 
    const [pointList, setPointList] = useState<Point[]>([])
    const editBoundRef = useRef<boolean>(false)
