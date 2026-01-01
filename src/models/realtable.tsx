@@ -14,7 +14,8 @@ interface RealTable {
    units: 'ft' | 'm'
    scaleFactor: number
    alias: RoundTable | LongTable | SquareTable
-   component?: React.ReactElement
+   component?: ReactElement
+   rescale: (newScale: number) => void
 }
 
 class RealTableCon {
@@ -41,14 +42,15 @@ class RealTableCon {
 }
 
 class RealTableRound implements RealTable{
-   [key: string]: string | number | RoundTable | React.ReactElement
+   // [key: string]: string | number | RoundTable | ReactElement
    shape: string
    name: string
    diameter: number 
    units: "ft" | "m"
    scaleFactor: number
    alias: RoundTable
-   component: React.ReactElement
+   component!: ReactElement
+   
    
    constructor() {
       this.shape = 'circle'
@@ -58,13 +60,16 @@ class RealTableRound implements RealTable{
       this.scaleFactor = 10
       this.alias = new RoundTable(this.shape,0,
          this.diameter*this.scaleFactor)
-      this.component = <></>
+   }
+
+   rescale(newScale: number): void {
+      this.scaleFactor *= newScale
    }
 
 }
 
 class RealTableLong implements RealTable{
-   [key: string]: string | number | LongTable | React.ReactElement
+   // [key: string]: string | number | LongTable | ReactElement
    shape: string
    name: string
    length: number
@@ -72,7 +77,7 @@ class RealTableLong implements RealTable{
    units: 'ft' | 'm'
    scaleFactor: number
    alias: LongTable
-   component: React.ReactElement
+   component!: ReactElement
 
 
    constructor() {
@@ -85,19 +90,22 @@ class RealTableLong implements RealTable{
       this.alias = new LongTable(this.shape,0,
          this.length*this.scaleFactor,
          this.width*this.scaleFactor)
-      this.component = <></>
+   }
+
+   rescale(newScale: number): void {
+      this.scaleFactor *= newScale
    }
 }
 
 class RealTableSquare implements RealTable{
-   [key: string]: string | number | SquareTable | React.ReactElement
+   // [key: string]: string | number | SquareTable | ReactElement
    shape: string
    name: string
    width: number
    units: 'ft' | 'm'
    scaleFactor: number
    alias: SquareTable
-   component: React.ReactElement
+   component!: ReactElement
 
    constructor() {
       this.shape = 'square'
@@ -107,8 +115,10 @@ class RealTableSquare implements RealTable{
       this.scaleFactor = 10
       this.alias = new SquareTable(this.shape,0,
          this.width*this.scaleFactor)
-      this.component = <></>
+   }
 
+   rescale(newScale: number): void {
+      this.scaleFactor *= newScale
    }
 }
 

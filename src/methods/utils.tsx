@@ -38,8 +38,17 @@ function scaler(initScale: number, finScale: number, objects: [RealTable[], Poin
 
    console.log(initScale, finScale, rtArr)
    for (let i = 0; i < rtArr.length; i++) {
-      console.log(rtArr[i].component)
+      const rtObj: RealTable = rtArr[i]
+      console.log(rtObj.component, 'toast')
    }
+
+   // Here's the new plan:
+   // On scale change, update all RealTable objects
+   //    - probably by multiplying realTable.scaleFactor * newScale
+   //    - will have to update rTList with new objects
+   // At rerender of tables, multiply size and position by scale
+   //    - must happen exactly once
+   //    - must set size while keeping relative positioning the same
 
 }
 

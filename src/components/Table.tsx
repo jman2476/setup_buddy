@@ -16,7 +16,7 @@ interface TableProps {
 
 
 function Table({ number, tableObj, onClick, setRotList, circleCount, longCount, squareCount, setChecks, scale }: TableProps) {
-   const [offset, setOffSet] = useState<Point>({ x: -80, y: number * 10 })
+   const [offset, setOffSet] = useState<Point>({ x: -80, y: number * 10})
    const styles = useRef<React.CSSProperties>({})
    const startRef = useRef<Point>({ x: 0, y: 0 })
    const mouseRef = useRef<Point>({ x: 0, y: 0 })
