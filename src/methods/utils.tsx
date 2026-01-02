@@ -20,7 +20,7 @@ function cleanNumInput(inputVal: string): number {
 // - initial scale: number
 // - final scale: number
 // - Objects tuple: [RealTables[], BoundaryPoints[]]
-function scaler(initScale: number, finScale: number, objects: [RealTable[], Point[]]): void {
+function scaler(initScale: number, finScale: number, objects: [RealTable[], Point[]]): [RealTable[], Point[]] {
    // Effectively will go through all position values, multiply by final/init
    // then update lists of tables, points and lines
 
@@ -40,9 +40,10 @@ function scaler(initScale: number, finScale: number, objects: [RealTable[], Poin
    for (let i = 0; i < rtArr.length; i++) {
       const realTable: RealTable = rtArr[i]
       console.log('before rescale',realTable)
-      realTable.rescale(finScale)
+      realTable.rescale(finScale/initScale)
       console.log('after rescale',realTable)
-
+      // Do we add the component making functionality to the class?
+      // No. But I will implement a new tableUpdate function, and send it as a parameter function into this function
    }
 
    // Here's the new plan:
@@ -52,7 +53,7 @@ function scaler(initScale: number, finScale: number, objects: [RealTable[], Poin
    // At rerender of tables, multiply size and position by scale
    //    - must happen exactly once
    //    - must set size while keeping relative positioning the same
-
+   return [rtArr,pArr]
 }
 
 export {

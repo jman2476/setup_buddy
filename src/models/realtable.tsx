@@ -1,4 +1,4 @@
-import type { JSXElementConstructor, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import {
    RoundTable,
    LongTable,

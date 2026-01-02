@@ -117,6 +117,11 @@ function App() {
       }
    }
 
+   const tableScaleUpdate = () => {
+      
+   }
+
+
    // currently deletes a table by setting its 
    // array[index] to an empty div.
    // NOTE: Do not create a new table with the same key
